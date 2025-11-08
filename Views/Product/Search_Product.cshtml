@@ -1,0 +1,88 @@
+﻿@model List<Website_BDS.Models.Product>
+@{
+    Layout = null;
+    ViewBag.Title = "Tìm kiếm sản phẩm";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/Font-end/asset/base.css" />
+    <link rel="stylesheet" href="~/Font-end/asset/style.css" />
+    <link rel="stylesheet" href="~/Font-end/CSS/style-Search_Products.css" />
+
+    <script defer src="~/Scripts/Scripts-fontend/Script-Search_Products.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script defer src="~/Scripts/Scripts-fontend/API-Address-Selector.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="Navication">
+            <span class="logo">
+                <img src="~/Font-end/asset/icon/logo.png" alt="logo" height="50" width="50" style="border-radius: 50%;" />
+                <h1 style="color: white; font-size: 28px;">Logo</h1>
+            </span>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="#">Trang Chủ</a></li>
+                <li class="nav-item"><a href="#">Giới thiệu</a></li>
+                <li class="nav-item"><a href="#">Mua bán</a></li>
+                <li class="nav-item"><a href="#">Thuê chung cư / phòng trọ</a></li>
+                <li class="nav-item"><a href="#">Tin tức</a></li>
+                <li class="nav-item"><a href="#">Liên hệ</a></li>
+            </ul>
+            <nav class="link-navication">
+                <button class="button_small">Đăng Tin</button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="container">
+        <!-- Icon bars -->
+        <img src="~/Font-end/asset/icon/bars-solid-full.svg" alt="bars" height="40px" id="toggleFilter" style="cursor: pointer;" />
+
+        <!-- Bộ lọc -->
+        <div class="filter-panel" id="filterPanel">
+            <h3>Bộ lọc</h3>
+            <form method="get" action="@Url.Action("Search_Product", "Product")">
+                <select id="city" name="province">
+                    <option value="">-- Chọn Tỉnh/Thành phố --</option>
+                </select>
+                <select id="district" name="district">
+                    <option value="">-- Chọn Quận/Huyện --</option>
+                </select>
+                <select id="ward" name="ward">
+                    <option value="">-- Chọn Phường/Xã --</option>
+                </select>
+
+                <select name="price"><option value="">-- Giá cả --</option></select>
+                <select name="area"><option value="">-- Diện tích --</option></select>
+                <select name="amenities"><option value="">-- Tiện ích khác --</option></select>
+
+                <button type="submit" class="filter-btn">Tìm kiếm</button>
+            </form>
+        </div>
+
+        <!-- Danh sách sản phẩm -->
+        <div class="product-list">
+            @foreach (var item in Model)
+            {
+                <div class="product-card">
+                    <div class="product-image"></div>
+                    <span class="badge">NEW PROJECT</span>
+                    <h4>@item.Title</h4>
+                    <p>Địa chỉ: @item.Address</p>
+                    <p>Giá: @item.Price VNĐ</p>
+                    <div class="card-buttons">
+                        <a href="@Url.Action("Details", "Products", new { id = item.ProductID })" class="view-btn">Xem tin</a>
+                        <button class="save-btn">Lưu tin</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>

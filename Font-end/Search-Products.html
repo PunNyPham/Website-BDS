@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Website Bất Động Sản</title>
+    <link rel="stylesheet" href="./asset/base.css">
+    <link rel="stylesheet" href="./asset/style.css">
+    <link rel="stylesheet" href="./CSS/style-Search_Products.css">
+
+    <!-- Script -->
+     <script defer src="./Scripts-Fontend/Script-Search_Products.js"></script>
+     <script defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+     <script defer src="./Scripts-Fontend/API-Address-Selector.js"></script>
+</head>
+<body>
+    <div class="header">
+       <div class="Navication">
+            <span class="logo">
+                <img src="asset/icon/logo.png" alt="logo" height="50" width="50" style="border-radius: 50%;">
+                <h1 style="color: white; font-size: 28px;">Logo</h1>
+            </span>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="">Trang Chủ</a></li>
+                <li class="nav-item"><a href="">Giới thiệu</a></li>
+                <li class="nav-item"><a href="">Mua bán</a></li>
+                <li class="nav-item"><a href="">Thuê chung cư / phòng trọ</a></li>
+                <li class="nav-item"><a href="">Tin tức</a></li>
+                <li class="nav-item"><a href="">Liên hệ</a></li>
+            </ul>
+            <nav class="link-navication">
+                <button class="button_small">Đăng ký</button>
+                <button class="button_small">Đămg nhập</button>
+                <button class="button_small">Đămg Tin</button>
+            </nav>
+       </div>
+       
+     </div>
+
+    <!-- Main content -->
+    <div class="container">
+        <!-- Bộ lọc -->
+        <!-- Icon bars -->
+        <img src="./asset/icon/bars-solid-full.svg" alt="bars" height="40px" id="toggleFilter" style="cursor: pointer;">
+        <!-- Bộ lọc -->
+        <div class="filter-panel" id="filterPanel">
+            <h3>Bộ lọc</h3>
+             <select id="city">
+                <option value="">-- Chọn Tỉnh/Thành phố --</option>
+            </select>
+            <select id="district">
+                <option value="">-- Chọn Quận/Huyện --</option>
+            </select>
+            <select id="ward">
+                <option value="">-- Chọn Phường/Xã --</option>
+            </select>
+
+            <select><option>-- Giá cả --</option></select>
+            <select><option>-- Diện tích --</option></select>
+            <select><option>-- Tiện ích khác --</option></select>
+            <button class="filter-btn">Tìm kiếm</button>
+        </div>
+
+
+        <!-- Danh sách sản phẩm -->
+        <div class="product-list">
+            <div class="product-card">
+                <div class="product-image"></div>   
+                <span class="badge">NEW PROJECT</span>
+                <h4 style="font-size: 28px;">Tên dự án</h4>
+                <p>Địa chỉ: Quận 1, TP.HCM</p>
+                <p>Giá: 2.5 tỷ VNĐ</p>
+                <div class="card-buttons">
+                    <button class="view-btn">Xem tin</button>
+                    <button class="save-btn">Lưu tin</button>
+                </div>
+            </div>
+
+            <!-- Nhân bản thêm nhiều card -->
+        </div>
+    </div>
+</body>
+</html>

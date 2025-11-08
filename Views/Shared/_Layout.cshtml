@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="@Url.Content("~/Font-end/asset/reset.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Font-end/asset/base.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/layout.css")" />
+
+    <!-- JS -->
+    <script defer src="@Url.Content("~/Font-end/script/script.js")"></script>
+
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="Navication">
+            <span class="logo">
+                <img src="@Url.Content("~/Font-end/asset/icon/logo.png")" alt="logo" height="50" width="50" style="border-radius:50%"; />
+                <h1 style="color: white; font-size: 28px;">Logo</h1>
+            </span>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="#">Trang Chủ</a></li>
+                <li class="nav-item"><a href="#">Giới thiệu</a></li>
+                <li class="nav-item"><a href="#">Mua bán</a></li>
+                <li class="nav-item"><a href="#">Thuê chung cư / phòng trọ</a></li>
+                <li class="nav-item"><a href="#">Tin tức</a></li>
+                <li class="nav-item"><a href="#">Liên hệ</a></li>
+            </ul>
+            <nav class="link-navication">
+                <button class="button_small"> <a href="@Url.Action("Register", "Users")" style="color:#000000; text-decoration: none;">Đăng ký</a></button>
+                <button class="button_small"> <a href="@Url.Action("Login", "Users")" style="color:#000000; text-decoration: none;">Đăng nhập</a></button>
+                <button class="button_small"> <a href="@Url.Action("Search_Product", "Product")" style="color:#000000; text-decoration: none;">Đăng Tin</a></button>
+            </nav>
+        </div>
+        <div class="Title-header">
+            <h1 style="font-size: 64px; color: #ffffff;">Tìm ngôi nhà ước mơ của bạn</h1>
+            <p style="font-size: 24px; color: #ffffff;">Kết nối hàng nghìn người mua - bán - cho thuê bất động sản</p>
+        </div>
+    </div>
+    <!-- Body -->
+    @RenderBody()
+
+    <!-- footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h4>Về Chúng tôi</h4>
+                <p>
+                    BĐS Việt Nam - Nền tảng mua bán và cho thuê bất động sản hàng đầu Việt Nam với hơn 25,000 tin đăng chất lượng.
+                </p>
+                <ul>
+                    <li><a href="#">Giới thiệu công ty</a></li>
+                    <li><a href="#">Quy chế hoạt động</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Điều khoản sử dụng</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Danh Mục</h4>
+                <ul>
+                    <li><a href="#">Mua bán căn hộ</a></li>
+                    <li><a href="#">Cho thuê nhà phố</a></li>
+                    <li><a href="#">Mua bán biệt thự</a></li>
+                    <li><a href="#">Đất nền dự án</a></li>
+                    <li><a href="#">Văn phòng cho thuê</a></li>
+                    <li><a href="#">Mặt bằng kinh doanh</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Hỗ Trợ Khách Hàng</h4>
+                <ul>
+                    <li><a href="#">Trung tâm trợ giúp</a></li>
+                    <li><a href="#">Hướng dẫn đăng tin</a></li>
+                    <li><a href="#">Quy định đăng tin</a></li>
+                    <li><a href="#">Bảng giá dịch vụ</a></li>
+                    <li><a href="#">Câu hỏi thường gặp</a></li>
+                    <li><a href="#">Giải quyết khiếu nại</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Liên Hệ</h4>
+                <p>Hotline: xxx.xxx.xxx</p>
+                <p>Email: <a href="mailto:info@bds.vn">info@bds.vn</a></p>
+                <p>Địa chỉ: 123 Đường abc, Phường xyz Quận 1, TP HCM</p>
+                <p>
+                    Giờ làm việc:<br>
+                    Thứ 2 - Thứ 7: 8:00 - 22:00<br>
+                    Chủ nhật: 8:00 - 18:00
+                </p>
+
+                <p>Kết nối với chúng tôi:</p>
+                <div class="social-icons">
+                    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
+                    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" alt="Instagram"></a>
+                    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn"></a>
+                    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 BĐS Việt Nam. Tất cả quyền được bảo lưu.</p>
+            <p>Nền tảng công nghệ bất động sản hàng đầu Việt Nam 🏡</p>
+        </div>
+    </footer>
+
+
+</body>
+</html>

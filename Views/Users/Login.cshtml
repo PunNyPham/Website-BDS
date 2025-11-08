@@ -1,0 +1,86 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - BĐS Việt Nam</title>
+    <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/login.css")">
+</head>
+<body>
+    <div class="container">
+        <!-- Logo/Header -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <h1 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                <span style="font-size: 2rem;"></span>
+                Đăng nhập
+            </h1>
+        </div>
+
+        <!-- Login Form -->
+        <form method="post" action="/Users/Login">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required placeholder="Nhập địa chỉ email..." name="email">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mật khẩu</label>
+                <input type="password" id="password" required placeholder="Nhập mật khẩu..." name="password">
+            </div>
+
+            <div>
+                <label>
+                    <input type="checkbox">
+                    <span>Ghi nhớ đăng nhập</span>
+                    <a href="#">Quên mật khẩu?</a>
+                </label>
+            </div>
+
+            <button type="submit">Đăng nhập</button>
+            @if (ViewBag.Error != null)
+            {
+                <p style="color:red;">@ViewBag.Error</p>
+            }
+        </form>
+
+        <div class="social-login">
+            <p>Hoặc đăng nhập với</p>
+            <div class="social-buttons">
+                <button class="social-btn">
+                    <img src="https://www.google.com/favicon.ico" alt="Google" width="20">
+                    Google
+                </button>
+                <button class="social-btn">
+                    <img src="https://www.facebook.com/favicon.ico" alt="Facebook" width="20">
+                    Facebook
+                </button>
+            </div>
+        </div>
+
+        <p class="signin">
+            Chưa có tài khoản?
+            <a href="@Url.Action("Register", "Users")">Đăng ký ngay</a>
+        </p>
+    </div>
+
+</body>
+</html>
+@*<h2>Đăng nhập</h2>
+
+    <form method="post" action="/Users/Login">
+        <label>Email:</label>
+        <input type="email" name="email" required />
+        <br />
+        <label>Mật khẩu:</label>
+        <input type="password" name="password" required />
+        <br />
+        <button type="submit">Đăng nhập</button>
+    </form>
+
+    @if (ViewBag.Error != null)
+    {
+        <p style="color:red;">@ViewBag.Error</p>
+    }*@

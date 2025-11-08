@@ -1,0 +1,189 @@
+.header{
+    height: 100px;
+    width: 100%;
+    background-color: #000000;
+    opacity: 0.9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+}
+.Navication{
+   display: flex;
+   gap: 50px;
+   top: 0;
+   align-items: center;
+}
+.logo{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.nav-list{
+    display: flex;
+    gap: 25px;
+    margin: 0 20px;
+}
+.nav-list .nav-item a{
+   color: var(--floralwhite);
+   text-decoration: none;
+   font-size: 24px;
+   position: relative;
+}
+.nav-list .nav-item a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0%;
+  height: 2px;
+  background-color: var(--floralwhite);
+  transition: width 0.3s ease;
+}
+.nav-list .nav-item a:hover::after {
+  width: 100%;
+}
+.link-navication{
+    display: flex;
+    justify-content: space-around;
+    gap: 25px;
+}
+.Title-header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+
+/* =================== Fill product ================== */
+
+
+/* Container tổng */
+.container {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Bộ lọc bên trái */
+.filter-panel {
+    display: none;
+    width: 25%;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.filter-panel h3 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #333;
+}
+
+.filter-panel select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.filter-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.filter-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Danh sách sản phẩm bên phải */
+.product-list {
+    width: 75%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Card sản phẩm */
+.product-card {
+    width: calc(33.333% - 13.333px);
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+.product-card:hover {
+    transform: scale(1.02);
+}
+
+.product-image {
+    width: 100%;
+    height: 250px;
+    background-color: #ddd;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+/* Badge NEW PROJECT */
+.badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: green;
+    color: white;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 3px;
+}
+
+/* Nội dung sản phẩm */
+.product-card h4 {
+    font-size: 16px;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+.product-card p {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 4px;
+}
+
+/* Nút chức năng */
+.card-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.view-btn, .save-btn {
+    padding: 6px 10px;
+    font-size: 13px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.view-btn {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.save-btn {
+    background-color: #e0e0e0;
+    color: #333;
+}

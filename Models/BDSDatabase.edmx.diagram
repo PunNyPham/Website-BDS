@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b3050fb2ef454bf18aecd050eeebabde" Name="Diagram1" ZoomLevel="61">
+        <EntityTypeShape EntityType="RealEstateDBModel.Amenity" Width="1.5" PointX="3.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RealEstateDBModel.Contract" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RealEstateDBModel.Favorite" Width="1.5" PointX="6" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RealEstateDBModel.Inquiry" Width="1.5" PointX="6" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RealEstateDBModel.Product" Width="1.5" PointX="6" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RealEstateDBModel.PropertyImage" Width="1.5" PointX="8.25" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RealEstateDBModel.Review" Width="1.5" PointX="9.375" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RealEstateDBModel.User" Width="1.5" PointX="0.75" PointY="7.625" IsExpanded="true" />
+        <AssociationConnector Association="RealEstateDBModel.FK_Contracts_Buyer" ManuallyRouted="false" />
+        <AssociationConnector Association="RealEstateDBModel.FK_Contracts_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="RealEstateDBModel.FK_Contracts_Seller" ManuallyRouted="false" />
+        <AssociationConnector Association="RealEstateDBModel.FK_Favorites_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="RealEstateDBModel.FK_Favorites_User" ManuallyRouted="false" />
+        <AssociationConnector Association="RealEstateDBModel.FK_Inquiries_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="RealEstateDBModel.FK_Inquiries_User" ManuallyRouted="false" />
+        <AssociationConnector Association="RealEstateDBModel.FK_Product_Owner" ManuallyRouted="false" />
+        <AssociationConnector Association="RealEstateDBModel.FK_PropertyImage_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="RealEstateDBModel.FK_Review_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="RealEstateDBModel.FK_Review_User" ManuallyRouted="false" />
+        <AssociationConnector Association="RealEstateDBModel.PropertyAmenities" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,27 @@
+:root{
+    --darkgray: rgb(169,169,169);
+    --GreenLight: rgb(0 238 0);
+    --dodgerblue: rgb(30,144,255);
+    --OrangeRed: #E03E00;
+    --floralwhite: rgb(255,250,240);
+    --while: rgb(255,255,255);
+}
+.button_small{
+    height: 40px;
+    width: 120px;
+    background: var(--floralwhite);
+    border-radius: 16px;
+    text-align: center;
+    border: 1px solid ;
+    cursor: pointer;
+    color: #000000;
+    font-size: 16px;
+}
+
+.card{
+
+}
+
+.link{
+    
+}

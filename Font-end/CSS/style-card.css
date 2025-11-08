@@ -1,0 +1,14 @@
+.container-card{
+    display: flex;
+    flex-direction: column;
+    width: 610px;
+    background: var(--darkgray);
+    padding: 20px;
+    margin: 0 20px;
+    border-radius: 8px;
+}
+.image-area-card{
+    height: 345px;
+    background: #ffff;
+    border-radius: 8px;
+}

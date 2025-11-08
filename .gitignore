@@ -1,0 +1,21 @@
+# Thư mục hệ thống
+.vs/
+bin/
+obj/
+packages/
+FileContentIndex/
+
+# File cấu hình cá nhân
+*.user
+*.suo
+
+# File tạm
+*.log
+*.tmp
+
+# File build
+*.dll
+*.exe
+
+# Thư mục frontend nếu không cần push
+Web-BDS/
