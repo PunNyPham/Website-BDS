@@ -85,5 +85,9 @@ namespace Website_BDS.Controllers
             return View(user);
         }
 
+        public ActionResult Page_User()
+        {
+            return View();
+        }
     }
 }

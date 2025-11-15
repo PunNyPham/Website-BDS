@@ -1,6 +1,6 @@
 ﻿@model List<Website_BDS.Models.Product>
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutPageHome.cshtml";
     ViewBag.Title = "Tìm kiếm sản phẩm";
 }
 
@@ -18,27 +18,7 @@
     <script defer src="~/Scripts/Scripts-fontend/API-Address-Selector.js"></script>
 </head>
 <body>
-    <!-- Header -->
-    <div class="header">
-        <div class="Navication">
-            <span class="logo">
-                <img src="~/Font-end/asset/icon/logo.png" alt="logo" height="50" width="50" style="border-radius: 50%;" />
-                <h1 style="color: white; font-size: 28px;">Logo</h1>
-            </span>
-            <ul class="nav-list">
-                <li class="nav-item"><a href="#">Trang Chủ</a></li>
-                <li class="nav-item"><a href="#">Giới thiệu</a></li>
-                <li class="nav-item"><a href="#">Mua bán</a></li>
-                <li class="nav-item"><a href="#">Thuê chung cư / phòng trọ</a></li>
-                <li class="nav-item"><a href="#">Tin tức</a></li>
-                <li class="nav-item"><a href="#">Liên hệ</a></li>
-            </ul>
-            <nav class="link-navication">
-                <button class="button_small">Đăng Tin</button>
-            </nav>
-        </div>
-    </div>
-
+        
     <!-- Main content -->
     <div class="container">
         <!-- Icon bars -->
@@ -48,7 +28,7 @@
         <div class="filter-panel" id="filterPanel">
             <h3>Bộ lọc</h3>
             <form method="get" action="@Url.Action("Search_Product", "Product")">
-                <select id="city" name="province">
+                <select id="city" name="City">
                     <option value="">-- Chọn Tỉnh/Thành phố --</option>
                 </select>
                 <select id="district" name="district">
@@ -68,21 +48,57 @@
 
         <!-- Danh sách sản phẩm -->
         <div class="product-list">
-            @foreach (var item in Model)
+            <div style="font-weight: 700">🕓Bất động sản mới nhất</div>
+            @if (Model != null && Model.Any())
             {
-                <div class="product-card">
-                    <div class="product-image"></div>
-                    <span class="badge">NEW PROJECT</span>
-                    <h4>@item.Title</h4>
-                    <p>Địa chỉ: @item.Address</p>
-                    <p>Giá: @item.Price VNĐ</p>
-                    <div class="card-buttons">
-                        <a href="@Url.Action("Details", "Products", new { id = item.ProductID })" class="view-btn">Xem tin</a>
-                        <button class="save-btn">Lưu tin</button>
+                foreach (var item in Model)
+                {
+                    <div class="product-card">
+                        <div class="product-image"></div>
+                        <span class="badge">NEW PROJECT</span>
+                        <h4>@item.Title</h4>
+                        <p>Địa chỉ: @item.Address</p>
+                        <p>Giá: @item.Price VNĐ</p>
+                        <div class="card-buttons">
+                            <a href="@Url.Action("Details", "Products", new { id = item.ProductID })" class="view-btn">Xem tin</a>
+                            <button class="save-btn">Lưu tin</button>
+                        </div>
                     </div>
-                </div>
+                }
+
             }
+            else
+            {
+                <p>Hiện chưa có dự án nào được đăng tải.</p>
+
+            }
+            <div style="font-weight: 700">Bất động sản theo tỉnh thành</div>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <div class="product-card">
+                        <div class="product-image"></div>
+                        <span class="badge">NEW PROJECT</span>
+                        <h4>@item.Title</h4>
+                        <p>Địa chỉ: @item.Address</p>
+                        <p>Giá: @item.Price VNĐ</p>
+                        <div class="card-buttons">
+                            <a href="@Url.Action("Details", "Products", new { id = item.ProductID })" class="view-btn">Xem tin</a>
+                            <button class="save-btn">Lưu tin</button>
+                        </div>
+                    </div>
+                }
+
+            }
+            else
+            {
+                <p>Hiện chưa có dự án nào được đăng tải.</p>
+
+            }
+            <div style="font-weight: 700">⭐Phần Quy Hoạch</div>
         </div>
     </div>
+    
 </body>
 </html>

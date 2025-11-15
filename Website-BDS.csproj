@@ -110,6 +110,7 @@
     <Content Include="Font-end\Card.html" />
     <Content Include="Font-end\CSS\layout.css" />
     <Content Include="Font-end\CSS\login.css" />
+    <Content Include="Font-end\CSS\RealEstate.css" />
     <Content Include="Font-end\CSS\signin.css" />
     <Content Include="Font-end\CSS\style-card.css" />
     <Content Include="Font-end\CSS\style-Product-Details.css" />
@@ -139,6 +140,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomesController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\RealEstateController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -200,6 +202,10 @@
     <Content Include="Views\Users\Login.cshtml" />
     <Content Include="Views\Users\Register.cshtml" />
     <Content Include="Views\Product\Search_Product.cshtml" />
+    <Content Include="Views\Product\Product_details.cshtml" />
+    <Content Include="Views\Shared\_LayoutPageHome.cshtml" />
+    <Content Include="Views\RealEstate\Create.cshtml" />
+    <Content Include="Views\Users\Page_User.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

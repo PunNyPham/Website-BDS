@@ -1,47 +1,56 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="@Url.Content("~/Font-end/asset/reset.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Font-end/asset/base.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/layout.css")" />
 
-    <!-- JS -->
-    <script defer src="@Url.Content("~/Font-end/script/script.js")"></script>
 
 </head>
 <body>
     <!-- Header -->
-    <div class="header">
+    <div class="header" style="background: #808080; height: 70px">
         <div class="Navication">
             <span class="logo">
-                <img src="@Url.Content("~/Font-end/asset/icon/logo.png")" alt="logo" height="50" width="50" style="border-radius:50%"; />
+                <img src="@Url.Content("~/Font-end/asset/icon/logo.png")" alt="logo" height="50" width="50" style="border-radius:50%" ; />
                 <h1 style="color: white; font-size: 28px;">Logo</h1>
             </span>
             <ul class="nav-list">
                 <li class="nav-item"><a href="#">Trang Chủ</a></li>
-                <li class="nav-item"><a href="#">Nhà đất bán</a></li>
-                <li class="nav-item"><a href="#">Nhà đất cho thuê</a></li>
+                <li class="nav-item">
+                    <a href="#">Nhà đất bán</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Căn hộ</a></li>
+                        <li><a href="#">Nhà phố</a></li>
+                        <li><a href="#">Biệt thự</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Nhà đất cho thuê</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Phòng trọ</a></li>
+                        <li><a href="#">Căn hộ dịch vụ</a></li>
+                    </ul>
+                </li>
                 <li class="nav-item"><a href="#">Quy hoạch</a></li>
                 <li class="nav-item"><a href="#">Tin tức</a></li>
                 <li class="nav-item"><a href="#">Liên hệ</a></li>
                 <li class="nav-item"><a href="#">Tin lưu</a></li>
             </ul>
+
             <nav class="link-navication">
-                <button class="button_small"> <a href="@Url.Action("Register", "Users")" style="color:#000000; text-decoration: none;">Đăng ký</a></button>
-                <button class="button_small"> <a href="@Url.Action("Login", "Users")" style="color:#000000; text-decoration: none;">Đăng nhập</a></button>
+                <button class="button_small"> <a href="@Url.Action("Create", "RealEstate")" style="color:#000000; text-decoration: none;">Đăng tin</a></button>
+                <button class="button_small"> <a href="@Url.Action("Login", "Users")" style="color:#000000; text-decoration: none;">Đăng xuất</a></button>
+                <button class="Page-User" style="background-image: @Url.Action()"></button>
             </nav>
         </div>
-            <div class="Title-header">
-                <h1 style="font-size: 64px; color: #ffffff;">Tìm ngôi nhà ước mơ của bạn</h1>
-                <p style="font-size: 24px; color: #ffffff;">Kết nối hàng nghìn người mua - bán - cho thuê bất động sản</p>
-            </div>
     </div>
-    <!-- Body -->
-    @RenderBody()
-
+    <div>
+        @RenderBody()
+    </div>
     <!-- footer -->
     <footer class="footer">
         <div class="footer-container">
@@ -108,7 +117,6 @@
             <p>Nền tảng công nghệ bất động sản hàng đầu Việt Nam 🏡</p>
         </div>
     </footer>
-
 
 </body>
 </html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./CSS/RealEstate.css" />
+</head>
+<body>
+    
+     <div class="listing-form">
+        <h2>Tạo tin đăng</h2>
+    
+        <form>
+            <!-- Loại giao dịch -->
+            <div class="form-group">
+                <label>Loại giao dịch:</label>
+                <div class="radio-button">
+                    <input type="radio" id="ban" name="transaction" value="ban" checked>
+                    <label for="ban">Bán</label>
+
+                    <input type="radio" id="mua" name="transaction" value="mua">
+                    <label for="mua">Mua</label>
+                </div>
+            </div>
+    
+            <!-- Loại hình BĐS -->
+            <div class="form-group">
+                <label for="propertyType">Loại hình bất động sản:</label>
+                <select id="propertyType">
+                    <option value="">-- Chọn loại hình --</option>
+                    <option>Căn hộ</option>
+                    <option>Nhà phố</option>
+                    <option>Đất nền</option>
+                </select>
+            </div>
+    
+            <!-- Diện tích -->
+            <div class="form-group">
+                <label for="area">Diện tích (m²):</label>
+                <input type="number" id="area" placeholder="Nhập diện tích">
+            </div>
+    
+            <!-- Giấy tờ -->
+            <div class="form-group">
+                <label for="legal">Giấy tờ hợp pháp:</label>
+                <select id="legal">
+                    <option value="">-- Chọn loại giấy tờ --</option>
+                    <option>Sổ đỏ</option>
+                    <option>Sổ hồng</option>
+                    <option>Giấy tay</option>
+                </select>
+            </div>
+    
+            <!-- Địa chỉ -->
+            <div class="form-group">
+                <label>Thành phố / Quận / Phường:</label>
+                <div class="address-select">
+                    <select><option>Thành phố</option></select>
+                    <select><option>Quận</option></select>
+                    <select><option>Phường</option></select>
+                </div>
+            </div>
+    
+            <div class="form-group">
+                <label for="specificAddress">Địa chỉ cụ thể:</label>
+                <input type="text" id="specificAddress" placeholder="Nhập địa chỉ cụ thể">
+                <small class="note">Hệ thống đang sử dụng dữ liệu địa chỉ cũ (trước xác nhập)</small>
+            </div>
+    
+            <!-- Giá -->
+            <div class="form-group">
+                <label for="price">Báo giá (VNĐ):</label>
+                <input type="number" id="price" placeholder="Nhập giá">
+            </div>
+    
+            <!-- Mô tả -->
+            <div class="form-group">
+                <label for="description">Mô tả:</label>
+                <textarea id="description" rows="4" placeholder="Nhập mô tả chi tiết..."></textarea>
+            </div>
+    
+            <!-- Đính tệp -->
+            <div class="form-group">
+                <label for="file">Đính tệp:</label>
+                <input type="file" id="file">
+            </div>
+    
+            <!-- Nút gửi -->
+            <div class="form-group">
+                <button type="submit" class="submit-btn">Tiếp tục</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+
+
