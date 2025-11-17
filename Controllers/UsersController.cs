@@ -9,7 +9,7 @@ namespace Website_BDS.Controllers
 {
     public class UsersController : Controller
     {
-        RealEstateDBEntities db = new RealEstateDBEntities();
+        RealEstateDBEntities1 db = new RealEstateDBEntities1();
         // GET: /Users/Login    
             public ActionResult Login()
                 {

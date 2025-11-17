@@ -10,9 +10,9 @@ namespace Website_BDS.Controllers
     public class ProductController : Controller
     {
         // GET: Product
-        public ActionResult Search_Product(string province, string district, string price, string area)
+        public ActionResult Search_Product(string province, string district, string price, string area, string img_product)
         {
-            RealEstateDBEntities db = new RealEstateDBEntities();
+            RealEstateDBEntities1 db = new RealEstateDBEntities1();
             var products = db.Products.AsQueryable();
 
             if (!string.IsNullOrEmpty(province))
@@ -20,6 +20,9 @@ namespace Website_BDS.Controllers
 
             if (!string.IsNullOrEmpty(district))
                 products = products.Where(p => p.District == district);
+
+            if (!string.IsNullOrEmpty(img_product))
+                products = products.Where(p => p.Image_product == img_product);
 
             if (!string.IsNullOrEmpty(price))
                 products = products.Where(p => p.Price <= Convert.ToDecimal(price));
@@ -39,5 +42,6 @@ namespace Website_BDS.Controllers
 
             return View();
         }
+       
     }
 }

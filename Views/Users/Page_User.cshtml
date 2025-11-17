@@ -1,8 +1,71 @@
-﻿
+﻿@model Website_BDS.Models.User
 @{
     ViewBag.Title = "Page_User";
-    Layout = "~/Views/Shared/_LayoutPageHome.cshtml";
+    Layout = null;
+    //Layout = "~/Views/Shared/_LayoutPageHome.cshtml";
 }
+<style>
+    .infomation-user h3 {
+        color: #007bff;
+        margin-bottom: 10px;
+    }
 
+    .infomation-user p {
+        font-size: 1em;
+        margin: 5px 0;
+    }
 
+    .edit-profile .btn {
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: white;
+        border-radius: 6px;
+        text-decoration: none;
+    }
 
+</style>
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/Page_User.css")" />
+</head>
+<body>
+    <div class="container-user">
+        <div class="bars">
+            <!-- Menu hoặc sidebar -->
+        </div>
+
+        <div class="avatar-user">
+            <div class="avartar">
+                <div class="background-avatar">
+                    <div class="avartar-main">
+                        <img src="@Url.Content(string.IsNullOrEmpty(Model?.Avatar_User)
+                            ? "~/Font-end/asset/icon/User-default.jpg"
+                            : "~/Content/" + Model.Avatar_User)"
+                             alt="Avatar"
+                             style="width:100px; height:100px; border-radius:50%; object-fit:cover;" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="edit-profile">
+                <a href="@Url.Action("Edit", "Users", new { id = Model?.UserID ?? 0 })" class="btn btn-primary">Chỉnh sửa</a>
+            </div>
+        </div>
+
+        <div class="infomation-user">
+            <h3>@(Model?.FullName ?? "Chưa có tên")</h3>
+            <p><strong>Số điện thoại:</strong> @(Model?.PhoneNumber ?? "Chưa có số")</p>
+            @*<p><strong>Trạng thái:</strong> @(Model?.Status ?? "Chưa cập nhật")</p>*@
+        </div>
+    </div>
+
+    <div class="post-manager">
+        <!-- Sau này có thể hiển thị bài đăng của người dùng -->
+    </div>
+</body>
+</html>

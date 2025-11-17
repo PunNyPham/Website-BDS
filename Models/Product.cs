@@ -40,6 +40,8 @@ namespace Website_BDS.Models
         public string Ward { get; set; }
         public int OwnerID { get; set; }
         public string Status { get; set; }
+
+        public string Image_product {  get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
         public Nullable<System.DateTime> UpdatedAt { get; set; }
     

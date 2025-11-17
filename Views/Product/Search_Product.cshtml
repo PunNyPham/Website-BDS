@@ -54,7 +54,13 @@
                 foreach (var item in Model)
                 {
                     <div class="product-card">
-                        <div class="product-image"></div>
+                        <div class="product-image">
+                            <img src="~/Font-end/asset/icon/Product_Null.jpg"
+                             alt="Avatar"
+                             style="width:100px; height:100px; border-radius:50%; object-fit:cover;" />
+                                 
+                                 
+                        </div>
                         <span class="badge">NEW PROJECT</span>
                         <h4>@item.Title</h4>
                         <p>Địa chỉ: @item.Address</p>
@@ -78,7 +84,11 @@
                 foreach (var item in Model)
                 {
                     <div class="product-card">
-                        <div class="product-image"></div>
+                        <div class="product-image">
+                           <img src="~/Font-end/asset/icon/Product_Null.jpg"
+                                alt="Avatar"
+                                style="width:100px; height:100px; border-radius:50%; object-fit:cover;" />
+                        </div>
                         <span class="badge">NEW PROJECT</span>
                         <h4>@item.Title</h4>
                         <p>Địa chỉ: @item.Address</p>

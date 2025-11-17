@@ -100,6 +100,8 @@
     <Content Include="Font-end\asset\base.css" />
     <Content Include="Font-end\asset\icon\bars-solid-full.svg" />
     <Content Include="Font-end\asset\icon\logo.png" />
+    <Content Include="Font-end\asset\icon\Product_Null.jpg" />
+    <Content Include="Font-end\asset\icon\User-default.jpg" />
     <Content Include="Font-end\asset\img\image 7.png" />
     <Content Include="Font-end\asset\img\image 8.png" />
     <Content Include="Font-end\asset\img\Subtract.png" />
@@ -110,6 +112,8 @@
     <Content Include="Font-end\Card.html" />
     <Content Include="Font-end\CSS\layout.css" />
     <Content Include="Font-end\CSS\login.css" />
+    <Content Include="Font-end\CSS\Page-Contact.css" />
+    <Content Include="Font-end\CSS\Page-User.css" />
     <Content Include="Font-end\CSS\RealEstate.css" />
     <Content Include="Font-end\CSS\signin.css" />
     <Content Include="Font-end\CSS\style-card.css" />
@@ -117,19 +121,22 @@
     <Content Include="Font-end\CSS\style-Search_Products.css" />
     <Content Include="Font-end\Home.html" />
     <Content Include="Font-end\Layout.html" />
+    <Content Include="Font-end\Page-Contact.html" />
+    <Content Include="Font-end\Page_User.html" />
     <Content Include="Font-end\Product_Details.html" />
+    <Content Include="Font-end\RealEstate.html" />
     <Content Include="Font-end\Search-Products.html" />
     <Content Include="Font-end\Sign-in.html" />
     <Content Include="Global.asax" />
-    <Content Include="Models\BDSDatabase.Context.tt">
+    <Content Include="Models\BDSEntity.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>BDSDatabase.edmx</DependentUpon>
-      <LastGenOutput>BDSDatabase.Context.cs</LastGenOutput>
+      <DependentUpon>BDSEntity.edmx</DependentUpon>
+      <LastGenOutput>BDSEntity.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\BDSDatabase.tt">
+    <Content Include="Models\BDSEntity.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>BDSDatabase.edmx</DependentUpon>
-      <LastGenOutput>BDSDatabase.cs</LastGenOutput>
+      <DependentUpon>BDSEntity.edmx</DependentUpon>
+      <LastGenOutput>BDSEntity.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\Script-backend\script.js" />
     <Content Include="Scripts\Scripts-fontend\API-Address-Selector.js" />
@@ -146,54 +153,57 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Amenity.cs">
-      <DependentUpon>BDSDatabase.tt</DependentUpon>
+      <DependentUpon>BDSEntity.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\BDSDatabase.Context.cs">
+    <Compile Include="Models\BDSEntity.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BDSDatabase.Context.tt</DependentUpon>
+      <DependentUpon>BDSEntity.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\BDSDatabase.cs">
+    <Compile Include="Models\BDSEntity.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BDSDatabase.tt</DependentUpon>
+      <DependentUpon>BDSEntity.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\BDSDatabase.Designer.cs">
+    <Compile Include="Models\BDSEntity.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BDSDatabase.edmx</DependentUpon>
+      <DependentUpon>BDSEntity.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Contract.cs">
-      <DependentUpon>BDSDatabase.tt</DependentUpon>
+      <DependentUpon>BDSEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Favorite.cs">
-      <DependentUpon>BDSDatabase.tt</DependentUpon>
+      <DependentUpon>BDSEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Inquiry.cs">
-      <DependentUpon>BDSDatabase.tt</DependentUpon>
+      <DependentUpon>BDSEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Product.cs">
-      <DependentUpon>BDSDatabase.tt</DependentUpon>
+      <DependentUpon>BDSEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PropertyImage.cs">
-      <DependentUpon>BDSDatabase.tt</DependentUpon>
+      <DependentUpon>BDSEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Review.cs">
-      <DependentUpon>BDSDatabase.tt</DependentUpon>
+      <DependentUpon>BDSEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>BDSEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
-      <DependentUpon>BDSDatabase.tt</DependentUpon>
+      <DependentUpon>BDSEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
-    <EntityDeploy Include="Models\BDSDatabase.edmx">
+    <EntityDeploy Include="Models\BDSEntity.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>BDSDatabase.Designer.cs</LastGenOutput>
+      <LastGenOutput>BDSEntity.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\BDSDatabase.edmx.diagram">
-      <DependentUpon>BDSDatabase.edmx</DependentUpon>
+    <Content Include="Models\BDSEntity.edmx.diagram">
+      <DependentUpon>BDSEntity.edmx</DependentUpon>
     </Content>
     <None Include="packages.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
