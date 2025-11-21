@@ -8,24 +8,55 @@
 <div class="listing-form">
     <h2>Tạo tin đăng</h2>
 
-    <form method="post" action="@Url.Action("Create", "RealEstate")">
+    <!-- Hiển thị lỗi nếu có -->
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div style="background-color: #ffebee; border-left: 4px solid #c62828; padding: 12px; margin-bottom: 20px; border-radius: 4px;">
+            <h4 style="color: #c62828; margin-top: 0;">Lỗi xác nhận:</h4>
+            @if (ViewData.ModelState.Keys.Count > 0)
+            {
+                <ul style="color: #c62828; margin: 0; padding-left: 20px;">
+                    @foreach (var modelState in ViewData.ModelState.Values)
+                    {
+                        foreach (var error in modelState.Errors)
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    }
+                </ul>
+            }
+        </div>
+    }
 
-        <!-- Loại giao dịch -->
-        @*<div class="form-group">
+    <form method="post" action="@Url.Action("Create", "RealEstate")" enctype="multipart/form-data">
+
+        <!-- Tiêu đề tin đăng -->
+        <div class="form-group">
+            <label for="title">Tiêu đề tin đăng:</label>
+            <input type="text" id="title" name="Title" placeholder="Nhập tiêu đề tin đăng" required>
+        </div>
+
+        <!-- Loại giao dịch (ListingType: Bán/Cho thuê) -->
+        <div class="form-group">
             <label>Loại giao dịch:</label>
-            <div class="radio-button">
-                <input type="radio" name="TransactionType" value="Bán" checked>
-                <label>Bán</label>
+            
+                    <input type="radio" name="ListingType" value="Sale" required> 
+                <label>
+                    Bán
+                </label>
 
-                <input type="radio" name="TransactionType" value="Mua">
-                <label>Mua</label>
-            </div>
-        </div>*@
+                    <input type="radio" name="ListingType" value="Rent"> 
+                <label>
+                Cho thuê
+                </label>
+
+            
+        </div>
 
         <!-- Loại hình BĐS -->
         <div class="form-group">
             <label>Loại hình bất động sản:</label>
-            <select id="propertyType" name="Type">
+            <select id="propertyType" name="Type" required>
                 <option value="">-- Chọn loại hình --</option>
                 <option>Căn hộ</option>
                 <option>Nhà phố</option>
@@ -36,18 +67,19 @@
         <!-- Diện tích -->
         <div class="form-group">
             <label>Diện tích (m²):</label>
-            <input type="number" id="area" name="Area" placeholder="Nhập diện tích">
+            <input type="number" id="area" name="Area" placeholder="Nhập diện tích" step="0.01">
         </div>
 
-        <!-- Giấy tờ -->
+        <!-- Phòng ngủ -->
         <div class="form-group">
-            <label>Giấy tờ hợp pháp:</label>
-            <select id="legal" name="Legal">
-                <option value="">-- Chọn loại giấy tờ --</option>
-                <option>Sổ đỏ</option>
-                <option>Sổ hồng</option>
-                <option>Giấy tay</option>
-            </select>
+            <label>Số phòng ngủ:</label>
+            <input type="number" id="bedrooms" name="Bedrooms" placeholder="Nhập số phòng ngủ" min="0">
+        </div>
+
+        <!-- Phòng tắm -->
+        <div class="form-group">
+            <label>Số phòng tắm:</label>
+            <input type="number" id="bathrooms" name="Bathrooms" placeholder="Nhập số phòng tắm" min="0">
         </div>
 
         <!-- Địa chỉ -->
@@ -88,11 +120,14 @@
             <textarea id="description" name="Description" rows="4" placeholder="Nhập mô tả chi tiết..."></textarea>
         </div>
 
-        <!-- Đính tệp -->
+        <!-- Đính tệp (Ảnh sản phẩm) -->
         <div class="form-group">
-            <label>Đính tệp:</label>
-            <input type="file" id="file">
+            <label for="productImage">Tải ảnh sản phẩm:</label>
+            <input type="file" id="productImage" name="Image_product" accept="image/*">
         </div>
+
+        <!-- Trạng thái (ẩn, mặc định là Active) -->
+        <input type="hidden" name="Status" value="Active">
 
         <!-- Nút gửi -->
         <div class="form-group">

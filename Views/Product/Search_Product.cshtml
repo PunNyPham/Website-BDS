@@ -66,7 +66,7 @@
                         <p>Địa chỉ: @item.Address</p>
                         <p>Giá: @item.Price VNĐ</p>
                         <div class="card-buttons">
-                            <a href="@Url.Action("Details", "Products", new { id = item.ProductID })" class="view-btn">Xem tin</a>
+                            <a href="@Url.Action("Product_details", "Products", new { id = item.ProductID })" class="view-btn">Xem tin</a>
                             <button class="save-btn">Lưu tin</button>
                         </div>
                     </div>
@@ -94,7 +94,7 @@
                         <p>Địa chỉ: @item.Address</p>
                         <p>Giá: @item.Price VNĐ</p>
                         <div class="card-buttons">
-                            <a href="@Url.Action("Details", "Products", new { id = item.ProductID })" class="view-btn">Xem tin</a>
+                            <a href="@Url.Action("Product_details", "Products", new { id = item.ProductID })" class="view-btn">Xem tin</a>
                             <button class="save-btn">Lưu tin</button>
                         </div>
                     </div>

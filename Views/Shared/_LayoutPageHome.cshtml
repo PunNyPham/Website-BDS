@@ -44,7 +44,9 @@
             <nav class="link-navication">
                 <button class="button_small"> <a href="@Url.Action("Create", "RealEstate")" style="color:#000000; text-decoration: none;">Đăng tin</a></button>
                 <button class="button_small"> <a href="@Url.Action("Login", "Users")" style="color:#000000; text-decoration: none;">Đăng xuất</a></button>
-                <button class="Page-User" style="background-image: @Url.Action()"></button>
+                <button class="Page-User">
+                    <a href="@Url.Action("Page_User", "Users", new { id = Session["UserID"] })">Trang cá nhân</a>
+                </button>
             </nav>
         </div>
     </div>

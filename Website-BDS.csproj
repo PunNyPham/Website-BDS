@@ -194,6 +194,7 @@
     <Compile Include="Models\User.cs">
       <DependentUpon>BDSEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModel\UserProfileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +217,7 @@
     <Content Include="Views\Shared\_LayoutPageHome.cshtml" />
     <Content Include="Views\RealEstate\Create.cshtml" />
     <Content Include="Views\Users\Page_User.cshtml" />
+    <Content Include="Views\RealEstate\Edit_RealEstate.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

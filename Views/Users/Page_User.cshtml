@@ -1,4 +1,4 @@
-﻿@model Website_BDS.Models.User
+﻿@model Website_BDS.Models.ViewModel.UserProfileViewModel
 @{
     ViewBag.Title = "Page_User";
     Layout = null;
@@ -22,7 +22,6 @@
         border-radius: 6px;
         text-decoration: none;
     }
-
 </style>
 
 <!DOCTYPE html>
@@ -43,29 +42,63 @@
             <div class="avartar">
                 <div class="background-avatar">
                     <div class="avartar-main">
-                        <img src="@Url.Content(string.IsNullOrEmpty(Model?.Avatar_User)
-                            ? "~/Font-end/asset/icon/User-default.jpg"
-                            : "~/Content/" + Model.Avatar_User)"
+                        <img src="@Url.Content(
+                                    string.IsNullOrEmpty(Model?.User?.Avatar_User)
+                                        ? "~/Font-end/asset/icon/User-default.jpg"
+                                        : "~/Content/" + Model.User.Avatar_User
+                                    )"
                              alt="Avatar"
                              style="width:100px; height:100px; border-radius:50%; object-fit:cover;" />
+
                     </div>
                 </div>
             </div>
 
             <div class="edit-profile">
-                <a href="@Url.Action("Edit", "Users", new { id = Model?.UserID ?? 0 })" class="btn btn-primary">Chỉnh sửa</a>
+                <a href="@Url.Action("Edit", "Users", new { id = Model?.User.UserID ?? 0 })" class="btn btn-primary">Chỉnh sửa</a>
             </div>
         </div>
 
         <div class="infomation-user">
-            <h3>@(Model?.FullName ?? "Chưa có tên")</h3>
-            <p><strong>Số điện thoại:</strong> @(Model?.PhoneNumber ?? "Chưa có số")</p>
+            <h3>@(Model?.User.FullName ?? "Chưa có tên")</h3>
+            <p><strong>Số điện thoại:</strong> @(Model?.User.PhoneNumber ?? "Chưa có số")</p>
             @*<p><strong>Trạng thái:</strong> @(Model?.Status ?? "Chưa cập nhật")</p>*@
         </div>
     </div>
 
     <div class="post-manager">
         <!-- Sau này có thể hiển thị bài đăng của người dùng -->
+        @if (Model != null && Model.Products.Any())
+        {
+            foreach (var item in Model.Products)
+            {
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="~/Font-end/asset/icon/Product_Null.jpg"
+                             alt="Avatar"
+                             style="width:100px; height:100px; border-radius:50%; object-fit:cover;" />
+
+
+                    </div>
+                    <span class="badge">NEW PROJECT</span>
+                    <h4>@item.Title</h4>
+                    <p>Địa chỉ: @item.Address</p>
+                    <p>Giá: @item.Price VNĐ</p>
+                    <div class="card-buttons">
+                        <a href="@Url.Action("Details", "Products", new { id = item.ProductID })" class="view-btn">Xem tin</a>
+                        <button class="save-btn">Lưu tin</button>
+                    </div>
+                    <a href="@Url.Action("Edit_RealEstate", "RealEstate", new { id = item.ProductID })">Sửa</a>
+                </div>
+            }
+
+        }
+        else
+        {
+            <p>Hiện chưa có dự án nào được đăng tải.</p>
+
+        }
+
     </div>
 </body>
 </html>
