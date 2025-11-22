@@ -14,44 +14,54 @@
 </head>
 <body>
     <!-- Header -->
-    <div class="header" style="background: #808080; height: 70px">
-        <div class="Navication">
-            <span class="logo">
-                <img src="@Url.Content("~/Font-end/asset/icon/logo.png")" alt="logo" height="50" width="50" style="border-radius:50%" ; />
-                <h1 style="color: white; font-size: 28px;">Logo</h1>
-            </span>
-            <ul class="nav-list">
-                <li class="nav-item"><a href="#">Trang Chủ</a></li>
-                <li class="nav-item">
-                    <a href="#">Nhà đất bán</a>
-                    <ul class="dropdown">
-                        <li><a href="#">Căn hộ</a></li>
-                        <li><a href="#">Nhà phố</a></li>
-                        <li><a href="#">Biệt thự</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="#">Nhà đất cho thuê</a>
-                    <ul class="dropdown">
-                        <li><a href="#">Phòng trọ</a></li>
-                        <li><a href="#">Căn hộ dịch vụ</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item"><a href="#">Quy hoạch</a></li>
-                <li class="nav-item"><a href="#">Tin tức</a></li>
-                <li class="nav-item"><a href="#">Liên hệ</a></li>
-                <li class="nav-item"><a href="#">Tin lưu</a></li>
-            </ul>
+    <header class="site-header">
+        <div class="header-container">
+            <a href="@Url.Action("Index", "Home")" class="logo-box">
+                <img src="@Url.Content("~/Font-end/asset/icon/logo.png")" alt="logo" />
+                <span class="logo-text">BĐS Việt Nam</span>
+            </a>
 
-            <nav class="link-navication">
-                <button class="button_small"> <a href="@Url.Action("Create", "RealEstate")" style="color:#000000; text-decoration: none;">Đăng tin</a></button>
-                <button class="button_small"> <a href="@Url.Action("Login", "Users")" style="color:#000000; text-decoration: none;">Đăng xuất</a></button>
-                <button class="Page-User">
-                    <a href="@Url.Action("Page_User", "Users", new { id = Session["UserID"] })">Trang cá nhân</a>
-                </button>
+            <nav class="main-nav">
+                <ul class="nav-list">
+                    <li><a href="#">Trang Chủ</a></li>
+                    <li class="has-dropdown">
+                        <a href="#">Nhà đất bán <i class="arrow-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Căn hộ</a></li>
+                            <li><a href="#">Nhà phố</a></li>
+                            <li><a href="#">Biệt thự</a></li>
+                        </ul>
+                    </li>
+                    <li class="has-dropdown">
+                        <a href="#">Nhà đất cho thuê <i class="arrow-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Phòng trọ</a></li>
+                            <li><a href="#">Căn hộ dịch vụ</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Quy hoạch</a></li>
+                    <li><a href="#">Tin tức</a></li>
+                </ul>
             </nav>
+
+            <div class="user-actions">
+                <a href="@Url.Action("Create", "RealEstate")" class="btn btn-primary">Đăng tin</a>
+
+                @if (Session["UserID"] != null)
+                {
+                    <div class="user-profile">
+                        <a href="@Url.Action("Page_User", "Users", new { id = Session["UserID"] })" class="btn btn-outline">Trang cá nhân</a>
+                        
+                    </div>
+                }
+                else
+                {
+                    <a href="@Url.Action("Login", "Users")" class="btn btn-outline">Đăng nhập</a>
+                }
+            </div>
         </div>
-    </div>
+    </header>
+    
     <div>
         @RenderBody()
     </div>
