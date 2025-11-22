@@ -105,5 +105,10 @@ namespace Website_BDS.Controllers
             return View(vm);
         }
 
+        public ActionResult Page_User_Edit()
+        {
+            return View();
+        }
+
     }
 }

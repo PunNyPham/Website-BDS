@@ -1,0 +1,122 @@
+﻿@model Website_BDS.Models.Product
+
+@{
+    ViewBag.Title = "Cập Nhật Tin Đăng";
+    Layout = "~/Views/Shared/_LayoutPageHome.cshtml";
+}
+
+<link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/edit-page_user.css")" />
+
+<script defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script defer src="~/Scripts/Scripts-fontend/API-Address-Selector.js"></script>
+
+
+<div class="listing-form-container">
+    <h2>Cập nhật tin đăng</h2>
+
+    <form method="post" action="@Url.Action("Edit", "RealEstate")" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" name="ProductID" value="@Model.ProductID" />
+        
+        <input type="hidden" name="OwnerID" value="@Model.OwnerID" />
+        <input type="hidden" name="Status" value="@Model.Status" />
+
+        <div class="form-group">
+            <label class="form-label">Tiêu đề tin đăng:</label>
+            <input type="text" name="Title" class="form-control"
+                   value="@Model.Title" placeholder="Nhập tiêu đề tin đăng" required>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Loại giao dịch:</label>
+            <div class="radio-group">
+                <label class="radio-item">
+                    <input type="radio" name="ListingType" value="Sale"
+                           @(Model.ListingType == "Sale" ? "checked" : "") required>
+                    Bán
+                </label>
+                <label class="radio-item">
+                    <input type="radio" name="ListingType" value="Rent"
+                           @(Model.ListingType == "Rent" ? "checked" : "")>
+                    Cho thuê
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Loại hình bất động sản:</label>
+            <select name="Type" class="form-control" required>
+                <option value="">-- Chọn loại hình --</option>
+                <option value="Căn hộ" @(Model.Type == "Căn hộ" ? "selected" : "")>Căn hộ</option>
+                <option value="Nhà phố" @(Model.Type == "Nhà phố" ? "selected" : "")>Nhà phố</option>
+                <option value="Đất nền" @(Model.Type == "Đất nền" ? "selected" : "")>Đất nền</option>
+                <option value="Văn phòng" @(Model.Type == "Văn phòng" ? "selected" : "")>Văn phòng</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Diện tích (m²):</label>
+            <input type="number" name="Area" class="form-control" step="0.01"
+                   value="@Model.Area" placeholder="Nhập diện tích">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Số phòng ngủ:</label>
+            <input type="number" name="Bedrooms" class="form-control"
+                   value="@Model.Bedrooms" placeholder="Nhập số phòng ngủ">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Số phòng tắm:</label>
+            <input type="number" name="Bathrooms" class="form-control"
+                   value="@Model.Bedrooms" placeholder="Nhập số phòng tắm">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Thành phố / Quận / Phường:</label>
+            <div class="address-row">
+                <div class="address-col">
+                    <select id="city" name="City" class="form-control">
+                        <option value="@Model.City" selected>@Model.City</option>
+                    </select>
+                </div>
+                <div class="address-col">
+                    <select id="district" name="District" class="form-control">
+                        <option value="@Model.District" selected>@Model.District</option>
+                    </select>
+                </div>
+                <div class="address-col">
+                    <select id="ward" name="Ward" class="form-control">
+                        <option value="@Model.Ward" selected>@Model.Ward</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Địa chỉ cụ thể:</label>
+            <input type="text" name="Address" class="form-control"
+                   value="@Model.Address" placeholder="Nhập số nhà, tên đường...">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Báo giá (VNĐ):</label>
+            <input type="number" name="Price" class="form-control"
+                   value="@Model.Price" placeholder="Nhập giá bán">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Mô tả:</label>
+            <textarea name="Description" class="form-control" rows="5"
+                      placeholder="Nhập mô tả chi tiết...">@Model.Description</textarea>
+        </div>
+
+        
+
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">Lưu chỉnh sửa</button>
+            <a href="@Url.Action("UserProfile", "Users", new { id = Model.OwnerID })" class="btn-cancel">Hủy bỏ</a>
+        </div>
+    </form>
+</div>

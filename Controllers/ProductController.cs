@@ -21,8 +21,8 @@ namespace Website_BDS.Controllers
             if (!string.IsNullOrEmpty(district))
                 products = products.Where(p => p.District == district);
 
-            if (!string.IsNullOrEmpty(img_product))
-                products = products.Where(p => p.Image_product == img_product);
+           // if (!string.IsNullOrEmpty(img_product))
+             //   products = products.Where(p => p.Image_product == img_product);
 
             if (!string.IsNullOrEmpty(price))
                 products = products.Where(p => p.Price <= Convert.ToDecimal(price));
@@ -43,5 +43,6 @@ namespace Website_BDS.Controllers
             return View();
         }
        
+
     }
 }

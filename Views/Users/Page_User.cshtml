@@ -1,104 +1,282 @@
 ﻿@model Website_BDS.Models.ViewModel.UserProfileViewModel
 @{
-    ViewBag.Title = "Page_User";
-    Layout = null;
-    //Layout = "~/Views/Shared/_LayoutPageHome.cshtml";
+    string userName = Model?.User?.FullName ?? "Người Dùng";
+    ViewBag.Title = "Hồ Sơ Cá Nhân - " + userName;
+    Layout = "~/Views/Shared/_LayoutPageHome.cshtml";
 }
+
+<meta charset="utf-8" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
 <style>
-    .infomation-user h3 {
-        color: #007bff;
-        margin-bottom: 10px;
+    /* ----- CSS Global Reset cho phần này ----- */
+    body {
+        background-color: #dcdcdc; /* Màu nền xám giống hình */
     }
 
-    .infomation-user p {
-        font-size: 1em;
-        margin: 5px 0;
+    .main-profile-wrapper {
+        max-width: 1000px;
+        margin: 40px auto;
+        font-family: 'Segoe UI', sans-serif;
+        color: #333;
     }
 
-    .edit-profile .btn {
-        padding: 8px 16px;
-        background-color: #007bff;
-        color: white;
-        border-radius: 6px;
+    /* ----- 1. CARD PROFILE (PHẦN TRÊN) ----- */
+    .profile-card-container {
+        background-color: #ffffff;
+        border-radius: 20px;
+        display: flex;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        overflow: hidden; /* Để bo góc chuẩn */
+        margin-bottom: 40px;
+        position: relative;
+        min-height: 250px;
+    }
+
+    /* Cột Trái: Avatar + Nút Edit */
+    .profile-left {
+        width: 30%;
+        background-color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-right: 2px solid #f0f0f0; /* Đường kẻ dọc ngăn cách */
+        padding: 30px;
+    }
+
+    .avatar-circle {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 4px solid #3498db; /* Viền xanh quanh avatar */
+        margin-bottom: 15px;
+    }
+
+    .avatar-circle img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .btn-edit-pill {
+        background-color: #81ecec; /* Màu xanh nhạt giống hình */
+        color: #2d3436;
+        padding: 8px 25px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.9rem;
+        transition: all 0.3s;
+        border: none;
+        display: inline-block;
+    }
+
+    .btn-edit-pill:hover {
+        background-color: #4bcffa;
+        color: #fff;
+        transform: scale(1.05);
         text-decoration: none;
     }
+
+    /* Cột Phải: Thông tin */
+    .profile-right {
+        width: 70%;
+        padding: 30px 40px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* Icon góc trên bên phải */
+    .top-right-icons {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        display: flex;
+        gap: 20px;
+        font-size: 1.2rem;
+        color: #333;
+    }
+    .top-right-icons i { cursor: pointer; }
+
+    .info-row {
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+    }
+    
+    .info-label {
+        font-weight: 800; /* Chữ đậm giống hình */
+        width: 100px;
+        display: inline-block;
+    }
+
+    .info-value {
+        color: #555;
+        font-weight: 500;
+    }
+
+    .post-count-badge {
+        float: right;
+        font-weight: bold;
+        margin-right: 80px; /* Để tránh đè lên icon */
+    }
+
+    /* ----- 2. PHẦN QUẢN LÝ BÀI ĐĂNG (PHẦN DƯỚI) ----- */
+    .section-title {
+        text-align: center;
+        font-weight: 800;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        color: #000;
+    }
+
+    .post-list-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px; /* Khoảng cách giữa các thẻ bài đăng */
+    }
+
+    .post-item-card {
+        background-color: #ffffff;
+        border-radius: 15px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        height: 100px; /* Chiều cao cố định giống hình chữ nhật mẫu */
+    }
+
+    .post-info {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-grow: 1;
+    }
+
+    .post-thumb {
+        width: 80px;
+        height: 60px;
+        background-color: #eee;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .post-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    .post-text h4 {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #2c3e50;
+        /* Giới hạn 1 dòng */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 400px;
+    }
+    .post-text p { margin: 5px 0 0; color: #7f8c8d; font-size: 0.9rem; }
+
+    .post-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn-action {
+        padding: 5px 15px;
+        border-radius: 5px;
+        font-size: 0.85rem;
+        text-decoration: none;
+        font-weight: 600;
+    }
+    .btn-view { background: #f1f2f6; color: #2f3542; }
+    .btn-edit-post { background: #dff9fb; color: #22a6b3; }
+    
 </style>
 
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title</title>
-    <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/Page_User.css")" />
-</head>
-<body>
-    <div class="container-user">
-        <div class="bars">
-            <!-- Menu hoặc sidebar -->
+<div class="main-profile-wrapper">
+    
+    <div class="profile-card-container">
+        <div class="profile-left">
+            <div class="avatar-circle">
+                 <img src="@Url.Content(string.IsNullOrEmpty(Model?.User?.Avatar_User) ? "~/Font-end/asset/icon/User-default.jpg" : "~/Content/" + Model.User.Avatar_User)" 
+                      onerror="this.src='@Url.Content("~/Font-end/asset/icon/User-default.jpg")'" />
+            </div>
+            @if (Model?.User != null)
+            {
+                <a href="@Url.Action("Edit", "RealEstate", new { id = Model.User.UserID })" class="btn-edit-pill">
+                    Edit
+                </a>
+            }
         </div>
 
-        <div class="avatar-user">
-            <div class="avartar">
-                <div class="background-avatar">
-                    <div class="avartar-main">
-                        <img src="@Url.Content(
-                                    string.IsNullOrEmpty(Model?.User?.Avatar_User)
-                                        ? "~/Font-end/asset/icon/User-default.jpg"
-                                        : "~/Content/" + Model.User.Avatar_User
-                                    )"
-                             alt="Avatar"
-                             style="width:100px; height:100px; border-radius:50%; object-fit:cover;" />
-
-                    </div>
-                </div>
+        <div class="profile-right">
+            <div class="top-right-icons">
+                <i class="far fa-bell"></i>
+                <i class="fas fa-search"></i>
+                <i class="fas fa-cog"></i>
             </div>
 
-            <div class="edit-profile">
-                <a href="@Url.Action("Edit", "Users", new { id = Model?.User.UserID ?? 0 })" class="btn btn-primary">Chỉnh sửa</a>
+            <div class="info-row" style="margin-top: 20px;">
+                <span class="info-label">User-name</span>
+                <span class="info-value">@userName</span>
+                
+                <span class="post-count-badge">
+                    Số tin đã đăng: <span style="color:#e74c3c">@(Model?.Products?.Count() ?? 0)</span>
+                </span>
             </div>
-        </div>
 
-        <div class="infomation-user">
-            <h3>@(Model?.User.FullName ?? "Chưa có tên")</h3>
-            <p><strong>Số điện thoại:</strong> @(Model?.User.PhoneNumber ?? "Chưa có số")</p>
-            @*<p><strong>Trạng thái:</strong> @(Model?.Status ?? "Chưa cập nhật")</p>*@
+            <div class="info-row">
+                <span class="info-label">Khu vực</span>
+                <span class="info-value">Việt Nam</span> 
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Sđt</span>
+                <span class="info-value">@(Model?.User?.PhoneNumber ?? "---")</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Email</span>
+                <span class="info-value">@(Model?.User?.Email ?? "---")</span>
+            </div>
         </div>
     </div>
 
-    <div class="post-manager">
-        <!-- Sau này có thể hiển thị bài đăng của người dùng -->
-        @if (Model != null && Model.Products.Any())
+    <h3 class="section-title">Quản lý Bài Đăng</h3>
+
+    <div class="post-list-container">
+        @if (Model != null && Model.Products != null && Model.Products.Any())
         {
             foreach (var item in Model.Products)
             {
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="~/Font-end/asset/icon/Product_Null.jpg"
-                             alt="Avatar"
-                             style="width:100px; height:100px; border-radius:50%; object-fit:cover;" />
-
-
+                <div class="post-item-card">
+                    <div class="post-info">
+                        <div class="post-thumb">
+                             <img src="@Url.Content("~/Font-end/asset/icon/Product_Null.jpg")" alt="thumb" />
+                        </div>
+                        <div class="post-text">
+                            <h4>@item.Title</h4>
+                            <p>@string.Format("{0:N0} VNĐ", item.Price) - @item.Address</p>
+                        </div>
                     </div>
-                    <span class="badge">NEW PROJECT</span>
-                    <h4>@item.Title</h4>
-                    <p>Địa chỉ: @item.Address</p>
-                    <p>Giá: @item.Price VNĐ</p>
-                    <div class="card-buttons">
-                        <a href="@Url.Action("Details", "Products", new { id = item.ProductID })" class="view-btn">Xem tin</a>
-                        <button class="save-btn">Lưu tin</button>
+                    
+                    <div class="post-actions">
+                        <a href="@Url.Action("Details", "Products", new { id = item.ProductID })" class="btn-action btn-view">Xem</a>
+                        <a href="@Url.Action("Edit", "RealEstate", new { id = item.ProductID })" class="btn-action btn-edit-post">Sửa</a>
                     </div>
-                    <a href="@Url.Action("Edit_RealEstate", "RealEstate", new { id = item.ProductID })">Sửa</a>
                 </div>
             }
-
         }
         else
         {
-            <p>Hiện chưa có dự án nào được đăng tải.</p>
-
+            <div class="post-item-card" style="justify-content: center; color: #999;">
+                <span>Chưa có bài đăng nào.</span>
+            </div>
+            <div class="post-item-card" style="opacity: 0.5;"></div>
         }
-
     </div>
-</body>
-</html>
+
+</div>

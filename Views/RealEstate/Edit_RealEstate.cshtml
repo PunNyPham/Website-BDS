@@ -4,9 +4,21 @@
     Layout = "~/Views/Shared/_LayoutPageHome.cshtml";
 }
 
-<form method="post" action="@Url.Action("Edit_RealEstate", "RealEstate")" enctype="multipart/form-data">
+<form method="post" action="@Url.Action("Edit", "RealEstate")" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
     <input type="hidden" name="ProductID" value="@Model.ProductID" />
 
+    <div class="form-group" style="background: #f9f9f9; padding: 15px; border-radius: 5px; border: 1px dashed #ccc;">
+        <label class="form-label" style="color: #0056b3;">Tên người đăng (Chủ sở hữu):</label>
+
+        <input type="text" name="UserName" class="form-control"
+               value="@(Model.User != null ? Model.User.FullName : "")"
+               placeholder="Nhập tên hiển thị mới..." required>
+
+        <small style="color: #d9534f; font-style: italic;">
+            * Lưu ý: Việc đổi tên tại đây sẽ cập nhật tên hiển thị trong hồ sơ gốc của bạn.
+        </small>
+    </div>
 
     <!-- Tiêu đề tin đăng -->
     <div class="form-group">
