@@ -6,34 +6,146 @@
     <title>Product_Details</title>
     <link rel="stylesheet" href="asset/base.css" />
     <link rel="stylesheet" href="css/style-Product-Details.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <!-- Script -->
+    <script>
+      function openMap() {
+        window.open(
+          "https://www.google.com/maps/search/?api=1&query=Landmark+81+Ho+Chi+Minh",
+          "_blank"
+        );
+      }
+    </script>
   </head>
   <body>
     <div class="product-page">
-        <div class="product-info">
-            <div class="Image-details"></div>
-             <div class="Infomation-detailt-product">
-                <h3>Name product</h3>
-                <h3>Extention</h3>
-                <h3>Price</h3>
-                <h3>Address</h3>
-                <h3>Thông tin mô tả</h3>
-             </div>
+      <div class="product-info">
+        <div class="Image-details">
+          <img
+            src="./asset/icon/Product_Null.jpg"
+            alt="image-product"
+            height="300"
+            width="300"
+          />
         </div>
-      <div class="user-info">
-          <div class="product-user-infomation_details">
-            <div class="contact">
-                <button>Liên hệ số điện thoại</button>
-                <button>Liên hệ zalo</button>
+        <div class="Infomation-detailt-product">
+          <div class="save"><button class="button_small">Lưu</button></div>
+          <div class="listing-overview">
+            <h1>Name product</h1>
+            <h3>Price : <strong>8 tỷ</strong> </h3>
+            <h3>Address</h3>
+          </div>
+          <div class="Contact">Thông tin mô tả</div>
+          <div class="information-base">
+            <div class="utility">
+              <h1>Thông tin cơ bản</h1>
+              <div>
+                <p><i class="fa-solid fa-shapes"></i> Loại hình bất động sản: </p>
+                <p><i class="fa-solid fa-chart-area"></i> Diện tich: </p>
+              </div>
+              <div>
+                <p><i class="fa-solid fa-bed"></i> Số phòng ngủ: </p>
+                <p><i class="fa-solid fa-bath"></i> Số phòng vệ sinh: </p>
+              </div>
+              <div class="action-button">
+                <button class="button_small"><i class="fa-solid fa-heart"></i> Lưu</button>
+                <button class="button_small"><i class="fa-solid fa-share"></i> Chia sẻ</button>
+                <button class="button_small"><i class="fa-solid fa-circle-exclamation"></i> Báo vi phạm</button>
+              </div>
             </div>
           </div>
-          <div class="comment-section">
-                <h4>Bình luận</h4>
-                <textarea placeholder="Bình Luận..."></textarea>
-                <button class="btn">Gửi</button>
-          </div>
+        </div>
       </div>
+      <div class="user-info">
+        <div class="product-user-infomation_details">
+          <div class="User">
+            <span id="Avatar-User"></span>
+            <button class="button_small">Xem trang</button>
+          </div>
 
+          <div class="contact">
+            <button class="button_small">Liên hệ số điện thoại</button>
+            <button class="button_small">Liên hệ zalo</button>
+          </div>
+        </div>
+        <div class="comment-section">
+          <h4>Bình luận</h4>
+          <div class="Area-comment">
+            <textarea placeholder="Bình Luận..." class="Comment"></textarea>
+            <button class="button_small">
+              <i class="fa-solid fa-paper-plane"></i>
+              Gửi
+            </button>
+          </div>
+        </div>
+        <div class="mini-map" onclick="openMap()">
+          <iframe
+            width="100%"
+            height="200"
+            style="border: 0; pointer-events: none"
+            src="https://www.google.com/maps?q=10.7950,106.7200&z=15&output=embed"
+          >
+          </iframe>
+        </div>
+      </div>
+    </div>
 
+    <h2 class="section-title" style="text-align: center">
+      Các Mẫu mà Bạn có thể quan tâm đến
+    </h2>
+    <div class="listing-section">
+      <div class="product-listings">
+        <div class="product-card">
+          <!-- Nội dung sản phẩm -->
+          <button class="btn-view">Xem chi tiết</button>
+          <button class="btn-save">Lưu tin</button>
+        </div>
+        <!-- Các thẻ khác -->
+      </div>
+      <aside class="filter-panel">
+        <!-- Bộ lọc tìm kiếm -->
+        <div class="search-box">
+          <div class="search-header">
+            <span class="icon">🔍</span>
+            <span class="title">TÌM HIỂU<br />THÊM</span>
+          </div>
+
+          <div class="tabs">
+            <button class="tab active">Bán</button>
+            <button class="tab">Mua</button>
+          </div>
+
+          <div class="form">
+            <select>
+              <option>Từ khóa</option>
+            </select>
+            <select>
+              <option>Chọn loại đất</option>
+            </select>
+            <select>
+              <option>Tỉnh thành, quận huyện</option>
+            </select>
+            <select>
+              <option>Phường, xã</option>
+            </select>
+
+            <div class="price-row">
+              <select>
+                <option>Giá thấp nhất</option>
+              </select>
+              <select>
+                <option>Giá cao nhất</option>
+              </select>
+            </div>
+
+            <button class="btn-search">Tìm kiếm</button>
+          </div>
+        </div>
+      </aside>
     </div>
   </body>
 </html>

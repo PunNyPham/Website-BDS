@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Website_BDS.Models;
+using Website_BDS.Models.ViewModel;
 
 namespace Website_BDS.Controllers
 {
@@ -21,8 +22,8 @@ namespace Website_BDS.Controllers
             if (!string.IsNullOrEmpty(district))
                 products = products.Where(p => p.District == district);
 
-            if (!string.IsNullOrEmpty(img_product))
-                products = products.Where(p => p.Image_product == img_product);
+           // if (!string.IsNullOrEmpty(img_product))
+             //   products = products.Where(p => p.Image_product == img_product);
 
             if (!string.IsNullOrEmpty(price))
                 products = products.Where(p => p.Price <= Convert.ToDecimal(price));
@@ -37,11 +38,25 @@ namespace Website_BDS.Controllers
             return View(products.ToList());
         }
 
-        public ActionResult Product_details()
+        public ActionResult Product_details(int id)
         {
+            RealEstateDBEntities1 db = new RealEstateDBEntities1();
 
-            return View();
+            var product = db.Products.FirstOrDefault(p => p.ProductID == id);
+            if (product == null)
+                return HttpNotFound();
+
+            var seller = db.Users.FirstOrDefault(u => u.UserID == product.OwnerID);
+
+            var vm = new ProductDetailViewModel
+            {
+                Product = product,
+                Seller = seller,
+            };
+
+            return View(vm);  // <-- PHẢI TRẢ VỀ VIEWMODEL
         }
-       
+
+
     }
 }

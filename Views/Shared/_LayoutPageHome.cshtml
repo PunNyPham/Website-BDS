@@ -2,11 +2,13 @@
 
 <html>
 <head>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="@Url.Content("~/Font-end/asset/reset.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Font-end/asset/base.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/layout.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/edit-page_user.css")" />
 
 
 </head>
@@ -44,7 +46,9 @@
             <nav class="link-navication">
                 <button class="button_small"> <a href="@Url.Action("Create", "RealEstate")" style="color:#000000; text-decoration: none;">Đăng tin</a></button>
                 <button class="button_small"> <a href="@Url.Action("Login", "Users")" style="color:#000000; text-decoration: none;">Đăng xuất</a></button>
-                <button class="Page-User" style="background-image: @Url.Action()"></button>
+                <button class="Page-User">
+                    <a href="@Url.Action("Page_User", "Users", new { id = Session["UserID"] })">Trang cá nhân</a>
+                </button>
             </nav>
         </div>
     </div>

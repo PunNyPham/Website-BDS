@@ -11,7 +11,8 @@ namespace Website_BDS.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Product
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -34,9 +35,13 @@ namespace Website_BDS.Models
         public Nullable<decimal> Area { get; set; }
         public Nullable<byte> Bedrooms { get; set; }
         public Nullable<byte> Bathrooms { get; set; }
+        [Required]
         public string Address { get; set; }
+        [Required]
         public string City { get; set; }
+        [Required]
         public string District { get; set; }
+        [Required]
         public string Ward { get; set; }
         public int OwnerID { get; set; }
         public string Status { get; set; }

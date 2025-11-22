@@ -1,0 +1,93 @@
+﻿@model Website_BDS.Models.Product
+@{
+    ViewBag.Title = "Edit_RealEstate";
+    Layout = "~/Views/Shared/_LayoutPageHome.cshtml";
+}
+
+<form method="post" action="@Url.Action("Edit", "RealEstate")" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="ProductID" value="@Model.ProductID" />
+
+    <div class="form-group" style="background: #f9f9f9; padding: 15px; border-radius: 5px; border: 1px dashed #ccc;">
+        <label class="form-label" style="color: #0056b3;">Tên người đăng (Chủ sở hữu):</label>
+
+        <input type="text" name="UserName" class="form-control"
+               value="@(Model.User != null ? Model.User.FullName : "")"
+               placeholder="Nhập tên hiển thị mới..." required>
+
+        <small style="color: #d9534f; font-style: italic;">
+            * Lưu ý: Việc đổi tên tại đây sẽ cập nhật tên hiển thị trong hồ sơ gốc của bạn.
+        </small>
+    </div>
+
+    <!-- Tiêu đề tin đăng -->
+    <div class="form-group">
+        <label for="title">Tiêu đề tin đăng:</label>
+        <input type="text" id="title" name="Title" value="@Model.Title" required>
+    </div>
+
+    <!-- Loại giao dịch -->
+    <div class="form-group">
+        <label>Loại giao dịch:</label>
+
+        <label>
+            <input type="radio" name="ListingType" value="Sale" @(Model.ListingType == "Sale" ? "checked" : "") />
+            Bán
+        </label>
+
+        <label>
+            <input type="radio" name="ListingType" value="Rent" @(Model.ListingType == "Rent" ? "checked" : "") />
+            Cho thuê
+        </label>
+    </div>
+
+    <!-- Loại hình BĐS -->
+    <div class="form-group">
+        <label>Loại hình bất động sản:</label>
+        <select id="propertyType" name="Type" required>
+            <option value="">-- Chọn loại hình --</option>
+            <option @(Model.Type == "Căn hộ" ? "selected" : "")>Căn hộ</option>
+            <option @(Model.Type == "Nhà phố" ? "selected" : "")>Nhà phố</option>
+            <option @(Model.Type == "Đất nền" ? "selected" : "")>Đất nền</option>
+        </select>
+    </div>
+
+    <!-- Diện tích -->
+    <input type="number" id="area" name="Area" value="@Model.Area" step="0.01">
+
+    <!-- Phòng ngủ -->
+    <input type="number" id="bedrooms" name="Bedrooms" value="@Model.Bedrooms">
+
+    <!-- Phòng tắm -->
+    <input type="number" id="bathrooms" name="Bathrooms" value="@Model.Bathrooms">
+
+    <!-- Địa chỉ -->
+    <select id="city" name="City">
+        <option selected>@Model.City</option>
+    </select>
+
+    <select id="district" name="District">
+        <option selected>@Model.District</option>
+    </select>
+
+    <select id="ward" name="Ward">
+        <option selected>@Model.Ward</option>
+    </select>
+
+    <!-- Địa chỉ cụ thể -->
+    <input type="text" id="specificAddress" name="Address" value="@Model.Address">
+
+    <!-- Giá -->
+    <input type="number" id="price" name="Price" value="@Model.Price">
+
+    <!-- Mô tả -->
+    <textarea id="description" name="Description">@Model.Description</textarea>
+
+    <!-- Trạng thái -->
+    <input type="hidden" name="Status" value="@Model.Status" />
+
+    <button type="submit">Cập nhật</button>
+
+</form>
+
+

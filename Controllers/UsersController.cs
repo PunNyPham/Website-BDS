@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Website_BDS.Models;
+using Website_BDS.Models.ViewModel;
 
 namespace Website_BDS.Controllers
 {
@@ -23,6 +24,7 @@ namespace Website_BDS.Controllers
                 var User = db.Users.FirstOrDefault(x => x.Email == email && x.HashPassword == password);
                 if(User != null)
                 {
+                Session["UserID"] = User.UserID; // lưu vào session
                 return RedirectToAction("Search_Product", "Product");
                 }
                 ViewBag.Error = "Sai email hoặc mật khẩu.";
@@ -85,9 +87,28 @@ namespace Website_BDS.Controllers
             return View(user);
         }
 
-        public ActionResult Page_User()
+        public ActionResult Page_User(int id)
+        {
+            RealEstateDBEntities1 db = new RealEstateDBEntities1();
+
+            var user = db.Users.Find(id);
+            if (user == null) return HttpNotFound();
+
+            var products = db.Products.Where(x => x.OwnerID == id).ToList();
+
+            var vm = new UserProfileViewModel
+            {
+                User = user,
+                Products = products
+            };
+
+            return View(vm);
+        }
+
+        public ActionResult Page_User_Edit()
         {
             return View();
         }
+
     }
 }
