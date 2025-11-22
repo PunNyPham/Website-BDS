@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tra cứu Văn bản Pháp luật</title>
+  <link rel="stylesheet" href="CSS/RealEstateLaw.css" />
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">Tra cứu Văn bản Pháp luật Việt Nam</h1>
+
+    <div class="search-section">
+      <input type="text" class="search-input" placeholder="Số hiệu, Tiêu đề Văn bản, Người ký..." />
+      <button class="search-button">Tìm kiếm</button>
+    </div>
+
+    <div class="filters">
+      <div class="filter-group">
+        <label for="type">Loại văn bản:</label>
+        <select id="type">
+            <option value="van-ban-khac">Văn bản khác</option>
+            <option value="luat">Luật</option>
+            <option value="thong-tu-lien-tich">Thông tư liên tịch</option>
+            <option value="dieu-uoc-quoc-te">Điều ước quốc tế</option>
+            <option value="van-ban-wto">Văn bản WTO</option>
+            <option value="lenh">Lệnh</option>
+            <option value="van-ban-hop-nhat">Văn bản hợp nhất</option>
+            <option value="ke-hoach">Kế hoạch</option>
+            <option value="bao-cao">Báo cáo</option>
+            <option value="chi-thi">Chỉ thị</option>
+            <option value="phap-lenh">Pháp lệnh</option>
+            <option value="thong-bao">Thông báo</option>
+            <option value="nghi-dinh">Nghị định</option>
+            <option value="thong-tu">Thông tư</option>
+            <option value="nghi-quyet">Nghị quyết</option>
+            <option value="quyet-dinh">Quyết định</option>
+            <option value="cong-van">Công văn</option>
+            <option value="hien-phap">Hiến pháp</option>
+            <option value="huong-dan">Hướng dẫn</option>
+            <option value="sac-lenh">Sắc lệnh</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="agency">Cơ quan ban hành:</label>
+        <select id="agency">
+            <option value="co-quan-khac">Cơ quan khác</option>
+            <option value="thu-tuong">Thủ tướng Chính phủ</option>
+            <option value="thanh-tra">Thanh tra Chính phủ</option>
+            <option value="vien-kiem-sat">Viện kiểm sát nhân dân tối cao</option>
+            <option value="van-phong-chinh-phu">Văn phòng Chính phủ</option>
+            <option value="uy-ban-thuong-vu">Ủy ban Thường vụ Quốc hội</option>
+            <option value="uy-ban-dan-toc">Ủy ban Dân tộc</option>
+            <option value="tong-cuc-thue">Tổng cục Thuế</option>
+            <option value="tong-lien-doan-lao-dong">Tổng liên đoàn Lao động Việt Nam</option>
+            <option value="tong-cuc-hai-quan">Tổng cục Hải quan</option>
+            <option value="quoc-hoi">Quốc hội</option>
+            <option value="toa-an-toi-cao">Tòa án nhân dân tối cao</option>
+            <option value="ngan-hang-nha-nuoc">Ngân hàng Nhà nước</option>
+            <option value="kiem-toan-nha-nuoc">Kiểm toán Nhà nước</option>
+            <option value="chu-tich-nuoc">Chủ tịch nước</option>
+            <option value="chinh-phu">Chính Phủ</option>
+            <option value="bo-y-te">Bộ Y Tế</option>
+            <option value="bo-xay-dung">Bộ Xây Dựng</option>
+            <option value="bo-tai-nguyen-moi-truong">Bộ Tài Nguyên Môi Trường</option>
+            <option value="bo-tu-phap">Bộ Tư Pháp</option>
+            <option value="bo-ke-hoach-dau-tu">Bộ Kế Hoạch và Đầu tư</option>
+            <option value="bo-giao-thong-van-tai">Bộ Giao thông vận tải</option>
+            <option value="bo-giao-duc-dao-tao">Bộ Giáo dục và Đào Tạo</option>
+            <option value="bo-cong-thuong">Bộ Công Thương</option>
+            <option value="bo-cong-an">Bộ Công An</option>
+            <option value="bao-hiem-xa-hoi">Bảo hiểm xã hội Việt Nam</option>
+            <option value="co-quan-cap-tinh">Cơ quan cấp Tỉnh</option>
+            <option value="co-quan-trung-uong">Cơ quan TW</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="field">Lĩnh vực:</label>
+        <select id="field">
+            <option value="linh-vuc-khac">Lĩnh vực khác</option>
+            <option value="quyen-dan-su">Quyền dân sự</option>
+            <option value="van-hoa-xa-hoi">Văn hóa - Xã hội</option>
+            <option value="the-thao-y-te">Thể thao - Y tế</option>
+            <option value="tai-nguyen-moi-truong">Tài nguyên - Môi trường</option>
+            <option value="giao-duc">Giáo dục</option>
+            <option value="giao-thong">Giao thông - Vận tải</option>
+            <option value="xay-dung">Xây dựng đô thị</option>
+            <option value="tai-chinh">Tài chính nhà nước</option>
+            <option value="to-tung">Thủ tục tố tụng</option>
+            <option value="hinh-su">Trách nhiệm hình sự</option>
+            <option value="vi-pham">Vi phạm hành chính</option>
+            <option value="so-huu-tri-tue">Sở hữu trí tuệ</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="results">
+      <p class="result-count">Kết quả 1 văn bản được tìm thấy</p>
+      <table class="result-table">
+        <thead>
+          <tr>
+            <th>Số hiệu Văn bản</th>
+            <th>Tiêu đề Văn bản</th>
+            <th>Ban hành</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>73/2024/TT-BCA</td>
+            <td>Thông tư số 73/2024/TT-BCA của Bộ Công an: Quy định công tác tuần tra, kiểm soát, xử lý vi phạm pháp luật về trật tự, an toàn giao thông đường bộ của Cảnh sát giao thông</td>
+            <td>26-02-2025</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>
