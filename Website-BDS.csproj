@@ -194,6 +194,7 @@
     <Compile Include="Models\User.cs">
       <DependentUpon>BDSEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModel\ProductDetailViewModel.cs" />
     <Compile Include="Models\ViewModel\UserProfileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
