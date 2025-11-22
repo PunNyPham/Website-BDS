@@ -1,45 +1,271 @@
-.product-page{
+/* ====================== PRODUCT PAGE OPTIMIZED ======================= */
+.product-page {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
     width: 100%;
-    height: auto;
-    background-color: var(--darkgray);
-    padding: 12px;
+    padding: 20px;
+    background-color: #ededed;
 }
-.product-info{
+/* CỘT TRÁI: THÔNG TIN SẢN PHẨM */
+.product-info {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #b5b5b5;
+    background-color: none;
     border-radius: 16px;
-    gap: 20px;
 }
-.Image-details{
-    height: 514px;
-    width: 704px;
-    background-color: #fff;
-     border-radius: 16px;
-    padding: 8px;
 
+.Image-details {
+    height: 514px;
+    width: 900px;
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 8px;
 }
-.Infomation-detailt-product{
+
+.listing-overview {
+    background-color: #fff;
+    padding: 20px;
+    margin: 10px 0;
+    line-height: 50px;
+    border-radius: 8px;
+}
+
+.Infomation-detailt-product {
+    margin-top: 10px;
+    background-color: #f4f4f4;
+    width: 100%;
+    border-radius: 16px;
+    padding: 8px;
+    line-height: 20px;
+}
+
+    .Infomation-detailt-product h1 {
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .Infomation-detailt-product h3 {
+        font-size: 24px;
+    }
+
+        .Infomation-detailt-product h3 strong {
+            font-weight: 900;
+            color: #cb0000;
+        }
+
+    .Infomation-detailt-product p {
+        font-size: 24px;
+        font-weight: 500;
+    }
+/* Lưu */
+.save {
+    display: flex;
+    justify-content: right;
+    padding-right: 20px;
+}
+
+.Contact {
+    background-color: #fff;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 10px 0;
+    padding: 0 20px;
+}
+
+.information-base {
+    display: flex;
+    flex-direction: column;
+}
+.utility{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    background-color: #fff; 
+    padding: 0 20px;
+}
+.utility div {
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+/* ====================== CỘT PHẢI: USER INFO ======================= */
+
+.user-info {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: transparent;
+}
+/* box thông tin use */
+.product-user-infomation_details {
+    background: #fff;
+    padding: 20px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+/* VÙNG USER */
+.User {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+/*Avatar User*/
+#Avatar-User {
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    background-color: #767676;
+}
+/*Liên hệ*/
+.contact {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+/* ================= Comment ==================*/
+.comment-section {
+    border-radius: 16px;
     margin-top: 20px;
     background-color: #fff;
-    width: 704px;
-    border-radius: 16px;
-    padding: 8px;
-
-}
-.user-info{
-    width: 40%;
-    height: auto;
-    background-color: #968c8c;
+    width: auto;
+    padding: 20px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    height: 350px; /* thêm chiều cao cố định */
+}
+
+.Area-comment {
+    display: flex;
+    justify-content: space-around;
     align-items: center;
 }
-.contact{
-    height: 50px;
-    background-color: #d3d3d3;
-    
+
+.Comment {
+    width: 200%;
+    min-height: 80px;
+    max-height: 80px;
+    padding: 8px;
+    border-radius: 16px;
+    margin-right: 8px;
+    overflow-y: auto;
+    resize: none;
+}
+
+/* =================== mini map ================*/
+.mini-map {
+    margin-top: 20px;
+    width: 90%;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+}
+
+    .mini-map iframe {
+        width: 100%;
+        height: 100%;
+    }
+
+    .mini-map::after {
+        content: "Xem bản đồ chi tiết →";
+        position: absolute;
+        bottom: 8px;
+        right: 12px;
+        background: rgba(0,0,0,0.5);
+        color: #fff;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+    }
+
+/* ========================== listing-section =============== */
+.listing-section {
+    display: flex;
+    margin-top: 20px;
+}
+
+/* ==========================  filter-panel ======================*/
+.search-box {
+    width: 330px;
+    background: #d0d0d0;
+    padding: 20px;
+    border-radius: 18px;
+    margin: auto;
+    font-family: Arial, sans-serif;
+}
+
+.search-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+    .search-header .icon {
+        font-size: 18px;
+    }
+
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.tab {
+    flex: 1;
+    padding: 12px 0;
+    border: none;
+    cursor: pointer;
+    background: #979797;
+    font-weight: bold;
+    color: #fff;
+}
+
+    .tab.active {
+        background: #fff;
+        color: #000;
+        border-bottom: 3px solid #777;
+    }
+
+.form select {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    margin-bottom: 12px;
+    background: #e5e5e5;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.price-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+    .price-row select {
+        flex: 1;
+    }
+
+.btn-search {
+    width: 100%;
+    padding: 12px;
+    background: #6e6e6e;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
 }

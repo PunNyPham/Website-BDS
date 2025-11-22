@@ -61,12 +61,13 @@
                                  
                                  
                         </div>
-                        <span class="badge">NEW PROJECT</span>
-                        <h4>@item.Title</h4>
+                        <span class="badge">@item.ListingType</span>
+                        <h1>@item.Title</h1>
+                        <h4>@item.Description</h4>
                         <p>Địa chỉ: @item.Address</p>
                         <p>Giá: @item.Price VNĐ</p>
                         <div class="card-buttons">
-                            <a href="@Url.Action("Product_details", "Products", new { id = item.ProductID })" class="view-btn">Xem tin</a>
+                            <a href="@Url.Action("Product_details", "Product", new { id = item.ProductID })" class="view-btn">Xem tin</a>
                             <button class="save-btn">Lưu tin</button>
                         </div>
                     </div>
@@ -89,12 +90,13 @@
                                 alt="Avatar"
                                 style="width:100px; height:100px; border-radius:50%; object-fit:cover;" />
                         </div>
-                        <span class="badge">NEW PROJECT</span>
-                        <h4>@item.Title</h4>
+                        <span class="badge">@item.ListingType</span>
+                        <h1>@item.Title</h1>
+                        <h4>@item.Description</h4>
                         <p>Địa chỉ: @item.Address</p>
                         <p>Giá: @item.Price VNĐ</p>
                         <div class="card-buttons">
-                            <a href="@Url.Action("Product_details", "Products", new { id = item.ProductID })" class="view-btn">Xem tin</a>
+                            <a href="@Url.Action("Product_details", "Product", new { id = item.ProductID })" class="view-btn">Xem tin</a>
                             <button class="save-btn">Lưu tin</button>
                         </div>
                     </div>
