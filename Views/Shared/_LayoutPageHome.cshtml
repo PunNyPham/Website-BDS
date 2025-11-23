@@ -7,7 +7,7 @@
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="@Url.Content("~/Font-end/asset/reset.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Font-end/asset/base.css")" />
-    <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/layout.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/LayoutHome.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/edit-page_user.css")" />
 
 
@@ -51,7 +51,7 @@
                 {
                     <div class="user-profile">
                         <a href="@Url.Action("Page_User", "Users", new { id = Session["UserID"] })" class="btn btn-outline">Trang cá nhân</a>
-                        
+
                     </div>
                 }
                 else
@@ -61,7 +61,7 @@
             </div>
         </div>
     </header>
-    
+
     <div>
         @RenderBody()
     </div>
