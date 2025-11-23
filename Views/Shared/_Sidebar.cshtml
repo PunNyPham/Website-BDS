@@ -1,0 +1,136 @@
+﻿@model Website_BDS.Models.ViewModel.UserProfileViewModel
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link rel="stylesheet" href="@Url.Content("~/Font-end/asset/reset.css")" />
+<link rel="stylesheet" href="@Url.Content("~/Font-end/asset/base.css")" />
+@*<link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/Page-User.css?v=1")" />*@
+<div class="profile-left">
+    <div class="avatar-circle">
+        <img src="@Url.Content(string.IsNullOrEmpty(Model?.User?.Avatar_User) ? "~/Font-end/asset/icon/User-default.jpg" : "~/Content/" + Model.User.Avatar_User)"
+             onerror="this.src='@Url.Content("~/Font-end/asset/icon/User-default.jpg")'" />
+    </div>
+
+    <div class="info-row" style="margin-top: 10px;">
+
+        <div class="info-value">@Model.User.FullName</div>
+        <div class="info-value">Mã ID: #######</div>
+        <div class="info-value">Tham gia từ : 21/07/2006</div>
+        <div class="post-count-badge">
+            Số tin đã đăng: @(Model?.Products?.Count() ?? 0)
+        </div>
+    </div>
+
+    <div class="info-row">
+        <div class="info-label">Khu Vực: Việt Nam</div>
+    </div>
+
+    <div class="info-row">
+        <div class="info-value">SĐT: @(Model?.User?.PhoneNumber ?? "---")</div>
+    </div>
+
+    <div class="info-row">
+        <div class="info-value">Email: @(Model?.User?.Email ?? "---")</div>
+    </div>
+</div>
+
+
+<div class="financial_management-Tag">
+    <h3>Quản lý tài chính</h3>
+    <div class="balance">
+        <p>Tài Khoản chính: <span>0đ</span> </p>
+    </div>
+
+    <a href="#" class="transaction_history"><i class="fa-solid fa-angle-right"></i> lịch sử giao dịch</a>  <br>
+    <button class="Button_Blue"><i class="fa-solid fa-wallet"></i> Nạp tiền</button>
+</div>
+
+
+    <div class="menu-group">
+        <div class="menu-title">Quản lý giao dịch</div>
+        <ul class="submenu">
+            <li>
+                <a href="#" class="sidebar-link"
+                   data-url="@Url.Action("DepositPartial", "Users", new { id = Model.User.UserID })">
+                    Nạp tiền
+                </a>
+            </li>
+
+            <li>
+                <a href="#" class="sidebar-link"
+                   data-url="@Url.Action("DepositPartial", "Users", new { id = Model.User.UserID })">
+                    Quản lý giao dịch
+                </a>
+            </li>
+
+        </ul>
+    </div>
+
+    <div class="menu-group">
+        <div class="menu-title">Quản lý tin</div>
+        <ul class="submenu">
+            <li>
+                <a href="#" class="sidebar-link"
+                   data-url="@Url.Action("Page_User", "Users", new { id = Model.User.UserID })">
+                    Tin đã đăng
+                </a>
+            </li>
+            <li>
+                <a href="#" class="sidebar-link"
+                   data-url="@Url.Action("DepositPartial", "Users", new { id = Model.User.UserID })">
+                    Đăng tin mới
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="menu-group">
+        <div class="menu-title">Hồ sơ môi giới</div>
+        <ul class="submenu">
+            <li>
+                <a href="#" class="sidebar-link"
+                   data-url="@Url.Action("Update_Profile", "Users", new { id = Model.User.UserID })">
+                    Cập nhật hồ sơ
+                </a>
+            </li>
+            <li>
+                <a href="#" class="sidebar-link"
+                   data-url="@Url.Action("DepositPartial", "Users", new { id = Model.User.UserID })">
+                    Tin đã lưu
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="menu-group">
+        <div class="menu-title">Tài khoản</div>
+        <ul class="submenu">
+            <li>
+                <a href="#" class="sidebar-link"
+                   data-url="@Url.Action("DepositPartial", "Users", new { id = Model.User.UserID })">
+                    Thông tin các nhân
+                </a>
+            </li>
+        </ul>
+        <div class="logout"><a href="@Url.Action("Login", "Users")"><i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất</a></div>
+    </div>
+
+
+
+<script>
+    document.querySelectorAll(".menu-title").forEach(title => {
+        title.addEventListener("click", function () {
+            const submenu = this.nextElementSibling;
+
+            // Toggle active class cho icon
+            this.classList.toggle("active");
+
+            // Toggle ẩn/hiện submenu
+            if (submenu.style.display === "block") {
+                submenu.style.display = "none";
+            } else {
+                submenu.style.display = "block";
+            }
+        });
+    });
+
+</script>

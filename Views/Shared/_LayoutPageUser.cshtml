@@ -1,4 +1,4 @@
-﻿@model
+﻿
 <!DOCTYPE html>
 
 <html>
@@ -9,11 +9,10 @@
     <link rel="stylesheet" href="@Url.Content("~/Font-end/asset/reset.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Font-end/asset/base.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/LayoutHome.css")" />
-    <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/edit-page_user.css")" />
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/Page-User.css")" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-
+    
 </head>
 <body>
     <!-- Header -->
@@ -63,104 +62,21 @@
             </div>
         </div>
     </header>
-    <div class="main-profile-wrapper">
 
-        <div class="profile-card-container">
-            <div class="profile-left">
-                <div class="avatar-circle">
-                    <img src="@Url.Content(string.IsNullOrEmpty(Model?.User?.Avatar_User) ? "~/Font-end/asset/icon/User-default.jpg" : "~/Content/" + Model.User.Avatar_User)"
-                         onerror="this.src='@Url.Content("~/Font-end/asset/icon/User-default.jpg")'" />
-                </div>
-                @*@if (Model?.User != null)
-                            {
-                                <a href="@Url.Action("Edit", "RealEstate", new { id = Model.User.UserID })" class="btn-edit-pill">
-                                    Edit
-                                </a>
-                    }*@
-                <div class="profile-right">
-                    @*<div class="top-right-icons">
-                            <i class="far fa-bell"></i>
-                            <i class="fas fa-search"></i>
-                            <i class="fas fa-cog"></i>
-                        </div>*@
+    <div class="main">
 
-                    <div class="info-row" style="margin-top: 10px;">
-
-                        <div class="info-value">@(Model?.User?.)</div>
-                        <div class="info-value">Mã ID: #######</div>
-                        <div class="info-value">Tham gia từ : 21/07/2006</div>
-                        <div class="post-count-badge">
-                            Số tin đã đăng: @(Model?.Products?.Count() ?? 0)
-                        </div>
-                    </div>
-
-                    <div class="info-row">
-                        <div class="info-label">Khu Vực: Việt Nam</div>
-                    </div>
-
-                    <div class="info-row">
-                        <div class="info-value">SĐT: @(Model?.User?.PhoneNumber ?? "---")</div>
-                    </div>
-
-                    <div class="info-row">
-                        <div class="info-value">Email: @(Model?.User?.Email ?? "---")</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="financial_management-Tag">
-                <h3>Quản lý tài chính</h3>
-                <div class="balance">
-                    <p>Tài Khoản chính: <span>0đ</span> </p>
-                </div>
-
-                <a href="#" class="transaction_history"><i class="fa-solid fa-angle-right"></i> lịch sử giao dịch</a>  <br>
-                <button class="Button_Blue"><i class="fa-solid fa-wallet"></i> Nạp tiền</button>
-            </div>
-
-            <div class="sidebar">
-                <div class="menu-group">
-                    <div class="menu-title">Quản lý giao dịch</div>
-                    <ul class="submenu">
-                        <li>Nạp tiền</li>
-                        <li>Quản lý giao dịch</li>
-                    </ul>
-                </div>
-
-                <div class="menu-group">
-                    <div class="menu-title">Quản lý tin</div>
-                    <ul class="submenu">
-                        <li>Tin đã đăng</li>
-                        <li>Đăng tin mới</li>
-                    </ul>
-                </div>
-
-                <div class="menu-group">
-                    <div class="menu-title">Hồ sơ môi giới</div>
-                    <ul class="submenu">
-                        <li>Cập nhật hồ sơ</li>
-                        <li>Tin đã lưu</li>
-                    </ul>
-                </div>
-
-                <div class="menu-group">
-                    <div class="menu-title">Tài khoản</div>
-                    <ul class="submenu">
-                        <li>Thông tin cá nhân</li>
-                        <li>Đổi mật khẩu</li>
-                    </ul>
-                    <div class="logout"><a href="@Url.Action("Login", "Users")">Đăng xuất</a></div>
-                </div>
-            </div>
-
+        <div class="sidebar">
+            @Html.Partial("_Sidebar")
         </div>
-
 
         <div id="main-content">
-             @RenderBody()
+            @RenderBody()
         </div>
-    <!-- footer -->
-    <footer class="footer">
+    </div>
+
+
+
+    <div class="footer">
         <div class="footer-container">
             <div class="footer-column">
                 <h4>Về Chúng tôi</h4>
@@ -224,7 +140,26 @@
             <p>© 2025 BĐS Việt Nam. Tất cả quyền được bảo lưu.</p>
             <p>Nền tảng công nghệ bất động sản hàng đầu Việt Nam 🏡</p>
         </div>
-    </footer>
+    </div>
+    <!-- footer -->
 
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const url = this.dataset.url;
+
+                    fetch(url)
+                        .then(res => res.text())
+                        .then(html => {
+                            document.getElementById('main-content').innerHTML = html;
+                        });
+                });
+            });
+        });
+    </script>
 </body>
+
 </html>

@@ -105,6 +105,43 @@ namespace Website_BDS.Controllers
             return View(vm);
         }
 
+        // Nạp tiền
+       
+        public ActionResult DepositPartial(int id)
+        {
+            var user = db.Users.Find(id);
+            var products = db.Products.Where(x => x.OwnerID == id).ToList();
+
+            var vm = new UserProfileViewModel
+            {
+                User = user,
+                Products = products
+            };
+
+            return PartialView("_DepositPartial", vm);
+        }
+
+        public ActionResult Update_Profile(int id)
+        {
+            var user = db.Users.Find(id);
+            return PartialView("_Update_Profile", user);
+        }
+            
+        public ActionResult EditProfilePartial(int id)
+        {
+            var user = db.Users.Find(id);
+            var products = db.Products.Where(x => x.OwnerID == id).ToList();
+
+            var vm = new UserProfileViewModel
+            {
+                User = user,
+                Products = products
+            };
+
+            return PartialView("_EditProfilePartial", vm);
+        }
+
+
         public ActionResult Page_User_Edit()
         {
             return View();

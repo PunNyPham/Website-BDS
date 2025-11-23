@@ -17,7 +17,96 @@
     color: #000000;
     font-size: 16px;
 }
+/* Button Outline */
+.button-outline {
+    background-color: transparent;
+    padding: 10px 20px;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
+    .button-outline.primary {
+        color: #007bff;
+        border-color: #007bff;
+    }
+
+        .button-outline.primary:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .button-outline.primary:active {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+    .button-outline.success {
+        color: #28a745;
+        border-color: #28a745;
+    }
+
+        .button-outline.success:hover {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .button-outline.success:active {
+            background-color: #218838;
+            border-color: #218838;
+        }
+
+    .button-outline.info {
+        color: #17a2b8;
+        border-color: #17a2b8;
+    }
+
+        .button-outline.info:hover {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .button-outline.info:active {
+            background-color: #138496;
+            border-color: #138496;
+        }
+
+    .button-outline.warning {
+        color: #ffc107;
+        border-color: #ffc107;
+    }
+
+        .button-outline.warning:hover {
+            background-color: #ffc107;
+            color: #333;
+        }
+
+        .button-outline.warning:active {
+            background-color: #e0a800;
+            border-color: #e0a800;
+        }
+
+    .button-outline.danger {
+        color: #dc3545;
+        border-color: #dc3545;
+    }
+
+        .button-outline.danger:hover {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .button-outline.danger:active {
+            background-color: #c82333;
+            border-color: #c82333;
+        }
 .card{
 
 }
