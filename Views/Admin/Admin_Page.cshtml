@@ -1,0 +1,144 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page UI</title>
+    <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/admin_page.css")">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="sidebar-blue">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Tìm kiếm">
+            </div>
+
+            <div class="menu-group">
+    <h3>Menu</h3>
+    <ul class="checkbox-list">
+        <li>
+            <label class="custom-checkbox">
+                <input type="radio" name="menu" value="mua" checked>
+                <span class="checkmark"><i class="fas fa-check"></i></span>
+                <span class="menu-text">Mua</span>
+            </label>
+        </li>
+        
+        <li>
+            <label class="custom-checkbox">
+                <input type="radio" name="menu" value="ban">
+                <span class="checkmark"><i class="fas fa-check"></i></span>
+                <span class="menu-text">Bán</span>
+            </label>
+        </li>
+
+        <li>
+            <label class="custom-checkbox">
+                <input type="radio" name="menu" value="thue">
+                <span class="checkmark"><i class="fas fa-check"></i></span>
+                <span class="menu-text">Thuê</span>
+            </label>
+        </li>
+
+        <li>
+            <label class="custom-checkbox">
+                <input type="radio" name="menu" value="caidat">
+                <span class="checkmark"><i class="fas fa-check"></i></span>
+                <span class="menu-text">Cài đặt</span>
+            </label>
+        </li>
+    </ul>
+</div>
+        </div>
+
+        <div class="sidebar-filter">
+            <div class="user-info">
+                <h2>Xin Chào, <br><span>ADMIN</span></h2>
+                <p> </p>
+            </div>
+
+            <div class="location-box">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>TP. Hồ Chí Minh</span>
+            </div>
+
+            <div class="filter-list">
+                <label class="filter-item-radio">
+                    <input type="radio" name="category" value="all" checked>
+                    <span class="checkmark-circle"><i class="fas fa-check"></i></span>
+                    <span class="filter-text">Tất cả</span>
+                </label>
+
+                <label class="filter-item-radio">
+                    <input type="radio" name="category" value="xaydung">
+                    <span class="checkmark-circle"><i class="fas fa-check"></i></span>
+                    <span class="filter-text">Xây dựng</span>
+                </label>
+
+                <label class="filter-item-radio">
+                    <input type="radio" name="category" value="chungcu">
+                    <span class="checkmark-circle"><i class="fas fa-check"></i></span>
+                    <span class="filter-text">Chung cư</span>
+                </label>
+
+                <label class="filter-item-radio">
+                    <input type="radio" name="category" value="duan">
+                    <span class="checkmark-circle"><i class="fas fa-check"></i></span>
+                    <span class="filter-text">Dự án đang thi công</span>
+                </label>
+
+                <label class="filter-item-radio">
+                    <input type="radio" name="category" value="nharieng">
+                    <span class="checkmark-circle"><i class="fas fa-check"></i></span>
+                    <span class="filter-text">Nhà riêng</span>
+                </label>
+
+                <label class="filter-item-radio">
+                    <input type="radio" name="category" value="tro">
+                    <span class="checkmark-circle"><i class="fas fa-check"></i></span>
+                    <span class="filter-text">Trọ</span>
+                </label>
+
+                <label class="filter-item-radio">
+                    <input type="radio" name="category" value="canho">
+                    <span class="checkmark-circle"><i class="fas fa-check"></i></span>
+                    <span class="filter-text">Căn hộ</span>
+                </label>
+            </div>
+
+            <div class="sort-buttons">
+                <button class="btn-sort">Thấp nhất</button>
+                <button class="btn-sort">Cao nhất</button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="content-header">
+                <h1>Danh Sách Tin Tức</h1>
+                <i class="far fa-bell notification-icon"></i>
+            </div>
+
+            <div class="item-list">
+                <div class="items">
+                    
+                </div>
+
+            </div>
+
+
+            <div class="see-more">
+                <span>Xem thêm</span>
+                <i class="fas fa-arrow-right"></i>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

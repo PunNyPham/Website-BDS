@@ -1,0 +1,379 @@
+﻿/* --- RESET & CẤU HÌNH CHUNG --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    height: 100vh;
+    overflow: hidden; /* Ẩn thanh cuộn ngoài */
+}
+
+.container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+/* --- CỘT 1: SIDEBAR XANH --- */
+.sidebar-blue {
+    width: 250px;
+    background-color: #7AD6FF; /* Màu xanh dương nhạt */
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    flex-shrink: 0;
+}
+
+.search-box {
+    background-color: #D9D9D9;
+    border-radius: 20px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
+
+    .search-box input {
+        border: none;
+        background: transparent;
+        outline: none;
+        font-size: 16px;
+        font-weight: bold;
+        width: 100%;
+    }
+
+    .search-box i {
+        font-size: 20px;
+    }
+
+/* --- MENU GROUP & RADIO BUTTON --- */
+.menu-group h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    font-weight: 800;
+}
+
+/* Reset danh sách */
+.menu-group ul {
+    list-style: none;
+}
+
+.menu-group li {
+    margin-bottom: 25px;
+}
+
+/* Label bao quanh để click được cả dòng */
+.custom-checkbox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none; /* Chống bôi đen text khi click nhanh */
+}
+
+    /* Ẩn nút radio mặc định xấu xí */
+    .custom-checkbox input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+/* Tạo ô vuông checkmark mới */
+.checkmark {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #333; /* Viền đen khi chưa check */
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    margin-right: 15px; /* Khoảng cách với chữ */
+    background-color: transparent;
+}
+
+    /* Style cho icon dấu tích bên trong */
+    .checkmark i {
+        color: white;
+        display: none; /* Mặc định ẩn dấu tích */
+        font-size: 14px;
+    }
+
+/* --- HIỆU ỨNG KHI CHECKED (RADIO) --- */
+/* Khi input radio được chọn thì đổi màu nền ô vuông */
+.custom-checkbox input:checked ~ .checkmark {
+    background-color: #005d4b;
+    border-color: #005d4b;
+}
+
+    /* Khi input radio được chọn thì hiện dấu tích */
+    .custom-checkbox input:checked ~ .checkmark i {
+        display: block;
+    }
+
+/* Chữ bên cạnh */
+.menu-text {
+    font-weight: 700;
+    font-size: 18px;
+    color: #333;
+}
+
+/* Hiệu ứng hover cho đẹp */
+.custom-checkbox:hover .checkmark {
+    border-color: #005d4b;
+}
+
+/* --- CỘT 2: FILTER SIDEBAR (MÀU XÁM) --- */
+.sidebar-filter {
+    width: 300px;
+    background-color: #DCDCDC;
+    padding: 30px 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    flex-shrink: 0;
+}
+
+.user-info h2 {
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.user-info .date {
+    margin-top: 10px;
+    color: #666;
+    font-size: 14px;
+}
+
+.location-box {
+    background-color: white;
+    padding: 12px 20px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    color: #555;
+    width: fit-content;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* --- FILTER LIST RADIO STYLE --- */
+
+.filter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+/* Label bao quanh (Radio tròn) */
+.filter-item-radio {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    user-select: none;
+}
+
+    /* Ẩn input radio mặc định */
+    .filter-item-radio input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+/* Tạo hình tròn checkmark mới (Thay cho .checkbox-circle cũ) */
+.checkmark-circle {
+    width: 24px;
+    height: 24px;
+    border: 2px solid #555; /* Viền xám đen */
+    border-radius: 50%; /* Bo tròn 50% để thành hình tròn */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    background-color: transparent;
+    flex-shrink: 0; /* Không bị méo khi chữ dài */
+}
+
+    /* Icon dấu tích bên trong hình tròn */
+    .checkmark-circle i {
+        color: white;
+        font-size: 12px;
+        display: none; /* Mặc định ẩn */
+    }
+
+/* --- HIỆU ỨNG KHI ĐƯỢC CHỌN (CHECKED) --- */
+
+/* Đổi màu nền hình tròn khi input được chọn */
+.filter-item-radio input:checked ~ .checkmark-circle {
+    background-color: #1a6b4f; /* Màu xanh lá đậm */
+    border-color: #1a6b4f;
+}
+
+    /* Hiện dấu tích khi input được chọn */
+    .filter-item-radio input:checked ~ .checkmark-circle i {
+        display: block;
+    }
+
+/* Chữ bên cạnh */
+.filter-text {
+    font-weight: 700;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Hover effect */
+.filter-item-radio:hover .checkmark-circle {
+    border-color: #1a6b4f;
+}
+
+/* Ô tròn checkbox */
+.checkbox-circle {
+    width: 24px;
+    height: 24px;
+    border: 2px solid #555;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .checkbox-circle.checked {
+        background-color: #1a6b4f;
+        border-color: #1a6b4f;
+        color: white;
+        font-size: 12px;
+    }
+
+.sort-buttons {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.btn-sort {
+    background-color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    flex: 1;
+}
+
+/* --- CỘT 3: MAIN CONTENT (BÊN PHẢI) --- */
+.main-content {
+    flex-grow: 1;
+    background-color: #DCDCDC;
+    padding: 30px 40px;
+    overflow-y: auto; /* Cho phép cuộn dọc */
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+    .content-header h1 {
+        font-size: 36px;
+        font-weight: 800;
+    }
+
+.notification-icon {
+    font-size: 28px;
+    cursor: pointer;
+}
+
+/* Grid sản phẩm */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 30px;
+}
+
+/* Card Style */
+.card {
+    display: flex;
+    flex-direction: column;
+    height: 380px;
+}
+
+.card-img {
+    height: 50%;
+    background-color: white;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.card-info {
+    height: 50%;
+    background-color: #C4C4C4;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+    .card-info h4 {
+        margin-bottom: 5px;
+        font-size: 16px;
+    }
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 500;
+    color: #333;
+}
+
+.card-actions {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.btn-small {
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    flex: 1;
+}
+
+.see-more {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    padding-bottom: 20px;
+}
+
+    .see-more i {
+        font-size: 20px;
+    }
