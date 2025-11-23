@@ -10,7 +10,7 @@ namespace Website_BDS.Controllers
 {
     public class UsersController : Controller
     {
-        RealEstateDBEntities1 db = new RealEstateDBEntities1();
+        RealEstateDBEntities db = new RealEstateDBEntities();
         // GET: /Users/Login    
             public ActionResult Login()
                 {
@@ -89,7 +89,7 @@ namespace Website_BDS.Controllers
 
         public ActionResult Page_User(int id)
         {
-            RealEstateDBEntities1 db = new RealEstateDBEntities1();
+            RealEstateDBEntities db = new RealEstateDBEntities();
 
             var user = db.Users.Find(id);
             if (user == null) return HttpNotFound();

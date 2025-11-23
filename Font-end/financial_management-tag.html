@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="asset/reset.css" />
+    <link rel="stylesheet" href="asset/base.css" />
+    <style>
+      .financial_management-Tag {
+        width: auto;
+        height: auto;
+        background-color: #e8f6ff;
+        margin: 10px;
+        padding: 10px;
+      }
+      .financial_management-Tag h3 {
+        font-size: 24px;
+        font-weight: 600;
+      }
+      .balance{
+        text-align: center;
+        color: #00000099;
+        font-size: 24px;
+      }
+      .balance span{
+        color: rgb(0, 81, 255);
+      }
+      .transaction_history {
+        font-size: 24px;
+        font-weight: 500;
+        color: #00000099;
+        text-decoration: none;
+      }
+      .Button_Blue {
+        height: 50px;
+        width: 200px;
+        border-radius: 8px;
+        background-color: #2e76db;
+        color: #ffffff;
+        border: none;
+        margin-top: 10px;
+      }
+      .Button_Blue:hover{
+        background-color: #359871;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="financial_management-Tag">
+      <h3>Quản lý tài chính</h3>
+     <div class="balance">
+         <p>Tài Khoản chính: <span>0đ</span> </p>
+    </div>
+
+      <a href="#" class="transaction_history"><i class="fa-solid fa-angle-right"></i> lịch sử giao dịch</a>  <br>
+      <button class="Button_Blue"><i class="fa-solid fa-wallet"></i> Nạp tiền</button>
+    </div>
+  </body>
+</html>

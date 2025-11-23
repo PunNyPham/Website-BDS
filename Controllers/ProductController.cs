@@ -13,7 +13,7 @@ namespace Website_BDS.Controllers
         // GET: Product
         public ActionResult Search_Product(string province, string district, string price, string area, string img_product)
         {
-            RealEstateDBEntities1 db = new RealEstateDBEntities1();
+            RealEstateDBEntities db = new RealEstateDBEntities();
             var products = db.Products.AsQueryable();
 
             if (!string.IsNullOrEmpty(province))
@@ -40,7 +40,7 @@ namespace Website_BDS.Controllers
 
         public ActionResult Product_details(int id)
         {
-            RealEstateDBEntities1 db = new RealEstateDBEntities1();
+            RealEstateDBEntities db = new RealEstateDBEntities();
 
             var product = db.Products.FirstOrDefault(p => p.ProductID == id);
             if (product == null)

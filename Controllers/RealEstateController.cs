@@ -21,7 +21,7 @@ namespace Website_BDS.Controllers
         [HttpPost]
         public ActionResult Create(Product model, HttpPostedFileBase Image_product)
         {
-            RealEstateDBEntities1 db = new RealEstateDBEntities1();
+            RealEstateDBEntities db = new RealEstateDBEntities();
 
             // Safely read UserID from session
             int? currentUserId = null;
@@ -109,7 +109,7 @@ namespace Website_BDS.Controllers
         {
             if (Session["UserID"] == null) return RedirectToAction("Login", "Users");
 
-            using (var db = new RealEstateDBEntities1())
+            using (var db = new RealEstateDBEntities())
             {
                 // ❌ CÁCH CŨ (Gây lỗi): 
                 // var product = db.Products.Find(id);
@@ -141,7 +141,7 @@ namespace Website_BDS.Controllers
 
             if (ModelState.IsValid)
             {
-                using (var db = new RealEstateDBEntities1())
+                using (var db = new RealEstateDBEntities())
                 {
                     // --- A. XỬ LÝ SẢN PHẨM (PRODUCT) ---
                     var productInDb = db.Products.Find(model.ProductID);

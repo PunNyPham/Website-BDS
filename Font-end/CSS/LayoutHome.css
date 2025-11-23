@@ -1,0 +1,323 @@
+﻿
+﻿ /* ================= 1. RESET & BASE ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif; /* Thống nhất font chữ */
+    line-height: 1.6;
+    background-color: #f9f9f9;
+}
+
+/* ================= 2. HEADER & NAVIGATION (MỚI) ================= */
+/* Thanh điều hướng chính */
+.site-header {
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    height: 70px;
+    width: 100%;
+    position: sticky; /* Giúp menu dính trên cùng khi cuộn */
+    top: 0;
+    z-index: 1000;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    justify-content: space-between; /* Đẩy 3 phần (Logo, Menu, User) ra xa nhau */
+    align-items: center;
+    padding: 0 20px;
+}
+
+/* --- Phần A: Logo --- */
+.logo-box {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 10px;
+}
+
+    .logo-box img {
+        height: 45px;
+        width: 45px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+.logo-text {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    letter-spacing: 0.5px;
+}
+
+/* --- Phần B: Menu Chính --- */
+.main-nav {
+    flex-grow: 1; /* Chiếm khoảng trống ở giữa */
+    display: flex;
+    justify-content: center;
+}
+
+.nav-list {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+    .nav-list > li {
+        position: relative; /* Để căn vị trí cho menu con (dropdown) */
+    }
+
+        /* Style cho link cấp 1 */
+        .nav-list > li > a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            font-size: 16px;
+            padding: 24px 0; /* Tăng chiều cao để dễ hover */
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+            /* Hiệu ứng gạch chân khi hover (giữ lại ý tưởng cũ của bạn) */
+            .nav-list > li > a::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                bottom: 15px; /* Điều chỉnh vị trí gạch chân */
+                width: 0%;
+                height: 2px;
+                background-color: #d32f2f; /* Màu đỏ nổi bật */
+                transition: width 0.3s ease;
+            }
+
+            .nav-list > li > a:hover {
+                color: #d32f2f;
+            }
+
+                .nav-list > li > a:hover::after {
+                    width: 100%;
+                }
+
+/* Mũi tên nhỏ cho menu có con */
+.arrow-down {
+    border: solid #333;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(45deg);
+    margin-bottom: 2px;
+    transition: transform 0.3s;
+}
+
+.nav-list > li:hover .arrow-down {
+    transform: rotate(-135deg); /* Xoay mũi tên khi hover */
+    border-color: #d32f2f;
+}
+
+/* --- Dropdown Menu (Menu con) --- */
+.dropdown-menu {
+    position: absolute;
+    top: 100%; /* Hiện ngay dưới menu cha */
+    left: 0;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    list-style: none;
+    padding: 10px 0;
+    min-width: 200px;
+    border-radius: 0 0 4px 4px;
+    /* Hiệu ứng ẩn hiện */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+/* Hiển thị menu con khi hover vào menu cha */
+.has-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu li a {
+    display: block;
+    padding: 10px 20px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 1px solid #eee;
+}
+
+.dropdown-menu li:last-child a {
+    border-bottom: none;
+}
+
+.dropdown-menu li a:hover {
+    background-color: #fef2f2; /* Màu đỏ nhạt */
+    color: #d32f2f;
+    padding-left: 25px; /* Hiệu ứng đẩy chữ sang phải */
+    transition: all 0.2s;
+}
+
+/* --- Phần C: Nút bấm (User Actions) --- */
+.user-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Nút chung */
+.btn {
+    padding: 9px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s;
+    white-space: nowrap;
+}
+
+/* Nút Primary (Đăng tin - Màu đỏ) */
+.btn-primary {
+    background-color: #d32f2f;
+    color: white;
+    border: 1px solid #d32f2f;
+}
+
+    .btn-primary:hover {
+        background-color: #b71c1c;
+        box-shadow: 0 4px 8px rgba(211, 47, 47, 0.3);
+    }
+
+/* Nút Outline (Trang cá nhân/Đăng nhập - Viền xám) */
+.btn-outline {
+    background-color: transparent;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+    .btn-outline:hover {
+        border-color: #333;
+        background-color: #333;
+        color: white;
+    }
+
+/* Nút Text (Đăng xuất) */
+.btn-text {
+    text-decoration: none;
+    color: #666;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+    .btn-text:hover {
+        color: #d32f2f;
+        text-decoration: underline;
+    }
+
+/* ================= 3. BANNER (Phần Header cũ của bạn) ================= */
+/* Lưu ý: Vì .site-header ở trên đã là menu rồi, 
+   nên phần hình nền cũ tôi đổi tên class thành .hero-banner 
+   để không bị trùng lặp.
+   Bạn nhớ sửa <div class="header"> cũ thành <div class="hero-banner"> ở trang chủ nhé.
+*/
+.hero-banner {
+    height: calc(100vh - 70px); /* Trừ đi chiều cao của thanh menu */
+    width: 100%;
+    background: url("../asset/img/Subtract.svg") no-repeat center;
+    background-size: cover;
+    background-color: #000;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ================= 4. FOOTER (GIỮ NGUYÊN) ================= */
+.footer {
+    background-color: #f7f7f7;
+    padding: 60px 0 20px; /* Căn chỉnh padding cho chuẩn */
+    color: #222;
+    border-top: 1px solid #e0e0e0;
+}
+
+.footer-container {
+    max-width: 1200px; /* Giới hạn chiều rộng giống header */
+    margin: 0 auto 30px;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 40px;
+}
+
+.footer-column h4 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    font-weight: 700;
+    color: #333;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+    .footer-column ul li {
+        margin-bottom: 10px;
+    }
+
+.footer-column a {
+    color: #555;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+
+    .footer-column a:hover {
+        text-decoration: none;
+        color: #d32f2f; /* Đổi màu hover sang đỏ cho đồng bộ */
+    }
+
+.social-icons {
+    margin-top: 15px;
+}
+
+    .social-icons a img {
+        width: 32px;
+        margin-right: 15px;
+        transition: transform 0.2s;
+        filter: opacity(0.7); /* Làm icon hơi mờ */
+    }
+
+        .social-icons a img:hover {
+            transform: scale(1.1);
+            filter: opacity(1); /* Rõ nét khi hover */
+        }
+
+.footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 13px;
+    color: #777;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}

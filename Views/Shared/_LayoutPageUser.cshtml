@@ -1,0 +1,230 @@
+﻿@model
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="@Url.Content("~/Font-end/asset/reset.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Font-end/asset/base.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/LayoutHome.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/edit-page_user.css")" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="header-container">
+            <a href="@Url.Action("Index", "Home")" class="logo-box">
+                <img src="@Url.Content("~/Font-end/asset/icon/logo.png")" alt="logo" />
+                <span class="logo-text">BĐS Việt Nam</span>
+            </a>
+
+            <nav class="main-nav">
+                <ul class="nav-list">
+                    <li><a href="#">Trang Chủ</a></li>
+                    <li class="has-dropdown">
+                        <a href="#">Nhà đất bán <i class="arrow-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Căn hộ</a></li>
+                            <li><a href="#">Nhà phố</a></li>
+                            <li><a href="#">Biệt thự</a></li>
+                        </ul>
+                    </li>
+                    <li class="has-dropdown">
+                        <a href="#">Nhà đất cho thuê <i class="arrow-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Phòng trọ</a></li>
+                            <li><a href="#">Căn hộ dịch vụ</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Quy hoạch</a></li>
+                    <li><a href="#">Tin tức</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-actions">
+                <a href="@Url.Action("Create", "RealEstate")" class="btn btn-primary">Đăng tin</a>
+
+                @if (Session["UserID"] != null)
+                {
+                    <div class="user-profile">
+                        <a href="@Url.Action("Page_User", "Users", new { id = Session["UserID"] })" class="btn btn-outline">Trang cá nhân</a>
+                    </div>
+                }
+                else
+                {
+                    <a href="@Url.Action("Login", "Users")" class="btn btn-outline">Đăng nhập</a>
+                }
+            </div>
+        </div>
+    </header>
+    <div class="main-profile-wrapper">
+
+        <div class="profile-card-container">
+            <div class="profile-left">
+                <div class="avatar-circle">
+                    <img src="@Url.Content(string.IsNullOrEmpty(Model?.User?.Avatar_User) ? "~/Font-end/asset/icon/User-default.jpg" : "~/Content/" + Model.User.Avatar_User)"
+                         onerror="this.src='@Url.Content("~/Font-end/asset/icon/User-default.jpg")'" />
+                </div>
+                @*@if (Model?.User != null)
+                            {
+                                <a href="@Url.Action("Edit", "RealEstate", new { id = Model.User.UserID })" class="btn-edit-pill">
+                                    Edit
+                                </a>
+                    }*@
+                <div class="profile-right">
+                    @*<div class="top-right-icons">
+                            <i class="far fa-bell"></i>
+                            <i class="fas fa-search"></i>
+                            <i class="fas fa-cog"></i>
+                        </div>*@
+
+                    <div class="info-row" style="margin-top: 10px;">
+
+                        <div class="info-value">@(Model?.User?.)</div>
+                        <div class="info-value">Mã ID: #######</div>
+                        <div class="info-value">Tham gia từ : 21/07/2006</div>
+                        <div class="post-count-badge">
+                            Số tin đã đăng: @(Model?.Products?.Count() ?? 0)
+                        </div>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-label">Khu Vực: Việt Nam</div>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-value">SĐT: @(Model?.User?.PhoneNumber ?? "---")</div>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-value">Email: @(Model?.User?.Email ?? "---")</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="financial_management-Tag">
+                <h3>Quản lý tài chính</h3>
+                <div class="balance">
+                    <p>Tài Khoản chính: <span>0đ</span> </p>
+                </div>
+
+                <a href="#" class="transaction_history"><i class="fa-solid fa-angle-right"></i> lịch sử giao dịch</a>  <br>
+                <button class="Button_Blue"><i class="fa-solid fa-wallet"></i> Nạp tiền</button>
+            </div>
+
+            <div class="sidebar">
+                <div class="menu-group">
+                    <div class="menu-title">Quản lý giao dịch</div>
+                    <ul class="submenu">
+                        <li>Nạp tiền</li>
+                        <li>Quản lý giao dịch</li>
+                    </ul>
+                </div>
+
+                <div class="menu-group">
+                    <div class="menu-title">Quản lý tin</div>
+                    <ul class="submenu">
+                        <li>Tin đã đăng</li>
+                        <li>Đăng tin mới</li>
+                    </ul>
+                </div>
+
+                <div class="menu-group">
+                    <div class="menu-title">Hồ sơ môi giới</div>
+                    <ul class="submenu">
+                        <li>Cập nhật hồ sơ</li>
+                        <li>Tin đã lưu</li>
+                    </ul>
+                </div>
+
+                <div class="menu-group">
+                    <div class="menu-title">Tài khoản</div>
+                    <ul class="submenu">
+                        <li>Thông tin cá nhân</li>
+                        <li>Đổi mật khẩu</li>
+                    </ul>
+                    <div class="logout"><a href="@Url.Action("Login", "Users")">Đăng xuất</a></div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div id="main-content">
+             @RenderBody()
+        </div>
+    <!-- footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h4>Về Chúng tôi</h4>
+                <p>
+                    BĐS Việt Nam - Nền tảng mua bán và cho thuê bất động sản hàng đầu Việt Nam với hơn 25,000 tin đăng chất lượng.
+                </p>
+                <ul>
+                    <li><a href="#">Giới thiệu công ty</a></li>
+                    <li><a href="#">Quy chế hoạt động</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Điều khoản sử dụng</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Danh Mục</h4>
+                <ul>
+                    <li><a href="#">Mua bán căn hộ</a></li>
+                    <li><a href="#">Cho thuê nhà phố</a></li>
+                    <li><a href="#">Mua bán biệt thự</a></li>
+                    <li><a href="#">Đất nền dự án</a></li>
+                    <li><a href="#">Văn phòng cho thuê</a></li>
+                    <li><a href="#">Mặt bằng kinh doanh</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Hỗ Trợ Khách Hàng</h4>
+                <ul>
+                    <li><a href="#">Trung tâm trợ giúp</a></li>
+                    <li><a href="#">Hướng dẫn đăng tin</a></li>
+                    <li><a href="#">Quy định đăng tin</a></li>
+                    <li><a href="#">Bảng giá dịch vụ</a></li>
+                    <li><a href="#">Câu hỏi thường gặp</a></li>
+                    <li><a href="#">Giải quyết khiếu nại</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Liên Hệ</h4>
+                <p>Hotline: xxx.xxx.xxx</p>
+                <p>Email: <a href="mailto:info@bds.vn">info@bds.vn</a></p>
+                <p>Địa chỉ: 123 Đường abc, Phường xyz Quận 1, TP HCM</p>
+                <p>
+                    Giờ làm việc:<br>
+                    Thứ 2 - Thứ 7: 8:00 - 22:00<br>
+                    Chủ nhật: 8:00 - 18:00
+                </p>
+
+                <p>Kết nối với chúng tôi:</p>
+                <div class="social-icons">
+                    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
+                    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" alt="Instagram"></a>
+                    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn"></a>
+                    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 BĐS Việt Nam. Tất cả quyền được bảo lưu.</p>
+            <p>Nền tảng công nghệ bất động sản hàng đầu Việt Nam 🏡</p>
+        </div>
+    </footer>
+
+</body>
+</html>

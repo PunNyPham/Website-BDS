@@ -6,7 +6,10 @@
 }
 
 <meta charset="utf-8" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link rel="stylesheet" href="asset/reset.css" />
+<link rel="stylesheet" href="asset/base.css" />
 
 <style>
     /* ----- CSS Global Reset cho phần này ----- */
@@ -19,6 +22,9 @@
         margin: 40px auto;
         font-family: 'Segoe UI', sans-serif;
         color: #333;
+        display: flex;
+        align-content: center;
+        gap: 20px;
     }
 
     /* ----- 1. CARD PROFILE (PHẦN TRÊN) ----- */
@@ -31,34 +37,35 @@
         margin-bottom: 40px;
         position: relative;
         min-height: 250px;
+        flex-direction: column;
+        align-items: center;
     }
 
     /* Cột Trái: Avatar + Nút Edit */
     .profile-left {
-        width: 30%;
+        width: 340px;
         background-color: #ffffff;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        border-right: 2px solid #f0f0f0; /* Đường kẻ dọc ngăn cách */
-        padding: 30px;
+        padding: 10px;
     }
 
     .avatar-circle {
-        width: 120px;
-        height: 120px;
+        width: 70px;
+        height: 70px;
         border-radius: 50%;
         overflow: hidden;
         border: 4px solid #3498db; /* Viền xanh quanh avatar */
-        margin-bottom: 15px;
+        /*        margin-bottom: 15px;*/
     }
 
-    .avatar-circle img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+        .avatar-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
     .btn-edit-pill {
         background-color: #81ecec; /* Màu xanh nhạt giống hình */
@@ -73,21 +80,20 @@
         display: inline-block;
     }
 
-    .btn-edit-pill:hover {
-        background-color: #4bcffa;
-        color: #fff;
-        transform: scale(1.05);
-        text-decoration: none;
-    }
+        .btn-edit-pill:hover {
+            background-color: #4bcffa;
+            color: #fff;
+            transform: scale(1.05);
+            text-decoration: none;
+        }
 
     /* Cột Phải: Thông tin */
     .profile-right {
-        width: 70%;
-        padding: 30px 40px;
-        position: relative;
+        width: auto;
         display: flex;
         flex-direction: column;
         justify-content: center;
+        align-items: center;
     }
 
     /* Icon góc trên bên phải */
@@ -95,33 +101,37 @@
         position: absolute;
         top: 20px;
         right: 30px;
-        display: flex;
+        display: none;
         gap: 20px;
         font-size: 1.2rem;
         color: #333;
     }
-    .top-right-icons i { cursor: pointer; }
+
+        .top-right-icons i {
+            cursor: pointer;
+        }
 
     .info-row {
-        margin-bottom: 15px;
+        /*        margin-bottom: 15px;*/
         font-size: 1.1rem;
     }
-    
+
     .info-label {
-        font-weight: 800; /* Chữ đậm giống hình */
-        width: 100px;
+        font-weight: 600; /* Chữ đậm giống hình */
         display: inline-block;
     }
 
     .info-value {
         color: #555;
         font-weight: 500;
+        text-align: center;
     }
 
     .post-count-badge {
-        float: right;
+        display: flex;
+        justify-content: center;
         font-weight: bold;
-        margin-right: 80px; /* Để tránh đè lên icon */
+        /*margin-right: 80px;*/ /* Để tránh đè lên icon */
     }
 
     /* ----- 2. PHẦN QUẢN LÝ BÀI ĐĂNG (PHẦN DƯỚI) ----- */
@@ -129,14 +139,14 @@
         text-align: center;
         font-weight: 800;
         font-size: 1.5rem;
-        margin-bottom: 20px;
+        /*        margin-bottom: 20px;*/
         color: #000;
     }
 
     .post-list-container {
         display: flex;
         flex-direction: column;
-        gap: 20px; /* Khoảng cách giữa các thẻ bài đăng */
+        gap: 10px; /* Khoảng cách giữa các thẻ bài đăng */
     }
 
     .post-item-card {
@@ -164,7 +174,12 @@
         border-radius: 8px;
         overflow: hidden;
     }
-    .post-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+        .post-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
     .post-text h4 {
         margin: 0;
@@ -177,7 +192,12 @@
         text-overflow: ellipsis;
         max-width: 400px;
     }
-    .post-text p { margin: 5px 0 0; color: #7f8c8d; font-size: 0.9rem; }
+
+    .post-text p {
+        margin: 5px 0 0;
+        color: #7f8c8d;
+        font-size: 0.9rem;
+    }
 
     .post-actions {
         display: flex;
@@ -191,92 +211,440 @@
         text-decoration: none;
         font-weight: 600;
     }
-    .btn-view { background: #f1f2f6; color: #2f3542; }
-    .btn-edit-post { background: #dff9fb; color: #22a6b3; }
+
+    .btn-view {
+        background: #f1f2f6;
+        color: #2f3542;
+    }
+
+    .btn-edit-post {
+        background: #dff9fb;
+        color: #22a6b3;
+    }
+
+
+
+    /*==================== financial_management-Tag ====================*/
+    .financial_management-Tag {
+        width: auto;
+        height: auto;
+        background-color: #e8f6ff;
+        margin: 10px;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+        .financial_management-Tag h3 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+    .balance {
+        display: flex;
+        color: #00000099;
+        font-size: 16px;
+    }
+
+        .balance span {
+            color: rgb(0, 81, 255);
+        }
+
+    .transaction_history {
+        font-size: 16px;
+        font-weight: 500;
+        color: #00000099;
+        text-decoration: none;
+    }
+
+    .Button_Blue {
+        height: 50px;
+        width: 200px;
+        border-radius: 8px;
+        background-color: #2e76db;
+        color: #ffffff;
+        border: none;
+        margin-top: 10px;
+    }
+
+        .Button_Blue:hover {
+            background-color: #359871;
+        }
+
+/*=============================== List Summery =================================*/
+    .listing-summary {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .listing-status-item {
+        flex: 1;
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 18px 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: 0.25s ease;
+        cursor: pointer;
+        border: 1px solid transparent;
+    }
+
+        .listing-status-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+            border-color: #e8e8e8;
+        }
+
+    /* Label */
+    .listing-label {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #2d3436;
+    }
+
+    /* Count (hiển thị dạng badge) */
+    .listing-count {
+        background: #f1f2f6;
+        color: #2f3542;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 0.95rem;
+    }
+
+    /* Màu riêng nếu bạn muốn phân biệt — có thể bật nếu muốn */
+    .listing-status-item:nth-child(2) .listing-count {
+        background: #ffeaa7;
+        color: #d35400;
+    }
+
+    .listing-status-item:nth-child(3) .listing-count {
+        background: #fab1a0;
+        color: #c0392b;
+    }
+
+
+/*================================= Setting Post item Card ====================*/
+    .action-menu {
+        position: absolute;
+        right: 20px;
+        top: 40px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        padding: 10px;
+        display: none; /* Mặc định ẩn */
+        flex-direction: column;
+        z-index: 10;
+    }
+
+        .action-menu a {
+            padding: 8px 15px;
+            display: block;
+            color: #333;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+            .action-menu a:hover {
+                background: #f0f0f0;
+            }
+
+    .post-item-card {
+        position: relative; /* Để menu hiển thị đúng vị trí */
+    }
+
+    .action-gear {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 20px;
+        color: #555;
+        cursor: pointer;
+        padding: 5px;
+        transition: 0.2s;
+    }
+
+        .action-gear:hover {
+            color: #000;
+            transform: scale(1.1);
+        }
+
+
+
+    /* ============================= Manager Bars ===================    */
+    .sidebar {
+        width: 260px;
+        padding: 10px;
+        font-family: Arial, sans-serif;
+    }
+
+    .menu-group {
+        margin-bottom: 20px;
+    }
+
+    .menu-title {
+        font-weight: bold;
+/*        padding: 10px 0;*/
+        cursor: pointer;
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+        .menu-title::after {
+            content: "⌄";
+            position: absolute;
+            right: 0;
+            transition: 0.2s;
+            
+        }
+
+        .menu-title.active::after {
+            transform: rotate(180deg);
+        }
+
+    .submenu {
+        list-style: none;
+        padding-left: 15px;
+        margin: 0;
+        display: none;
+    }
+
+        .submenu li {
+            padding: 6px 0;
+            cursor: pointer;
+            color: #333;
+        }
+            .submenu li:hover {
+                color: #0056b3;
+                font-size: 16px;
+                font-weight: 600;
+            }
+
+    .logout {
+        padding: 8px 0;
+        margin-left: 15px;
+        cursor: pointer;
+        color: #555;
+    }
+    .logout a:hover {
+        color: #0056b3;
+        font-size: 16px;
+        font-weight: 600;
+    }
+    .logout a {
+        text-decoration: none;
+        padding: 6px 0;
+        cursor: pointer;
+        color: #333;
+    }
     
+
 </style>
 
 <div class="main-profile-wrapper">
-    
+
     <div class="profile-card-container">
         <div class="profile-left">
             <div class="avatar-circle">
-                 <img src="@Url.Content(string.IsNullOrEmpty(Model?.User?.Avatar_User) ? "~/Font-end/asset/icon/User-default.jpg" : "~/Content/" + Model.User.Avatar_User)" 
-                      onerror="this.src='@Url.Content("~/Font-end/asset/icon/User-default.jpg")'" />
+                <img src="@Url.Content(string.IsNullOrEmpty(Model?.User?.Avatar_User) ? "~/Font-end/asset/icon/User-default.jpg" : "~/Content/" + Model.User.Avatar_User)"
+                     onerror="this.src='@Url.Content("~/Font-end/asset/icon/User-default.jpg")'" />
             </div>
-            @if (Model?.User != null)
-            {
-                <a href="@Url.Action("Edit", "RealEstate", new { id = Model.User.UserID })" class="btn-edit-pill">
-                    Edit
-                </a>
-            }
-        </div>
+            @*@if (Model?.User != null)
+                        {
+                            <a href="@Url.Action("Edit", "RealEstate", new { id = Model.User.UserID })" class="btn-edit-pill">
+                                Edit
+                            </a>
+                }*@
+            <div class="profile-right">
+                @*<div class="top-right-icons">
+                        <i class="far fa-bell"></i>
+                        <i class="fas fa-search"></i>
+                        <i class="fas fa-cog"></i>
+                    </div>*@
 
-        <div class="profile-right">
-            <div class="top-right-icons">
-                <i class="far fa-bell"></i>
-                <i class="fas fa-search"></i>
-                <i class="fas fa-cog"></i>
-            </div>
+                <div class="info-row" style="margin-top: 10px;">
 
-            <div class="info-row" style="margin-top: 20px;">
-                <span class="info-label">User-name</span>
-                <span class="info-value">@userName</span>
-                
-                <span class="post-count-badge">
-                    Số tin đã đăng: <span style="color:#e74c3c">@(Model?.Products?.Count() ?? 0)</span>
-                </span>
-            </div>
-
-            <div class="info-row">
-                <span class="info-label">Khu vực</span>
-                <span class="info-value">Việt Nam</span> 
-            </div>
-
-            <div class="info-row">
-                <span class="info-label">Sđt</span>
-                <span class="info-value">@(Model?.User?.PhoneNumber ?? "---")</span>
-            </div>
-
-            <div class="info-row">
-                <span class="info-label">Email</span>
-                <span class="info-value">@(Model?.User?.Email ?? "---")</span>
-            </div>
-        </div>
-    </div>
-
-    <h3 class="section-title">Quản lý Bài Đăng</h3>
-
-    <div class="post-list-container">
-        @if (Model != null && Model.Products != null && Model.Products.Any())
-        {
-            foreach (var item in Model.Products)
-            {
-                <div class="post-item-card">
-                    <div class="post-info">
-                        <div class="post-thumb">
-                             <img src="@Url.Content("~/Font-end/asset/icon/Product_Null.jpg")" alt="thumb" />
-                        </div>
-                        <div class="post-text">
-                            <h4>@item.Title</h4>
-                            <p>@string.Format("{0:N0} VNĐ", item.Price) - @item.Address</p>
-                        </div>
-                    </div>
-                    
-                    <div class="post-actions">
-                        <a href="@Url.Action("Details", "Products", new { id = item.ProductID })" class="btn-action btn-view">Xem</a>
-                        <a href="@Url.Action("Edit", "RealEstate", new { id = item.ProductID })" class="btn-action btn-edit-post">Sửa</a>
+                    <div class="info-value">@userName</div>
+                    <div class="info-value">Mã ID: #######</div>
+                    <div class="info-value">Tham gia từ : 21/07/2006</div>
+                    <div class="post-count-badge">
+                        Số tin đã đăng: @(Model?.Products?.Count() ?? 0)
                     </div>
                 </div>
-            }
-        }
-        else
-        {
-            <div class="post-item-card" style="justify-content: center; color: #999;">
-                <span>Chưa có bài đăng nào.</span>
+
+                <div class="info-row">
+                    <div class="info-label">Khu Vực: Việt Nam</div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-value">SĐT: @(Model?.User?.PhoneNumber ?? "---")</div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-value">Email: @(Model?.User?.Email ?? "---")</div>
+                </div>
             </div>
-            <div class="post-item-card" style="opacity: 0.5;"></div>
-        }
+        </div>
+
+        <div class="financial_management-Tag">
+            <h3>Quản lý tài chính</h3>
+            <div class="balance">
+                <p>Tài Khoản chính: <span>0đ</span> </p>
+            </div>
+
+            <a href="#" class="transaction_history"><i class="fa-solid fa-angle-right"></i> lịch sử giao dịch</a>  <br>
+            <button class="Button_Blue"><i class="fa-solid fa-wallet"></i> Nạp tiền</button>
+        </div>
+
+        <div class="sidebar">
+            <div class="menu-group">
+                <div class="menu-title">Quản lý giao dịch</div>
+                <ul class="submenu">
+                    <li>Nạp tiền</li>
+                    <li>Quản lý giao dịch</li>
+                </ul>
+            </div>
+
+            <div class="menu-group">
+                <div class="menu-title">Quản lý tin</div>
+                <ul class="submenu">
+                    <li>Tin đã đăng</li>
+                    <li>Đăng tin mới</li>
+                </ul>
+            </div>
+
+            <div class="menu-group">
+                <div class="menu-title">Hồ sơ môi giới</div>
+                <ul class="submenu">
+                    <li>Cập nhật hồ sơ</li>
+                    <li>Tin đã lưu</li>
+                </ul>
+            </div>
+
+            <div class="menu-group">
+                <div class="menu-title">Tài khoản</div>
+                <ul class="submenu">
+                    <li>Thông tin cá nhân</li>
+                    <li>Đổi mật khẩu</li>
+                </ul>
+                <div class="logout"><a href="@Url.Action("Login", "Users")">Đăng xuất</a></div>
+            </div>
+        </div>
+
     </div>
 
+
+    <div id="main-content">
+        <div class="post-list-container">
+            <h3 class="section-title">Quản lý Bài Đăng</h3>
+
+            <div class="listing-summary">
+                <div class="listing-status-item">
+                    <span class="listing-label">Tất cả</span>
+                    <span class="listing-count">@(Model?.Products?.Count() ?? 0)</span>
+                </div>
+                <div class="listing-status-item">
+                    <span class="listing-label">Tin chưa duyệt</span>
+                    <span class="listing-count">0</span>
+                </div>
+                <div class="listing-status-item">
+                    <span class="listing-label">Tin hết hạn</span>
+                    <span class="listing-count">0</span>
+                </div>
+            </div>
+
+            @if (Model != null && Model.Products != null && Model.Products.Any())
+            {
+                foreach (var item in Model.Products)
+                {
+                    <div class="post-item-card">
+                        <div class="post-info">
+                            <div class="post-thumb">
+                                <img src="@Url.Content("~/Font-end/asset/icon/Product_Null.jpg")" alt="thumb" />
+                            </div>
+                            <div class="post-text">
+                                <h4>@item.Title</h4>
+                                <p>@string.Format("{0:N0} VNĐ", item.Price) - @item.Address</p>
+                            </div>
+                        </div>
+                        <!-- ICON GEAR -->
+                        <i class="fa-solid fa-gear action-gear" data-id="@item.ProductID"></i>
+
+                        <!-- MENU HIỆN RA -->
+                        <div class="action-menu" id="menu-@item.ProductID">
+                            <a href="@Url.Action("Details", "Products", new { id = item.ProductID })">Xem</a>
+                            <a href="@Url.Action("Edit", "RealEstate", new { id = item.ProductID })">Sửa</a>
+                            <a href="@Url.Action("Delete", "Products", new { id = item.ProductID })"
+                               onclick="return confirm('Xóa bài đăng này?');">Xóa</a>
+                        </div>
+                        @*<div class="post-actions">
+                            <a href="@Url.Action("Details", "Products", new { id = item.ProductID })" class="btn-action btn-view">Xem</a>
+                            <a href="@Url.Action("Edit", "RealEstate", new { id = item.ProductID })" class="btn-action btn-edit-post">Sửa</a>
+                        </div>*@
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="post-item-card" style="justify-content: center; color: #999;">
+                    <span>Chưa có bài đăng nào.</span>
+                </div>
+                <div class="post-item-card" style="opacity: 0.5;"></div>
+            }
+        </div>
+    </div>
 </div>
+
+<script>
+    document.querySelectorAll(".menu-title").forEach(title => {
+        title.addEventListener("click", () => {
+            const submenu = title.nextElementSibling;
+
+            // đóng tất cả nhóm khác
+            document.querySelectorAll(".submenu").forEach(list => {
+                if (list !== submenu) list.style.display = "none";
+            });
+            document.querySelectorAll(".menu-title").forEach(t => {
+                if (t !== title) t.classList.remove("active");
+            });
+
+            // toggle nhóm hiện tại
+            submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+            title.classList.toggle("active");
+        });
+    });
+
+
+
+
+
+    // ================== on / off setting =====================
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".action-gear").forEach(icon => {
+            icon.addEventListener("click", function () {
+                let id = this.getAttribute("data-id");
+                let menu = document.getElementById("menu-" + id);
+
+                // Ẩn tất cả menu khác
+                document.querySelectorAll(".action-menu").forEach(m => {
+                    if (m !== menu) m.style.display = "none";
+                });
+
+                // Toggle menu hiện tại
+                menu.style.display = (menu.style.display === "block") ? "none" : "block";
+            });
+        });
+
+        // Bấm ra ngoài thì tắt menu
+        document.addEventListener("click", function (e) {
+            if (!e.target.closest('.post-item-card')) {
+                document.querySelectorAll(".action-menu").forEach(m => m.style.display = "none");
+            }
+        });
+    });
+
+</script>
