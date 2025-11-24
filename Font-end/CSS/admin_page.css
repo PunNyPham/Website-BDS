@@ -1,5 +1,4 @@
-﻿/* --- RESET & CẤU HÌNH CHUNG --- */
-* {
+﻿* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -8,7 +7,7 @@
 
 body {
     height: 100vh;
-    overflow: hidden; /* Ẩn thanh cuộn ngoài */
+    overflow: hidden; 
 }
 
 .container {
@@ -17,10 +16,10 @@ body {
     width: 100%;
 }
 
-/* --- CỘT 1: SIDEBAR XANH --- */
+
 .sidebar-blue {
     width: 250px;
-    background-color: #7AD6FF; /* Màu xanh dương nhạt */
+    background-color: #7AD6FF; 
     padding: 30px 20px;
     display: flex;
     flex-direction: column;
@@ -51,14 +50,12 @@ body {
         font-size: 20px;
     }
 
-/* --- MENU GROUP & RADIO BUTTON --- */
 .menu-group h3 {
     font-size: 18px;
     margin-bottom: 20px;
     font-weight: 800;
 }
 
-/* Reset danh sách */
 .menu-group ul {
     list-style: none;
 }
@@ -67,15 +64,13 @@ body {
     margin-bottom: 25px;
 }
 
-/* Label bao quanh để click được cả dòng */
 .custom-checkbox {
     display: flex;
     align-items: center;
     cursor: pointer;
-    user-select: none; /* Chống bôi đen text khi click nhanh */
+    user-select: none; 
 }
 
-    /* Ẩn nút radio mặc định xấu xí */
     .custom-checkbox input {
         position: absolute;
         opacity: 0;
@@ -84,52 +79,50 @@ body {
         width: 0;
     }
 
-/* Tạo ô vuông checkmark mới */
 .checkmark {
     width: 30px;
     height: 30px;
-    border: 2px solid #333; /* Viền đen khi chưa check */
+    border: 2px solid #333; 
     border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
-    margin-right: 15px; /* Khoảng cách với chữ */
+    margin-right: 15px;
     background-color: transparent;
 }
 
-    /* Style cho icon dấu tích bên trong */
+
     .checkmark i {
         color: white;
-        display: none; /* Mặc định ẩn dấu tích */
+        display: none; 
         font-size: 14px;
     }
 
-/* --- HIỆU ỨNG KHI CHECKED (RADIO) --- */
-/* Khi input radio được chọn thì đổi màu nền ô vuông */
+
 .custom-checkbox input:checked ~ .checkmark {
     background-color: #005d4b;
     border-color: #005d4b;
 }
 
-    /* Khi input radio được chọn thì hiện dấu tích */
+   
     .custom-checkbox input:checked ~ .checkmark i {
         display: block;
     }
 
-/* Chữ bên cạnh */
+
 .menu-text {
     font-weight: 700;
     font-size: 18px;
     color: #333;
 }
 
-/* Hiệu ứng hover cho đẹp */
+
 .custom-checkbox:hover .checkmark {
     border-color: #005d4b;
 }
 
-/* --- CỘT 2: FILTER SIDEBAR (MÀU XÁM) --- */
+
 .sidebar-filter {
     width: 300px;
     background-color: #DCDCDC;
@@ -165,7 +158,7 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* --- FILTER LIST RADIO STYLE --- */
+
 
 .filter-list {
     display: flex;
@@ -174,7 +167,6 @@ body {
     margin-top: 10px;
 }
 
-/* Label bao quanh (Radio tròn) */
 .filter-item-radio {
     display: flex;
     align-items: center;
@@ -183,7 +175,7 @@ body {
     user-select: none;
 }
 
-    /* Ẩn input radio mặc định */
+
     .filter-item-radio input {
         position: absolute;
         opacity: 0;
@@ -192,18 +184,17 @@ body {
         width: 0;
     }
 
-/* Tạo hình tròn checkmark mới (Thay cho .checkbox-circle cũ) */
 .checkmark-circle {
     width: 24px;
     height: 24px;
-    border: 2px solid #555; /* Viền xám đen */
-    border-radius: 50%; /* Bo tròn 50% để thành hình tròn */
+    border: 2px solid #555; 
+    border-radius: 50%; 
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
     background-color: transparent;
-    flex-shrink: 0; /* Không bị méo khi chữ dài */
+    flex-shrink: 0;
 }
 
     /* Icon dấu tích bên trong hình tròn */

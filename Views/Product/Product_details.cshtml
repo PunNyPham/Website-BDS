@@ -36,7 +36,7 @@
                 <div class="save"><button class="button_small">Lưu</button></div>
                 <div class="listing-overview">
                     <h1>@Model.Product.Title</h1>
-                    <h3>Price : <strong>@Model.Product.Price</strong> </h3>
+                    <h3>Price : <strong>@Model.Product.Price</strong> VNĐ</h3>
                     <h3>Địa chỉ: @Model.Product.Address</h3>
                 </div>
                 <div class="Contact">Thông tin mô tả</div>
@@ -113,42 +113,58 @@
         <aside class="filter-panel">
             <!-- Bộ lọc tìm kiếm -->
             <div class="search-box">
-                <div class="search-header">
-                    <span class="icon">🔍</span>
-                    <span class="title">TÌM HIỂU<br />THÊM</span>
-                </div>
+                <input type="hidden" id="transaction-type" name="TransactionType" value="Bán">
 
                 <div class="tabs">
-                    <button class="tab active">Bán</button>
-                    <button class="tab">Mua</button>
+                    <button class="tab active" onclick="updateType('Bán')">Bán</button>
+                    <button class="tab" onclick="updateType('Mua')">Mua</button>
                 </div>
 
-                <div class="form">
-                    <select>
-                        <option>Từ khóa</option>
-                    </select>
-                    <select>
-                        <option>Chọn loại đất</option>
-                    </select>
-                    <select>
-                        <option>Tỉnh thành, quận huyện</option>
-                    </select>
-                    <select>
-                        <option>Phường, xã</option>
-                    </select>
-
-                    <div class="price-row">
-                        <select>
-                            <option>Giá thấp nhất</option>
-                        </select>
-                        <select>
-                            <option>Giá cao nhất</option>
-                        </select>
-                    </div>
-
-                    <button class="btn-search">Tìm kiếm</button>
-                </div>
             </div>
+
+            <script>
+                // Hàm xử lý giao diện active
+                const tabs = document.querySelectorAll('.search-box .tab');
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        tabs.forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                    });
+                });
+
+                // Hàm cập nhật giá trị vào input ẩn để gửi về server
+                function updateType(type) {
+                    document.getElementById('transaction-type').value = type;
+                }
+            </script>
+
+            <div class="form">
+                <select>
+                    <option>Từ khóa</option>
+                </select>
+                <select>
+                    <option>Chọn loại đất</option>
+                </select>
+                <select>
+                    <option>Tỉnh thành, quận huyện</option>
+                </select>
+                <select>
+                    <option>Phường, xã</option>
+                </select>
+
+                <div class="price-row">
+                    <select>
+                        <option>Giá thấp nhất</option>
+                    </select>
+                    <select>
+                        <option>Giá cao nhất</option>
+                    </select>
+                </div>
+
+                <button class="btn-search">Tìm kiếm</button>
+            </div>
+</div>
         </aside>
     </div>
 </body>

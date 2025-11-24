@@ -1,251 +1,323 @@
-/* ====================== PRODUCT PAGE OPTIMIZED ======================= */
+
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-page);
+    color: var(--text-dark);
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.button_small {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    background-color: #ddd;
+}
+
+    .button_small:hover {
+        background-color: #ccc;
+    }
+
 .product-page {
     display: flex;
-    justify-content: center;
+    justify-content: space-between; /* Thay center bằng space-between */
     align-items: flex-start;
-    gap: 30px;
+    gap: 20px; /* Giảm gap xuống một chút nếu muốn khoảng trống ở giữa tự động co giãn */
     width: 100%;
-    padding: 20px;
-    background-color: #ededed;
+    max-width: 1350px; /* Độ rộng tối đa của trang */
+    margin: 0 auto;
+    padding: var(--container-padding);
 }
-/* CỘT TRÁI: THÔNG TIN SẢN PHẨM */
+
 .product-info {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    background-color: none;
-    border-radius: 16px;
+    gap: 15px;
+    width: 900px;
 }
 
 .Image-details {
     height: 514px;
     width: 900px;
-    background-color: #fff;
-    border-radius: 16px;
+    background-color: var(--bg-white);
+    border-radius: var(--border-radius);
     padding: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
+    .Image-details img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
 .listing-overview {
-    background-color: #fff;
-    padding: 20px;
-    margin: 10px 0;
-    line-height: 50px;
-    border-radius: 8px;
+    background-color: var(--bg-white);
+    padding: var(--container-padding);
+    border-radius: var(--border-radius);
+}
+
+    .listing-overview h1 {
+        font-size: 26px;
+        margin-bottom: 10px;
+        line-height: 1.4;
+    }
+
+    .listing-overview h3 {
+        font-size: 18px;
+        margin-bottom: 8px;
+        color: var(--text-gray);
+    }
+
+        .listing-overview h3 strong {
+            color: var(--primary-color);
+            font-size: 22px;
+        }
+
+.save {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .Infomation-detailt-product {
-    margin-top: 10px;
-    background-color: #f4f4f4;
-    width: 100%;
-    border-radius: 16px;
-    padding: 8px;
-    line-height: 20px;
-}
-
-    .Infomation-detailt-product h1 {
-        font-size: 28px;
-        font-weight: 700;
-    }
-
-    .Infomation-detailt-product h3 {
-        font-size: 24px;
-    }
-
-        .Infomation-detailt-product h3 strong {
-            font-weight: 900;
-            color: #cb0000;
-        }
-
-    .Infomation-detailt-product p {
-        font-size: 24px;
-        font-weight: 500;
-    }
-/* Lưu */
-.save {
-    display: flex;
-    justify-content: right;
-    padding-right: 20px;
+    background-color: var(--bg-white);
+    border-radius: var(--border-radius);
+    padding: var(--container-padding);
 }
 
 .Contact {
-    background-color: #fff;
-    font-size: 28px;
+    font-size: 20px;
     font-weight: 700;
-    margin: 10px 0;
-    padding: 0 20px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid var(--bg-light-gray);
+    padding-bottom: 10px;
 }
 
-.information-base {
+.utility {
     display: flex;
     flex-direction: column;
-}
-.utility{
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    background-color: #fff; 
-    padding: 0 20px;
-}
-.utility div {
-    background-color: #fff;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 20px;
+    gap: 15px;
 }
 
-/* ====================== CỘT PHẢI: USER INFO ======================= */
+    .utility h1 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .utility > div {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+        .utility > div:last-child {
+            border-bottom: none;
+        }
+
+    .utility p {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+    }
+
+    .utility i {
+        color: var(--text-gray);
+        width: 20px;
+    }
+
+.action-button {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
 
 .user-info {
     width: 350px;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    background: transparent;
+    position: sticky;
+    top: 20px;
 }
-/* box thông tin use */
+
 .product-user-infomation_details {
-    background: #fff;
-    padding: 20px;
-    border-radius: 16px;
+    background: var(--bg-white);
+    padding: var(--container-padding);
+    border-radius: var(--border-radius);
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
-/* VÙNG USER */
+
 .User {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 15px;
 }
-/*Avatar User*/
-#Avatar-User {
-    height: 70px;
-    width: 70px;
-    border-radius: 50%;
-    background-color: #767676;
+
+#Avatar-User img {
+    border: 2px solid #ddd;
+    transition: transform 0.2s;
 }
-/*Liên hệ*/
+
+    #Avatar-User img:hover {
+        transform: scale(1.05);
+    }
+
 .contact {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     gap: 10px;
 }
-/* ================= Comment ==================*/
+
+    .contact button {
+        width: 100%;
+        padding: 12px;
+        background-color: #0084ff;
+        color: white;
+    }
+
+        .contact button:first-child {
+            background-color: #00c853;
+        }
+
 .comment-section {
-    border-radius: 16px;
-    margin-top: 20px;
-    background-color: #fff;
-    width: auto;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 350px; /* thêm chiều cao cố định */
+    background-color: var(--bg-white);
+    border-radius: var(--border-radius);
+    padding: var(--container-padding);
 }
+
+    .comment-section h4 {
+        margin-bottom: 15px;
+    }
 
 .Area-comment {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .Comment {
-    width: 200%;
+    width: 100%;
     min-height: 80px;
-    max-height: 80px;
-    padding: 8px;
-    border-radius: 16px;
-    margin-right: 8px;
-    overflow-y: auto;
-    resize: none;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    resize: vertical;
+    font-family: inherit;
 }
 
-/* =================== mini map ================*/
+.Area-comment button {
+    align-self: flex-end;
+    background-color: var(--primary-color);
+    color: white;
+}
+
 .mini-map {
-    margin-top: 20px;
-    width: 90%;
-    height: 200px;
+    width: 100%;
+    height: 180px;
+    border-radius: var(--border-radius);
     overflow: hidden;
-    border-radius: 8px;
-    cursor: pointer;
     position: relative;
+    border: 1px solid #ddd;
 }
 
     .mini-map iframe {
         width: 100%;
         height: 100%;
+        border: none;
     }
 
-    .mini-map::after {
-        content: "Xem bản đồ chi tiết →";
-        position: absolute;
-        bottom: 8px;
-        right: 12px;
-        background: rgba(0,0,0,0.5);
-        color: #fff;
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 12px;
-    }
-
-/* ========================== listing-section =============== */
-.listing-section {
-    display: flex;
-    margin-top: 20px;
+.section-title {
+    text-align: center;
+    font-size: 24px;
+    margin: 40px 0 20px;
+    text-transform: uppercase;
+    color: var(--text-dark);
 }
 
-/* ==========================  filter-panel ======================*/
+.listing-section {
+    display: flex;
+    gap: var(--gap-large);
+    max-width: 1350px;
+    margin: 0 auto 50px;
+    padding: 0 var(--container-padding);
+    justify-content: center;
+}
+
+.product-listings {
+    flex: 1;
+}
+
+.filter-panel {
+    width: 320px;
+}
+
 .search-box {
-    width: 330px;
-    background: #d0d0d0;
+    background: #fff;
     padding: 20px;
-    border-radius: 18px;
-    margin: auto;
-    font-family: Arial, sans-serif;
+    border-radius: var(--border-radius);
+    border: 1px solid #ddd;
 }
 
 .search-header {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-weight: bold;
-    font-size: 14px;
+    gap: 10px;
     margin-bottom: 20px;
+    color: var(--primary-color);
+    font-weight: bold;
 }
-
-    .search-header .icon {
-        font-size: 18px;
-    }
 
 .tabs {
     display: flex;
-    margin-bottom: 20px;
+    background: #f0f0f0;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 15px;
 }
 
 .tab {
     flex: 1;
-    padding: 12px 0;
-    border: none;
-    cursor: pointer;
-    background: #979797;
-    font-weight: bold;
-    color: #fff;
+    padding: 10px;
+    background: transparent;
+    color: var(--text-gray);
+    font-weight: 600;
 }
 
     .tab.active {
-        background: #fff;
-        color: #000;
-        border-bottom: 3px solid #777;
+        background: var(--primary-color);
+        color: white;
     }
 
 .form select {
     width: 100%;
-    padding: 12px;
-    border: none;
-    margin-bottom: 12px;
-    background: #e5e5e5;
-    font-size: 14px;
-    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
 }
 
 .price-row {
@@ -254,18 +326,15 @@
     margin-bottom: 15px;
 }
 
-    .price-row select {
-        flex: 1;
-    }
-
 .btn-search {
     width: 100%;
     padding: 12px;
-    background: #6e6e6e;
-    color: #fff;
-    font-size: 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
+    background-color: var(--primary-color);
+    color: white;
     font-weight: bold;
+    border-radius: 6px;
 }
+
+    .btn-search:hover {
+        background-color: #a80000;
+    }
