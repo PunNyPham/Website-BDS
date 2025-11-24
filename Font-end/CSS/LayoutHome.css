@@ -1,25 +1,21 @@
-﻿
-﻿ /* ================= 1. RESET & BASE ================= */
-* {
+﻿* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
 body {
-    font-family: 'Segoe UI', sans-serif; /* Thống nhất font chữ */
+    font-family: 'Segoe UI', sans-serif;
     line-height: 1.6;
     background-color: #f9f9f9;
 }
 
-/* ================= 2. HEADER & NAVIGATION (MỚI) ================= */
-/* Thanh điều hướng chính */
 .site-header {
     background-color: #ffffff;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     height: 70px;
     width: 100%;
-    position: sticky; /* Giúp menu dính trên cùng khi cuộn */
+    position: sticky;
     top: 0;
     z-index: 1000;
 }
@@ -29,12 +25,11 @@ body {
     margin: 0 auto;
     height: 100%;
     display: flex;
-    justify-content: space-between; /* Đẩy 3 phần (Logo, Menu, User) ra xa nhau */
+    justify-content: space-between;
     align-items: center;
     padding: 0 20px;
 }
 
-/* --- Phần A: Logo --- */
 .logo-box {
     display: flex;
     align-items: center;
@@ -56,9 +51,8 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* --- Phần B: Menu Chính --- */
 .main-nav {
-    flex-grow: 1; /* Chiếm khoảng trống ở giữa */
+    flex-grow: 1;
     display: flex;
     justify-content: center;
 }
@@ -72,16 +66,15 @@ body {
 }
 
     .nav-list > li {
-        position: relative; /* Để căn vị trí cho menu con (dropdown) */
+        position: relative;
     }
 
-        /* Style cho link cấp 1 */
         .nav-list > li > a {
             text-decoration: none;
             color: #333;
             font-weight: 600;
             font-size: 16px;
-            padding: 24px 0; /* Tăng chiều cao để dễ hover */
+            padding: 24px 0;
             display: flex;
             align-items: center;
             gap: 5px;
@@ -89,15 +82,14 @@ body {
             transition: color 0.3s;
         }
 
-            /* Hiệu ứng gạch chân khi hover (giữ lại ý tưởng cũ của bạn) */
             .nav-list > li > a::after {
                 content: "";
                 position: absolute;
                 left: 0;
-                bottom: 15px; /* Điều chỉnh vị trí gạch chân */
+                bottom: 15px;
                 width: 0%;
                 height: 2px;
-                background-color: #d32f2f; /* Màu đỏ nổi bật */
+                background-color: #d32f2f;
                 transition: width 0.3s ease;
             }
 
@@ -109,7 +101,6 @@ body {
                     width: 100%;
                 }
 
-/* Mũi tên nhỏ cho menu có con */
 .arrow-down {
     border: solid #333;
     border-width: 0 2px 2px 0;
@@ -121,14 +112,13 @@ body {
 }
 
 .nav-list > li:hover .arrow-down {
-    transform: rotate(-135deg); /* Xoay mũi tên khi hover */
+    transform: rotate(-135deg);
     border-color: #d32f2f;
 }
 
-/* --- Dropdown Menu (Menu con) --- */
 .dropdown-menu {
     position: absolute;
-    top: 100%; /* Hiện ngay dưới menu cha */
+    top: 100%;
     left: 0;
     background: white;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -136,14 +126,12 @@ body {
     padding: 10px 0;
     min-width: 200px;
     border-radius: 0 0 4px 4px;
-    /* Hiệu ứng ẩn hiện */
     opacity: 0;
     visibility: hidden;
     transform: translateY(10px);
     transition: all 0.3s ease;
 }
 
-/* Hiển thị menu con khi hover vào menu cha */
 .has-dropdown:hover .dropdown-menu {
     opacity: 1;
     visibility: visible;
@@ -165,13 +153,12 @@ body {
 }
 
 .dropdown-menu li a:hover {
-    background-color: #fef2f2; /* Màu đỏ nhạt */
+    background-color: #fef2f2;
     color: #d32f2f;
-    padding-left: 25px; /* Hiệu ứng đẩy chữ sang phải */
+    padding-left: 25px;
     transition: all 0.2s;
 }
 
-/* --- Phần C: Nút bấm (User Actions) --- */
 .user-actions {
     display: flex;
     align-items: center;
@@ -184,7 +171,6 @@ body {
     gap: 10px;
 }
 
-/* Nút chung */
 .btn {
     padding: 9px 20px;
     border-radius: 4px;
@@ -195,7 +181,6 @@ body {
     white-space: nowrap;
 }
 
-/* Nút Primary (Đăng tin - Màu đỏ) */
 .btn-primary {
     background-color: #d32f2f;
     color: white;
@@ -207,7 +192,6 @@ body {
         box-shadow: 0 4px 8px rgba(211, 47, 47, 0.3);
     }
 
-/* Nút Outline (Trang cá nhân/Đăng nhập - Viền xám) */
 .btn-outline {
     background-color: transparent;
     color: #333;
@@ -220,7 +204,6 @@ body {
         color: white;
     }
 
-/* Nút Text (Đăng xuất) */
 .btn-text {
     text-decoration: none;
     color: #666;
@@ -233,14 +216,8 @@ body {
         text-decoration: underline;
     }
 
-/* ================= 3. BANNER (Phần Header cũ của bạn) ================= */
-/* Lưu ý: Vì .site-header ở trên đã là menu rồi, 
-   nên phần hình nền cũ tôi đổi tên class thành .hero-banner 
-   để không bị trùng lặp.
-   Bạn nhớ sửa <div class="header"> cũ thành <div class="hero-banner"> ở trang chủ nhé.
-*/
 .hero-banner {
-    height: calc(100vh - 70px); /* Trừ đi chiều cao của thanh menu */
+    height: calc(100vh - 70px);
     width: 100%;
     background: url("../asset/img/Subtract.svg") no-repeat center;
     background-size: cover;
@@ -251,16 +228,206 @@ body {
     justify-content: center;
 }
 
-/* ================= 4. FOOTER (GIỮ NGUYÊN) ================= */
+.why-choose-us {
+    padding: 60px 0;
+    background-color: #f8f9fa;
+    width: 100%;
+    display: block;
+}
+
+    .why-choose-us .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .why-choose-us .section-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .why-choose-us .section-description {
+        max-width: 800px;
+        text-align: center;
+        color: #666;
+        margin-bottom: 50px;
+        line-height: 1.6;
+        font-size: 16px;
+    }
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 30px;
+    width: 100%;
+}
+
+.feature-item {
+    background: #fff;
+    padding: 30px 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+    .feature-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+.feature-icon img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    margin-bottom: 20px;
+}
+
+.feature-item h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #222;
+}
+
+.feature-item p {
+    font-size: 14px;
+    color: #777;
+    line-height: 1.5;
+}
+
+@media (max-width: 992px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .why-choose-us .section-title {
+        font-size: 24px;
+    }
+}
+
+.seo-content-section {
+    background: #fff;
+    padding: 30px 0;
+    margin-top: 20px;
+}
+
+    .seo-content-section .container {
+        max-width: 1200px;
+        margin: 20px auto;
+        background: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        position: relative;
+    }
+
+.content-wrapper {
+    position: relative;
+    height: 100px;
+    overflow: hidden;
+    transition: height 0.3s ease;
+}
+
+    .content-wrapper.open {
+        height: auto !important;
+        overflow: visible;
+    }
+
+.content-gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+    transition: opacity 0.3s;
+}
+
+.content-wrapper.open .content-gradient {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.content-wrapper h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.content-wrapper h4 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.content-wrapper p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 10px;
+    text-align: justify;
+}
+
+.content-wrapper a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.btn-container {
+    text-align: center;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.btn-see-more {
+    background-color: #fff;
+    border: 1px solid #007bff;
+    color: #007bff;
+    padding: 8px 30px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+    .btn-see-more:hover {
+        background-color: #007bff;
+        color: #fff;
+    }
+
 .footer {
     background-color: #f7f7f7;
-    padding: 60px 0 20px; /* Căn chỉnh padding cho chuẩn */
+    padding: 60px 0 20px;
     color: #222;
     border-top: 1px solid #e0e0e0;
 }
 
 .footer-container {
-    max-width: 1200px; /* Giới hạn chiều rộng giống header */
+    max-width: 1200px;
     margin: 0 auto 30px;
     padding: 0 20px;
     display: grid;
@@ -293,7 +460,7 @@ body {
 
     .footer-column a:hover {
         text-decoration: none;
-        color: #d32f2f; /* Đổi màu hover sang đỏ cho đồng bộ */
+        color: #d32f2f;
     }
 
 .social-icons {
@@ -304,12 +471,12 @@ body {
         width: 32px;
         margin-right: 15px;
         transition: transform 0.2s;
-        filter: opacity(0.7); /* Làm icon hơi mờ */
+        filter: opacity(0.7);
     }
 
         .social-icons a img:hover {
             transform: scale(1.1);
-            filter: opacity(1); /* Rõ nét khi hover */
+            filter: opacity(1);
         }
 
 .footer-bottom {
