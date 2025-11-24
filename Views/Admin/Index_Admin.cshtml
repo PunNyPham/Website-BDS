@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "Index_Admin";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="board">
+    <section class="kpis">
+        <div class="card">
+            <div class="meta">Net Sales</div>
+            <div class="big">₹33,596</div>
+            <div style="margin-top:10px;color:green;font-size:13px">▲ 21% (2)</div>
+        </div>
+
+        <div class="card">
+            <div class="meta">Net Customers</div>
+            <div class="big">20,596</div>
+            <div style="margin-top:10px;color:green;font-size:13px">▲ 5% (10)</div>
+        </div>
+
+        <div class="card">
+            <div class="meta">Total Expenses</div>
+            <div class="big">₹6,779</div>
+            <div style="margin-top:10px;color:#ef4444;font-size:13px">▼ 2% (1,000)</div>
+        </div>
+    </section>
+
+    <section class="grid">
+        <div class="card chart-placeholder">
+            <div>
+                <div style="font-weight:600;margin-bottom:8px">Revenue report</div>
+                <svg width="520" height="160" viewBox="0 0 520 160" preserveAspectRatio="none">
+                    <polyline fill="none" stroke="#3b82f6" stroke-width="3" points="0,120 70,90 140,110 210,70 280,100 350,80 420,95 520,65" />
+                </svg>
+            </div>
+        </div>
+
+        <div>
+            <div class="card mini" style="margin-bottom:12px">
+                <div style="font-weight:600">Order Placed</div>
+                <div class="chart-placeholder" style="height:120px;margin-top:10px">Bar chart</div>
+            </div>
+            <div class="card mini">
+                <div style="font-weight:600">Engagement (30 days)</div>
+                <div class="chart-placeholder" style="height:80px;margin-top:10px">Small sparkline</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="widgets">
+        <div class="card">Sales Returned <div style="height:80px;margin-top:8px" class="chart-placeholder">heatmap</div></div>
+        <div class="card">Payment mode <div style="height:80px;margin-top:8px" class="chart-placeholder">progress bars</div></div>
+        <div class="card">Quick Actions <div style="height:80px;margin-top:8px" class="chart-placeholder">buttons</div></div>
+    </section>
+
+</div>
+
