@@ -42,21 +42,35 @@ namespace Website_BDS.Controllers
         {
             RealEstateDBEntities db = new RealEstateDBEntities();
 
+            // 1. Lấy thông tin sản phẩm
             var product = db.Products.FirstOrDefault(p => p.ProductID == id);
             if (product == null)
                 return HttpNotFound();
 
+            // 2. Lấy thông tin người bán
             var seller = db.Users.FirstOrDefault(u => u.UserID == product.OwnerID);
 
+            // 3. (MỚI THÊM) Kiểm tra User đang đăng nhập đã lưu tin này chưa?
+            bool isSaved = false;
+            if (Session["UserID"] != null)
+            {
+                int currentUserId = (int)Session["UserID"];
+                // Kiểm tra trong bảng Favorites xem có cặp UserID và ProductID này không
+                isSaved = db.Favorites.Any(f => f.UserID == currentUserId && f.ProductID == id);
+            }
+
+            // 4. Truyền trạng thái đã lưu sang View bằng ViewBag
+            ViewBag.IsSaved = isSaved;
+
+            // 5. Tạo ViewModel
             var vm = new ProductDetailViewModel
             {
                 Product = product,
                 Seller = seller,
             };
 
-            return View(vm);  // <-- PHẢI TRẢ VỀ VIEWMODEL
+            return View(vm);
         }
-
-
     }
+
 }

@@ -5,6 +5,30 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="RealEstateDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AdminActivityLogs">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Name="LogID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="100" />
+          <Property Name="AdminID" Type="int" />
+          <Property Name="Action" Type="nvarchar" MaxLength="200" />
+          <Property Name="TargetTable" Type="nvarchar" MaxLength="100" />
+          <Property Name="TargetID" Type="int" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AdminUser">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" />
+          <Property Name="HashPassword" Type="nvarchar" MaxLength="255" />
+          <Property Name="Role" Type="nvarchar" MaxLength="50" />
+          <Property Name="Status" Type="bit" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="7" />
+        </EntityType>
         <EntityType Name="Amenities">
           <Key>
             <PropertyRef Name="AmenityID" />
@@ -110,6 +134,18 @@
           <Property Name="Status" Type="bit" />
           <Property Name="Avatar_User" Type="nvarchar" MaxLength="255" />
         </EntityType>
+        <Association Name="FK_AdminActivity_Admin">
+          <End Role="AdminUser" Type="Self.AdminUser" Multiplicity="0..1" />
+          <End Role="AdminActivityLogs" Type="Self.AdminActivityLogs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AdminUser">
+              <PropertyRef Name="AdminID" />
+            </Principal>
+            <Dependent Role="AdminActivityLogs">
+              <PropertyRef Name="AdminID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Contracts_Buyer">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Contracts" Type="Self.Contracts" Multiplicity="*" />
@@ -269,6 +305,8 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="RealEstateDBModelStoreContainer">
+          <EntitySet Name="AdminActivityLogs" EntityType="Self.AdminActivityLogs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AdminUser" EntityType="Self.AdminUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Amenities" EntityType="Self.Amenities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contracts" EntityType="Self.Contracts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Favorites" EntityType="Self.Favorites" Schema="dbo" store:Type="Tables" />
@@ -278,6 +316,10 @@
           <EntitySet Name="PropertyImage" EntityType="Self.PropertyImage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AdminActivity_Admin" Association="Self.FK_AdminActivity_Admin">
+            <End Role="AdminUser" EntitySet="AdminUser" />
+            <End Role="AdminActivityLogs" EntitySet="AdminActivityLogs" />
+          </AssociationSet>
           <AssociationSet Name="FK_Contracts_Buyer" Association="Self.FK_Contracts_Buyer">
             <End Role="Users" EntitySet="Users" />
             <End Role="Contracts" EntitySet="Contracts" />
@@ -336,6 +378,32 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="RealEstateDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AdminActivityLog">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Name="LogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AdminID" Type="Int32" />
+          <Property Name="Action" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TargetTable" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TargetID" Type="Int32" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="AdminUser" Relationship="Self.FK_AdminActivity_Admin" FromRole="AdminActivityLogs" ToRole="AdminUser" />
+        </EntityType>
+        <EntityType Name="AdminUser">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="HashPassword" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="AdminActivityLogs" Relationship="Self.FK_AdminActivity_Admin" FromRole="AdminUser" ToRole="AdminActivityLogs" />
+        </EntityType>
         <EntityType Name="Amenity">
           <Key>
             <PropertyRef Name="AmenityID" />
@@ -457,6 +525,18 @@
           <NavigationProperty Name="Products" Relationship="Self.FK_Product_Owner" FromRole="Users" ToRole="Product" />
           <NavigationProperty Name="Reviews" Relationship="Self.FK_Review_User" FromRole="Users" ToRole="Review" />
         </EntityType>
+        <Association Name="FK_AdminActivity_Admin">
+          <End Role="AdminUser" Type="Self.AdminUser" Multiplicity="0..1" />
+          <End Role="AdminActivityLogs" Type="Self.AdminActivityLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AdminUser">
+              <PropertyRef Name="AdminID" />
+            </Principal>
+            <Dependent Role="AdminActivityLogs">
+              <PropertyRef Name="AdminID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Contracts_Buyer">
           <End Role="Users" Type="Self.User" Multiplicity="1" />
           <End Role="Contracts" Type="Self.Contract" Multiplicity="*" />
@@ -595,7 +675,9 @@
           <End Role="Amenities" Type="Self.Amenity" Multiplicity="*" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="RealEstateDBEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="RealEstateDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AdminActivityLogs" EntityType="Self.AdminActivityLog" />
+          <EntitySet Name="AdminUsers" EntityType="Self.AdminUser" />
           <EntitySet Name="Amenities" EntityType="Self.Amenity" />
           <EntitySet Name="Contracts" EntityType="Self.Contract" />
           <EntitySet Name="Favorites" EntityType="Self.Favorite" />
@@ -604,6 +686,10 @@
           <EntitySet Name="PropertyImages" EntityType="Self.PropertyImage" />
           <EntitySet Name="Reviews" EntityType="Self.Review" />
           <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_AdminActivity_Admin" Association="Self.FK_AdminActivity_Admin">
+            <End Role="AdminUser" EntitySet="AdminUsers" />
+            <End Role="AdminActivityLogs" EntitySet="AdminActivityLogs" />
+          </AssociationSet>
           <AssociationSet Name="FK_Contracts_Buyer" Association="Self.FK_Contracts_Buyer">
             <End Role="Users" EntitySet="Users" />
             <End Role="Contracts" EntitySet="Contracts" />
@@ -658,7 +744,33 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="RealEstateDBModelStoreContainer" CdmEntityContainer="RealEstateDBEntities1">
+        <EntityContainerMapping StorageEntityContainer="RealEstateDBModelStoreContainer" CdmEntityContainer="RealEstateDBEntities">
+          <EntitySetMapping Name="AdminActivityLogs">
+            <EntityTypeMapping TypeName="RealEstateDBModel.AdminActivityLog">
+              <MappingFragment StoreEntitySet="AdminActivityLogs">
+                <ScalarProperty Name="LogID" ColumnName="LogID" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="TargetTable" ColumnName="TargetTable" />
+                <ScalarProperty Name="TargetID" ColumnName="TargetID" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AdminUsers">
+            <EntityTypeMapping TypeName="RealEstateDBModel.AdminUser">
+              <MappingFragment StoreEntitySet="AdminUser">
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="HashPassword" ColumnName="HashPassword" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Amenities">
             <EntityTypeMapping TypeName="RealEstateDBModel.Amenity">
               <MappingFragment StoreEntitySet="Amenities">

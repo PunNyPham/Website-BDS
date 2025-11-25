@@ -57,6 +57,9 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Web.Infrastructure.2.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -108,12 +111,16 @@
     <Content Include="Font-end\asset\reset.css" />
     <Content Include="Font-end\asset\style.css" />
     <Content Include="Font-end\Card.html" />
+    <Content Include="Font-end\CSS\admin_page.css" />
     <Content Include="Font-end\CSS\edit-page_user.css" />
     <Content Include="Font-end\CSS\layout.css" />
+    <Content Include="Font-end\CSS\LayoutHome.css" />
     <Content Include="Font-end\CSS\login.css" />
     <Content Include="Font-end\CSS\Page-Contact.css" />
     <Content Include="Font-end\CSS\Page-User.css" />
     <Content Include="Font-end\CSS\RealEstate.css" />
+    <Content Include="Font-end\CSS\RealEstateLaw.css" />
+    <Content Include="Font-end\CSS\RealEstateLaw.html" />
     <Content Include="Font-end\CSS\signin.css" />
     <Content Include="Font-end\CSS\style-card.css" />
     <Content Include="Font-end\CSS\style-Product-Details.css" />
@@ -144,12 +151,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomesController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\RealEstateController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdminActivityLog.cs">
+      <DependentUpon>BDSEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdminUser.cs">
+      <DependentUpon>BDSEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Amenity.cs">
       <DependentUpon>BDSEntity.tt</DependentUpon>
@@ -216,6 +230,15 @@
     </Content>
     <None Include="packages.config" />
     <Content Include="Views\RealEstate\Edit.cshtml" />
+    <Content Include="Views\Admin\Admin_Page.cshtml" />
+    <Content Include="Views\Users\_DepositPartial.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
+    <Content Include="Views\Shared\_LayoutPageUser.cshtml" />
+    <Content Include="Views\Shared\_Sidebar.cshtml" />
+    <Content Include="Views\Shared\_SidebarPageAdmin.cshtml" />
+    <Content Include="Views\Shared\_TopbarPageAdmin.cshtml" />
+    <Content Include="Views\Users\_Update_Profile.cshtml" />
+    <Content Include="Views\Users\SavedProductsPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

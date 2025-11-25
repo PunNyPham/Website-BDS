@@ -4,7 +4,9 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4e76f1c5a106458882a2bbe4dab2321d" Name="Diagram1">
+      <Diagram DiagramId="76f4d8b5a5d5473c979a4b7dc2a0cb22" Name="Diagram1">
+        <EntityTypeShape EntityType="RealEstateDBModel.AdminActivityLog" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="RealEstateDBModel.AdminUser" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="RealEstateDBModel.Amenity" Width="1.5" PointX="3.75" PointY="13.75" IsExpanded="true" />
         <EntityTypeShape EntityType="RealEstateDBModel.Contract" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
         <EntityTypeShape EntityType="RealEstateDBModel.Favorite" Width="1.5" PointX="6" PointY="8.375" IsExpanded="true" />
@@ -13,6 +15,7 @@
         <EntityTypeShape EntityType="RealEstateDBModel.PropertyImage" Width="1.5" PointX="8.25" PointY="13.375" IsExpanded="true" />
         <EntityTypeShape EntityType="RealEstateDBModel.Review" Width="1.5" PointX="8.25" PointY="9.125" IsExpanded="true" />
         <EntityTypeShape EntityType="RealEstateDBModel.User" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <AssociationConnector Association="RealEstateDBModel.FK_AdminActivity_Admin" ManuallyRouted="false" />
         <AssociationConnector Association="RealEstateDBModel.FK_Contracts_Buyer" ManuallyRouted="false" />
         <AssociationConnector Association="RealEstateDBModel.FK_Contracts_Product" ManuallyRouted="false" />
         <AssociationConnector Association="RealEstateDBModel.FK_Contracts_Seller" ManuallyRouted="false" />

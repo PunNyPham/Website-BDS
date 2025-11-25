@@ -13,10 +13,10 @@ namespace Website_BDS.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class RealEstateDBEntities1 : DbContext
+    public partial class RealEstateDBEntities : DbContext
     {
-        public RealEstateDBEntities1()
-            : base("name=RealEstateDBEntities1")
+        public RealEstateDBEntities()
+            : base("name=RealEstateDBEntities")
         {
         }
     
@@ -25,6 +25,8 @@ namespace Website_BDS.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<AdminActivityLog> AdminActivityLogs { get; set; }
+        public virtual DbSet<AdminUser> AdminUsers { get; set; }
         public virtual DbSet<Amenity> Amenities { get; set; }
         public virtual DbSet<Contract> Contracts { get; set; }
         public virtual DbSet<Favorite> Favorites { get; set; }
