@@ -48,7 +48,7 @@
     @using (Html.BeginForm("transaction_management", "Admin", FormMethod.Get))
     {
         <div class="filters">
-            <input type="text" name="searchString" placeholder="Tìm kiếm giao dịch..." value="@Request["searchString"]" />
+            <input type="text" name="searchString" placeholder="Tìm kiếm mã GD, khách hàng..." value="@Request["searchString"]" />
 
             <select name="type" onchange="this.form.submit()">
                 <option value="">Tất cả loại</option>
@@ -65,79 +65,101 @@
         </div>
     }
 
-    <table class="transaction-table">
-        <thead>
-            <tr>
-                <th>Mã GD</th>
-                <th>BĐS</th>
-                <th>Khách hàng</th>
-                <th>Loại</th>
-                <th>Số tiền</th>
-                <th>Hoa hồng</th>
-                <th>Ngày GD</th>
-                <th>PT thanh toán</th>
-                <th>Trạng thái</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.DanhSachGiaoDich != null && Model.DanhSachGiaoDich.Any())
-            {
-                foreach (var item in Model.DanhSachGiaoDich)
+    <div class="table-responsive">
+        <table class="transaction-table">
+            <thead>
+                <tr>
+                    <th>Mã GD</th>
+                    <th>BĐS</th>
+                    <th>Khách hàng</th>
+                    <th>Loại</th>
+                    <th>Số tiền</th>
+                    <th>Hoa hồng</th>
+                    <th>Ngày GD</th>
+                    <th>PT thanh toán</th>
+                    <th>Trạng thái</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.DanhSachGiaoDich != null && Model.DanhSachGiaoDich.Any())
+                {
+                    foreach (var item in Model.DanhSachGiaoDich)
+                    {
+                        <tr>
+                            <td style="font-weight:bold; color:#3b82f6">@item.MaGD</td>
+
+                            <td style="max-width: 250px;" title="@item.TenBDS">
+                                <i class="fa-solid fa-house" style="color:#999; margin-right:5px"></i>
+                                @(item.TenBDS.Length > 30 ? item.TenBDS.Substring(0, 30) + "..." : item.TenBDS)
+                            </td>
+
+                            <td>
+                                <div style="display:flex; align-items:center;">
+                                    <div style="width:25px; height:25px; background:#f3f4f6; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-right:8px; font-size:10px; font-weight:bold; color:#666">
+                                        @(item.TenKhachHang?.Substring(0,1) ?? "U")
+                                    </div>
+                                    @item.TenKhachHang
+                                </div>
+                            </td>
+
+                            <td>
+                                @if (item.LoaiGiaoDich == "Sale" || item.LoaiGiaoDich == "Mua")
+                                {
+                                    <span class="badge" style="background:#e0f2fe; color:#0369a1; padding:4px 8px; border-radius:4px; font-size:12px;">Mua bán</span>
+                                }
+                                else
+                                {
+                                    <span class="badge" style="background:#f3e8ff; color:#7e22ce; padding:4px 8px; border-radius:4px; font-size:12px;">Cho thuê</span>
+                                }
+                            </td>
+
+                            <td style="font-weight:bold">@item.SoTien.ToString("N0")</td>
+                            <td style="color:#16a34a">@item.HoaHong.ToString("N0")</td>
+                            <td>@item.NgayGD.ToString("dd/MM/yyyy")</td>
+                            <td>@item.PTThanhToan</td>
+
+                            <td>
+                                @if (item.TrangThai == "Completed" || item.TrangThai == "Hoàn thành")
+                                {
+                                    <span style="background:#dcfce7; color:#15803d; padding:4px 8px; border-radius:4px; font-size:12px; font-weight:500">
+                                        <i class="fa-solid fa-check"></i> Hoàn thành
+                                    </span>
+                                }
+                                else if (item.TrangThai == "Pending" || item.TrangThai == "Đang xử lý")
+                                {
+                                    <span style="background:#ffedd5; color:#c2410c; padding:4px 8px; border-radius:4px; font-size:12px; font-weight:500">
+                                        <i class="fa-solid fa-hourglass-half"></i> Đang xử lý
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span style="background:#fee2e2; color:#b91c1c; padding:4px 8px; border-radius:4px; font-size:12px; font-weight:500">
+                                        <i class="fa-solid fa-xmark"></i> @item.TrangThai
+                                    </span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
                 {
                     <tr>
-                        <td style="font-weight:bold; color:#3b82f6">@item.MaGD</td>
-
-                        <td style="max-width: 250px;">
-                            <i class="fa-solid fa-house" style="color:#999; margin-right:5px"></i> @item.TenBDS
-                        </td>
-
-                        <td><i class="fa-regular fa-user" style="color:#999; margin-right:5px"></i> @item.TenKhachHang</td>
-
-                        <td>
-                            @if (item.LoaiGiaoDich == "Sale")
-                            {
-                                <span class="badge" style="background:#e0f2fe; color:#0369a1; padding:4px 8px; border-radius:4px; font-size:12px;">Mua</span>
-                            }
-                            else
-                            {
-                                <span class="badge" style="background:#f3e8ff; color:#7e22ce; padding:4px 8px; border-radius:4px; font-size:12px;">Thuê</span>
-                            }
-                        </td>
-
-                        <td style="font-weight:bold">@item.SoTien.ToString("N0")</td>
-
-                        <td style="color:#16a34a">@item.HoaHong.ToString("N0")</td>
-
-                        <td>@item.NgayGD.ToString("dd/MM/yyyy")</td>
-
-                        <td>@item.PTThanhToan</td>
-
-                        <td>
-                            @if (item.TrangThai == "Completed")
-                            {
-                                <span style="color:#15803d; font-weight:500">Hoàn thành</span>
-                            }
-                            else if (item.TrangThai == "Pending")
-                            {
-                                <span style="color:#c2410c; font-weight:500">Đang xử lý</span>
-                            }
-                            else
-                            {
-                                <span style="color:#b91c1c; font-weight:500">@item.TrangThai</span>
-                            }
+                        <td colspan="9" class="empty" style="text-align:center; padding:40px; color:#999">
+                            <i class="fa-solid fa-inbox" style="font-size:30px; margin-bottom:10px; display:block"></i>
+                            Chưa có giao dịch nào phù hợp
                         </td>
                     </tr>
                 }
-            }
-            else
-            {
-                <tr><td colspan="9" class="empty" style="text-align:center; padding:20px; color:#999">Chưa có giao dịch nào</td></tr>
-            }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </section>
 
 <style>
+    .transaction-container h2 {
+        margin-bottom: 20px;
+    }
+
     .summary-item {
         display: flex;
         align-items: center;
@@ -146,7 +168,13 @@
         padding: 20px;
         border-radius: 8px;
         border: 1px solid #e5e7eb;
+        transition: transform 0.2s;
     }
+
+        .summary-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
 
     .icon-box {
         width: 45px;
@@ -170,4 +198,36 @@
         font-weight: bold;
         color: #111827;
     }
+
+    /* Table styles */
+    .transaction-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .transaction-table th {
+            text-align: left;
+            padding: 15px;
+            background: #f9fafb;
+            color: #6b7280;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .transaction-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
+            color: #374151;
+            vertical-align: middle;
+        }
+
+        .transaction-table tr:hover {
+            background-color: #f9fafb;
+        }
 </style>

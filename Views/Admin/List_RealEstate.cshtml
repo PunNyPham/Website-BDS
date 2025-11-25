@@ -84,8 +84,8 @@
                     </div>
 
                     <div class="card-footer">
-                        <a href="@Url.Action("Details", new { id = item.ProductID })" class="icon" title="Xem"><i class="fa-solid fa-eye"></i></a>
-                        <a href="@Url.Action("Edit", new { id = item.ProductID })" class="icon" title="Sửa"><i class="fa-solid fa-pen"></i></a>
+                        <a href="@Url.Action("Product_details","Product" ,new { id = item.ProductID })" class="icon" title="Xem"><i class="fa-solid fa-eye"></i></a>
+                        
                         <a href="@Url.Action("Delete", new { id = item.ProductID })" class="icon" title="Xóa" onclick="return confirm('Bạn có chắc muốn xóa không?');"><i class="fa-solid fa-trash"></i></a>
                     </div>
                 </div>

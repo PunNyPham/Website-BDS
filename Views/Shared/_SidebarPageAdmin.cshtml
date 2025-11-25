@@ -1,18 +1,52 @@
-﻿<aside class="sidebar">
+﻿@{
+    string currentAction = ViewContext.RouteData.Values["action"].ToString();
+}
+
+<aside class="sidebar">
     <div class="logo-box">
         <i class="fa-solid fa-building"></i>
         <span>RealEstate Pro</span>
     </div>
 
     <nav class="menu">
-        <a class="active" href="@Url.Action("Index_Admin", "Admin")"><i class="fa-solid fa-chart-line"></i> Tổng quan</a>
-        <a class="active" href="@Url.Action("List_RealEstate", "Admin")"><i class="fa-solid fa-house"></i> Bất động sản </a>
-        <a class="active" href="@Url.Action("Analysis", "Admin")"><i class="fa-solid fa-chart-pie"></i> Phân tích</a>
-        <a class="active" href="@Url.Action("Customer", "Admin")"><i class="fa-solid fa-users"></i> Khách hàng</a>
-        <a class="active" href="@Url.Action("transaction_management", "Admin")"><i class="fa-solid fa-handshake"></i> Giao dịch</a>
+        <a class="@(currentAction == "Index_Admin" ? "active" : "")"
+           href="@Url.Action("Index_Admin", "Admin")">
+            <i class="fa-solid fa-chart-line"></i> Tổng quan
+        </a>
+
+        <a class="@(currentAction == "List_RealEstate" ? "active" : "")"
+           href="@Url.Action("List_RealEstate", "Admin")">
+            <i class="fa-solid fa-house"></i> Bất động sản
+        </a>
+
+        <a class="@(currentAction == "Analysis" ? "active" : "")"
+           href="@Url.Action("Analysis", "Admin")">
+            <i class="fa-solid fa-chart-pie"></i> Phân tích
+        </a>
+
+        <a class="@(currentAction == "Approve_RealEstate" ? "active" : "")"
+           href="@Url.Action("Approve_RealEstate", "Admin")">
+            <i class="fa-solid fa-clipboard-check"></i> Duyệt tin
+        </a>
+
+        <a class="@(currentAction == "Customer" ? "active" : "")"
+           href="@Url.Action("Customer", "Admin")">
+            <i class="fa-solid fa-users"></i> Khách hàng
+        </a>
+
+        <a class="@(currentAction == "transaction_management" ? "active" : "")"
+           href="@Url.Action("transaction_management", "Admin")">
+            <i class="fa-solid fa-handshake"></i> Giao dịch
+        </a>
+
+
+
     </nav>
 
     <div class="menu settings">
-        <a><i class="fa-solid fa-gear"></i> Cài đặt</a>
+        <a class="@(currentAction == "Settings" ? "active" : "")"
+           href="@Url.Action("Settings", "Admin")">
+            <i class="fa-solid fa-gear"></i> Cài đặt
+        </a>
     </div>
 </aside>

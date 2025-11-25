@@ -11,6 +11,22 @@ namespace Website_BDS.Controllers
     {
         // GET: Admin
         private RealEstateDBEntities db = new RealEstateDBEntities();
+
+        
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            // Kiểm tra Session: Phải đăng nhập VÀ Role phải là Admin
+            if (Session["UserID"] == null || Session["UserRole"].ToString() != "Admin")
+            {
+                // Nếu là User thường mà cố vào trang Admin -> Đá về trang chủ hoặc Login
+                filterContext.Result = new RedirectToRouteResult(
+                    new System.Web.Routing.RouteValueDictionary(new { controller = "Auth", action = "Login" })
+                );
+            }
+            base.OnActionExecuting(filterContext);
+        }
+
         public ActionResult Index_Admin()
         {
             var model = new AdminDashboardViewModel();
@@ -371,5 +387,103 @@ namespace Website_BDS.Controllers
 
             return View(model);
         }
+        // GET: Hiển thị trang cài đặt
+        public ActionResult Settings()
+        {
+            // GIẢ LẬP: Lấy ID admin đang đăng nhập (Sau này bạn thay bằng Session["AdminID"])
+            int currentAdminId = 1; // Ví dụ admin ID là 1
+
+            var admin = db.AdminUsers.Find(currentAdminId);
+            if (admin == null) return HttpNotFound();
+
+            var model = new AdminSettingsViewModel
+            {
+                AdminID = admin.AdminID,
+                FullName = admin.FullName,
+                Email = admin.Email
+            };
+
+            return View(model);
+        }
+
+        // POST: Xử lý lưu dữ liệu
+        [HttpPost]
+        public ActionResult Settings(AdminSettingsViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var admin = db.AdminUsers.Find(model.AdminID);
+                if (admin != null)
+                {
+                    // 1. Cập nhật thông tin chung
+                    admin.FullName = model.FullName;
+                    admin.Email = model.Email;
+
+                    // 2. Xử lý đổi mật khẩu (Nếu có nhập mật khẩu mới)
+                    if (!string.IsNullOrEmpty(model.NewPassword))
+                    {
+                        // Kiểm tra mật khẩu cũ (Lưu ý: Nếu bạn dùng mã hóa MD5/SHA thì phải mã hóa model.CurrentPassword trước khi so sánh)
+                        if (admin.HashPassword == model.CurrentPassword)
+                        {
+                            admin.HashPassword = model.NewPassword; // Lưu mật khẩu mới
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("CurrentPassword", "Mật khẩu hiện tại không đúng!");
+                            return View("Settings", model);
+                        }
+                    }
+
+                    db.SaveChanges();
+                    ViewBag.Message = "Cập nhật thành công!";
+                }
+            }
+            return View("Settings", model);
+        }
+
+
+        // 1. GET: Trang hiển thị danh sách bài cần duyệt
+        public ActionResult Approve_RealEstate()
+        {
+            // Lấy tất cả bài có trạng thái là "Pending" (Chờ duyệt)
+            var pendingList = db.Products
+                                .Where(p => p.Status == "Pending")
+                                .OrderByDescending(p => p.CreatedAt)
+                                .ToList();
+
+            return View(pendingList);
+        }
+
+        // 2. Action: Duyệt bài (Chuyển sang Active)
+        public ActionResult Confirm_Approve(int id)
+        {
+            var product = db.Products.Find(id);
+            if (product != null)
+            {
+                product.Status = "Active"; // Chuyển trạng thái thành Hiển thị
+                db.SaveChanges();
+            }
+            return RedirectToAction("Approve_RealEstate");
+        }
+
+        // 3. Action: Từ chối bài (Xóa hoặc chuyển sang Rejected)
+        public ActionResult Confirm_Reject(int id)
+        {
+            var product = db.Products.Find(id);
+            if (product != null)
+            {
+                // Cách 1: Xóa luôn
+                db.Products.Remove(product);
+
+                // Cách 2: Chuyển sang trạng thái bị từ chối (nếu muốn lưu lại lịch sử)
+                // product.Status = "Rejected"; 
+
+                db.SaveChanges();
+            }
+            return RedirectToAction("Approve_RealEstate");
+        }
+
+
+
     }
 }

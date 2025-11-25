@@ -12,82 +12,17 @@ namespace Website_BDS.Controllers
     public class UsersController : Controller
     {
         RealEstateDBEntities db = new RealEstateDBEntities();
-        // GET: /Users/Login    
-            public ActionResult Login()
-                {
-                    return View();
-                }
-
-            // POST: /Users/Login
-            [HttpPost]
-            public ActionResult Login(string email, string password)
-            {
-                var User = db.Users.FirstOrDefault(x => x.Email == email && x.HashPassword == password);
-                if(User != null)
-                {
-                Session["UserID"] = User.UserID; // lưu vào session
-                return RedirectToAction("Search_Product", "Product");
-                }       
-                ViewBag.Error = "Sai email hoặc mật khẩu.";
-                return View();
-            }
-
-            // GET: /Users/Register
-            public ActionResult Register()
-            {
-                return View();
-            }
-
-        // POST: /Users/Register
-        
-        [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public ActionResult Register(User user, string ConfirmPassword)
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            try
+            // Chỉ cần kiểm tra đã đăng nhập là được (Admin hay User đều có thể có profile)
+            if (Session["UserID"] == null)
             {
-                // Kiểm tra form hợp lệ
-                if (ModelState.IsValid)
-                {
-                    // Kiểm tra mật khẩu khớp không
-                    if (user.HashPassword != ConfirmPassword)
-                    {
-                        ModelState.AddModelError("", "Mật khẩu xác nhận không khớp.");
-                        return View(user);
-                    }
-
-                    // Kiểm tra tên đăng nhập hoặc email đã tồn tại chưa
-                    bool usernameExists = db.Users.Any(u => u.FullName == user.FullName);
-                    bool emailExists = db.Users.Any(u => u.Email == user.Email);
-
-                    if (usernameExists)
-                    {
-                        ModelState.AddModelError("", "Tên đăng nhập đã tồn tại.");
-                        return View(user);
-                    }
-
-                    if (emailExists)
-                    {
-                        ModelState.AddModelError("", "Email này đã được sử dụng.");
-                        return View(user);
-                    }
-
-                    // Lưu thông tin người dùng
-                    db.Users.Add(user);
-                    db.SaveChanges();
-
-                    // Sau khi đăng ký thành công -> chuyển hướng đến Product/Search_Product
-                    return RedirectToAction("Search_Product", "Product");
-                }
+                filterContext.Result = new RedirectToRouteResult(
+                    new System.Web.Routing.RouteValueDictionary(new { controller = "Auth", action = "Login" })
+                );
             }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", "Đã xảy ra lỗi: " + ex.Message);
-            }
-
-            return View(user);
+            base.OnActionExecuting(filterContext);
         }
-
         public ActionResult Page_User(int id)
         {
             RealEstateDBEntities db = new RealEstateDBEntities();
