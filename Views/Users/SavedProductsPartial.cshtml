@@ -1,0 +1,287 @@
+﻿@model IEnumerable<Website_BDS.Models.Product>
+
+<div class="post-list-container">
+    <h3 class="section-title">Danh sách tin đã lưu</h3>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="empty-state">
+            <p>Bạn chưa lưu tin nào.</p>
+            <a href="@Url.Action("Index", "Home")" class="btn-find-now">
+                <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm bất động sản ngay
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="list-content">
+            @foreach (var item in Model)
+            {
+                <div class="post-item-card">
+                    <div class="post-thumb">
+                        @{
+                            var mainImg = item.PropertyImages.FirstOrDefault(x => x.IsPrimary == true);
+                            string imgSrc = (mainImg != null) ? mainImg.ImageUrl : "Product_Null.jpg";
+                        }
+                        <img src="~/Font-end/asset/icon/@imgSrc"
+                             onerror="this.src='@Url.Content("~/Font-end/asset/icon/Product_Null.jpg")'"
+                             alt="@item.Title" />
+                    </div>
+
+                    <div class="post-text">
+                        <h4 class="post-title">
+                            <a href="@Url.Action("Product_details", "Product", new { id = item.ProductID })">
+                                @item.Title
+                            </a>
+                        </h4>
+                        <p class="post-price">
+                            @String.Format("{0:N0} VNĐ", item.Price)
+                        </p>
+                        <p class="post-meta">
+                            <i class="fa-solid fa-location-dot"></i> @item.Address
+                        </p>
+                        <p class="post-meta">
+                            <i class="fa-solid fa-ruler-combined"></i> @item.Area m²
+                        </p>
+                    </div>
+
+                    <div class="action-buttons">
+                        <a href="@Url.Action("Product_details", "Product", new { id = item.ProductID })" class="btn-view-detail">
+                            Xem chi tiết
+                        </a>
+
+                        <button class="btn-unsave" onclick="UnsaveProduct(@item.ProductID, this)">
+                            <i class="fa-solid fa-heart"></i> Bỏ lưu
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<script>
+    function UnsaveProduct(productId, btnElement) {
+        if(confirm('Bạn có muốn bỏ lưu tin này không?')) {
+            $.ajax({
+                url: '@Url.Action("ToggleSaveProduct", "Users")',
+                type: 'POST',
+                data: { productId: productId },
+                success: function(res) {
+                    if(res.success) {
+                        var card = $(btnElement).closest('.post-item-card');
+
+                        card.fadeOut(300, function() {
+                            $(this).remove();
+
+                            // Kiểm tra nếu hết tin thì hiện thông báo trống
+                            if($('.post-item-card').length == 0) {
+                                var emptyHtml = `
+                                    <div class="empty-state fade-in">
+                                        <p>Bạn chưa lưu tin nào.</p>
+                                        <a href="@Url.Action("Search_Product", "Product")" class="btn-find-now">
+                                            <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm bất động sản ngay
+                                        </a>
+                                    </div>
+                                `;
+                                $('.post-list-container').html('<h3 class="section-title">Danh sách tin đã lưu</h3>' + emptyHtml);
+                            }
+                        });
+                    } else {
+                        alert(res.message);
+                    }
+                },
+                error: function() {
+                    alert('Lỗi kết nối server. Vui lòng thử lại sau.');
+                }
+            });
+        }
+    }
+</script>
+
+<style>
+    /* Animation */
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .fade-in {
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        border: 1px dashed #ddd;
+    }
+
+        .empty-state p {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+    .btn-find-now {
+        color: #fff;
+        background-color: #007bff;
+        padding: 10px 20px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background 0.3s;
+        display: inline-block;
+    }
+
+        .btn-find-now:hover {
+            background-color: #0056b3;
+        }
+
+    /* List Item Card */
+    .post-item-card {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+        padding: 20px;
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        border: 1px solid #eee;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+        .post-item-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+    /* Thumbnail */
+    /* Thumbnail - Sửa đoạn này */
+    .post-thumb {
+        width: 120px; /* Giảm từ 160px xuống 120px */
+        height: 90px; /* Giảm từ 120px xuống 90px */
+        flex-shrink: 0; /* Giữ nguyên dòng này để ảnh không bị bóp méo khi màn hình nhỏ */
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: #f0f0f0; /* Thêm màu nền nhẹ nếu ảnh lỗi */
+    }
+
+        /* Các phần khác giữ nguyên */
+        .post-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Giúp ảnh tự cắt gọn gàng vào khung mới */
+            transition: transform 0.3s;
+        }
+
+        .post-thumb:hover img {
+            transform: scale(1.05);
+        }
+    /* Content Text */
+    .post-text {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .post-title {
+        font-size: 18px;
+        margin: 0 0 8px 0;
+        line-height: 1.4;
+    }
+
+        .post-title a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.2s;
+        }
+
+            .post-title a:hover {
+                color: #007bff;
+            }
+
+    .post-price {
+        color: #d0021b;
+        font-weight: bold;
+        font-size: 17px;
+        margin-bottom: 8px;
+    }
+
+    .post-meta {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .post-meta i {
+            color: #999;
+            width: 16px;
+            text-align: center;
+        }
+
+    /* Action Buttons */
+    .action-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: center;
+        min-width: 140px;
+    }
+
+    .btn-view-detail, .btn-unsave {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: none;
+        outline: none;
+    }
+
+    /* View Detail Button */
+    .btn-view-detail {
+        background-color: #f0f2f5;
+        color: #333;
+    }
+
+        .btn-view-detail:hover {
+            background-color: #e4e6eb;
+        }
+
+    /* Unsave Button */
+    .btn-unsave {
+        background-color: #fff3cd; /* Màu nền vàng nhạt */
+        color: #856404; /* Màu chữ vàng đậm */
+        border: 1px solid #ffeeba;
+    }
+
+        .btn-unsave:hover {
+            background-color: #ffecb5;
+            border-color: #ffdf7e;
+        }
+
+        .btn-unsave i {
+            color: #d0021b; /* Trái tim màu đỏ */
+        }
+</style>

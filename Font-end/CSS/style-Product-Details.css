@@ -338,3 +338,20 @@ button {
     .btn-search:hover {
         background-color: #a80000;
     }
+/* Class màu vàng khi đã lưu */
+.button_small.active-yellow {
+    background-color: #FFD700; /* Màu vàng */
+    color: #333; /* Chữ màu đen cho dễ đọc */
+    transition: all 0.3s ease;
+}
+
+    /* Hiệu ứng khi di chuột vào nút đang vàng */
+    .button_small.active-yellow:hover {
+        background-color: #FFC107; /* Vàng đậm hơn chút */
+    }
+/* Class để đổi màu vàng */
+.active-yellow {
+    background-color: #FFD700 !important; /* Màu vàng */
+    color: black !important;
+    font-weight: bold;
+}
