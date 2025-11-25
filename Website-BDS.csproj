@@ -97,6 +97,7 @@
   <ItemGroup>
     <Content Include="Font-end\asset\base.css" />
     <Content Include="Font-end\asset\icon\bars-solid-full.svg" />
+    <Content Include="Font-end\asset\icon\Home-default.jpg" />
     <Content Include="Font-end\asset\icon\logo.png" />
     <Content Include="Font-end\asset\icon\Product_Null.jpg" />
     <Content Include="Font-end\asset\icon\User-default.jpg" />
@@ -108,16 +109,25 @@
     <Content Include="Font-end\asset\reset.css" />
     <Content Include="Font-end\asset\style.css" />
     <Content Include="Font-end\Card.html" />
+    <Content Include="Font-end\CSS\admin_page.css" />
+    <Content Include="Font-end\CSS\CSS_Admin\Style-Customer.css" />
+    <Content Include="Font-end\CSS\CSS_Admin\Style-transaction_management.css" />
+    <Content Include="Font-end\CSS\CSS_Admin\Style_Analysis.css" />
+    <Content Include="Font-end\CSS\CSS_Admin\Style_Index-Admin.css" />
+    <Content Include="Font-end\CSS\CSS_Admin\Style_List-RealEstate.css" />
     <Content Include="Font-end\CSS\edit-page_user.css" />
     <Content Include="Font-end\CSS\layout.css" />
     <Content Include="Font-end\CSS\login.css" />
     <Content Include="Font-end\CSS\Page-Contact.css" />
     <Content Include="Font-end\CSS\Page-User.css" />
     <Content Include="Font-end\CSS\RealEstate.css" />
+    <Content Include="Font-end\CSS\RealEstateLaw.css" />
     <Content Include="Font-end\CSS\signin.css" />
     <Content Include="Font-end\CSS\style-card.css" />
     <Content Include="Font-end\CSS\style-Product-Details.css" />
     <Content Include="Font-end\CSS\style-Search_Products.css" />
+    <Content Include="Font-end\CSS\StyleLayoutUser.css" />
+    <Content Include="Font-end\CSS\Style_LayoutAdmin.css" />
     <Content Include="Font-end\Home.html" />
     <Content Include="Font-end\Layout.html" />
     <Content Include="Font-end\Page-Contact.html" />
@@ -127,15 +137,15 @@
     <Content Include="Font-end\Search-Products.html" />
     <Content Include="Font-end\Sign-in.html" />
     <Content Include="Global.asax" />
-    <Content Include="Models\BDSEntity.Context.tt">
+    <Content Include="Models\BDSEntity1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>BDSEntity.edmx</DependentUpon>
-      <LastGenOutput>BDSEntity.Context.cs</LastGenOutput>
+      <DependentUpon>BDSEntity1.edmx</DependentUpon>
+      <LastGenOutput>BDSEntity1.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\BDSEntity.tt">
+    <Content Include="Models\BDSEntity1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>BDSEntity.edmx</DependentUpon>
-      <LastGenOutput>BDSEntity.cs</LastGenOutput>
+      <DependentUpon>BDSEntity1.edmx</DependentUpon>
+      <LastGenOutput>BDSEntity1.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\Script-backend\script.js" />
     <Content Include="Scripts\Scripts-fontend\API-Address-Selector.js" />
@@ -144,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomesController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\RealEstateController.cs" />
@@ -152,45 +163,52 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Amenity.cs">
-      <DependentUpon>BDSEntity.tt</DependentUpon>
+      <DependentUpon>BDSEntity1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\BDSEntity.Context.cs">
+    <Compile Include="Models\BDSEntity1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BDSEntity.Context.tt</DependentUpon>
+      <DependentUpon>BDSEntity1.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\BDSEntity.cs">
+    <Compile Include="Models\BDSEntity1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BDSEntity.tt</DependentUpon>
+      <DependentUpon>BDSEntity1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\BDSEntity.Designer.cs">
+    <Compile Include="Models\BDSEntity1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BDSEntity.edmx</DependentUpon>
+      <DependentUpon>BDSEntity1.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Contract.cs">
-      <DependentUpon>BDSEntity.tt</DependentUpon>
+      <DependentUpon>BDSEntity1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Favorite.cs">
-      <DependentUpon>BDSEntity.tt</DependentUpon>
+      <DependentUpon>BDSEntity1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Inquiry.cs">
-      <DependentUpon>BDSEntity.tt</DependentUpon>
+      <DependentUpon>BDSEntity1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Product.cs">
-      <DependentUpon>BDSEntity.tt</DependentUpon>
+      <DependentUpon>BDSEntity1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PropertyImage.cs">
-      <DependentUpon>BDSEntity.tt</DependentUpon>
+      <DependentUpon>BDSEntity1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Review.cs">
-      <DependentUpon>BDSEntity.tt</DependentUpon>
+      <DependentUpon>BDSEntity1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>BDSEntity1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
-      <DependentUpon>BDSEntity.tt</DependentUpon>
+      <DependentUpon>BDSEntity1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModel\AdminDashboardViewModel.cs" />
+    <Compile Include="Models\ViewModel\AnalysisViewModel.cs" />
+    <Compile Include="Models\ViewModel\CustomerViewModel.cs" />
     <Compile Include="Models\ViewModel\ProductDetailViewModel.cs" />
+    <Compile Include="Models\ViewModel\TransactionViewModel.cs" />
     <Compile Include="Models\ViewModel\UserProfileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -207,15 +225,28 @@
     <Content Include="Views\RealEstate\Create.cshtml" />
     <Content Include="Views\Users\Page_User.cshtml" />
     <Content Include="Views\RealEstate\Edit_RealEstate.cshtml" />
-    <EntityDeploy Include="Models\BDSEntity.edmx">
+    <EntityDeploy Include="Models\BDSEntity1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>BDSEntity.Designer.cs</LastGenOutput>
+      <LastGenOutput>BDSEntity1.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\BDSEntity.edmx.diagram">
-      <DependentUpon>BDSEntity.edmx</DependentUpon>
+    <Content Include="Models\BDSEntity1.edmx.diagram">
+      <DependentUpon>BDSEntity1.edmx</DependentUpon>
     </Content>
     <None Include="packages.config" />
     <Content Include="Views\RealEstate\Edit.cshtml" />
+    <Content Include="Views\Admin\Admin_Page.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
+    <Content Include="Views\Shared\_LayoutPageUser.cshtml" />
+    <Content Include="Views\Shared\_Sidebar.cshtml" />
+    <Content Include="Views\Shared\_SidebarPageAdmin.cshtml" />
+    <Content Include="Views\Shared\_TopbarPageAdmin.cshtml" />
+    <Content Include="Views\Admin\Index_Admin.cshtml" />
+    <Content Include="Views\Admin\List_RealEstate.cshtml" />
+    <Content Include="Views\Admin\Analysis.cshtml" />
+    <Content Include="Views\Admin\Customer.cshtml" />
+    <Content Include="Views\Admin\transaction_management.cshtml" />
+    <Content Include="Views\Users\_DepositPartial.cshtml" />
+    <Content Include="Views\Users\_Update_Profile.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
