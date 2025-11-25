@@ -27,22 +27,47 @@
                 <ul class="nav-list">
                     <li><a href="@Url.Action("Search_Product", "Product")">Trang Chủ</a></li>
                     <li class="has-dropdown">
-                        <a href="#">Nhà đất bán <i class="arrow-down"></i></a>
+                        <a href="#">Bán Nhà Đất <i class="arrow-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Căn hộ</a></li>
-                            <li><a href="#">Nhà phố</a></li>
-                            <li><a href="#">Biệt thự</a></li>
+                            <li>
+                                <a href="@Url.Action("Search_Product", "Product", new { Type = "căn hộ" })">
+                                    Căn hộ
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="@Url.Action("Search_Product", "Product", new { Type = "nhà phố" })">
+                                    Nhà phố
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="@Url.Action("Search_Product", "Product", new { Type = "đất nền" })">
+                                    Đất nền
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="has-dropdown">
                         <a href="#">Nhà đất cho thuê <i class="arrow-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Phòng trọ</a></li>
-                            <li><a href="#">Căn hộ dịch vụ</a></li>
+
+                            <li>
+                                <a href="@Url.Action("Search_Product", "Product", new { ListingType = "Rent" })">
+                                    BĐS Cho Thuê
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="@Url.Action("Search_Product", "Product", new { ListingType = "Sale" })">
+                                    BĐS Bán
+                                </a>
+                            </li>
+
                         </ul>
                     </li>
-                    <li><a href="@Url.Content("~/Font-end/CSS/RealEstateLaw.html")">Quy hoạch</a></li>
-                    <li><a href="@Url.Content("~/Font-end/Page-Contact.html")">Tin tức</a></li>
+                    <li><a href="@Url.Content("~/Font-end/CSS/RealEstateLaw.html")">Pháp lý nhà đất</a></li>
+                    <li><a href="@Url.Action("PageContact", "Users")">Liên hệ</a></li>
                 </ul>
             </nav>
 

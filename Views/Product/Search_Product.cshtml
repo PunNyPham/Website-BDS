@@ -26,25 +26,102 @@
 
         <!-- Bộ lọc -->
         <div class="filter-panel" id="filterPanel">
-            <h3>Bộ lọc</h3>
+            <h3>Bộ lọc tìm kiếm</h3>
             <form method="get" action="@Url.Action("Search_Product", "Product")">
-                <select id="city" name="City">
-                    <option value="">-- Chọn Tỉnh/Thành phố --</option>
-                </select>
-                <select id="district" name="district">
-                    <option value="">-- Chọn Quận/Huyện --</option>
-                </select>
-                <select id="ward" name="ward">
-                    <option value="">-- Chọn Phường/Xã --</option>
-                </select>
 
-                <select name="price"><option value="">-- Giá cả --</option></select>
-                <select name="area"><option value="">-- Diện tích --</option></select>
-                <select name="amenities"><option value="">-- Tiện ích khác --</option></select>
+                <div class="form-group">
+                    <select id="city" name="City" class="form-control">
+                        <option value="">-- Chọn Tỉnh/Thành phố --</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <select id="district" name="district" class="form-control">
+                        <option value="">-- Chọn Quận/Huyện --</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <select id="ward" name="ward" class="form-control">
+                        <option value="">-- Chọn Phường/Xã --</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <select name="price" class="form-control">
+                        <option value="">-- Mức giá --</option>
+                        <option value="under_1">Dưới 1 tỷ</option>
+                        <option value="1_3">1 - 3 tỷ</option>
+                        <option value="3_5">3 - 5 tỷ</option>
+                        <option value="5_10">5 - 10 tỷ</option>
+                        <option value="over_10">Trên 10 tỷ</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <select name="area" class="form-control">
+                        <option value="">-- Diện tích --</option>
+                        <option value="under_30">Dưới 30m²</option>
+                        <option value="30_50">30 - 50m²</option>
+                        <option value="50_80">50 - 80m²</option>
+                        <option value="80_100">80 - 100m²</option>
+                        <option value="over_100">Trên 100m²</option>
+                    </select>
+                </div>
 
                 <button type="submit" class="filter-btn">Tìm kiếm</button>
             </form>
         </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+        <script>
+            var citis = document.getElementById("city");
+            var districts = document.getElementById("district");
+            var wards = document.getElementById("ward");
+
+            // Gọi API lấy dữ liệu địa chính Việt Nam
+            var Parameter = {
+                url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+                method: "GET",
+                responseType: "application/json",
+            };
+
+            var promise = axios(Parameter);
+            promise.then(function (result) {
+                renderCity(result.data);
+            });
+
+            function renderCity(data) {
+                // Đổ dữ liệu Tỉnh
+                for (const x of data) {
+                    citis.options[citis.options.length] = new Option(x.Name, x.Name); // Lưu ý: value là Tên để dễ tìm kiếm
+                }
+
+                // Khi chọn Tỉnh -> Đổ Huyện
+                citis.onchange = function () {
+                    districts.length = 1; // Reset Huyện
+                    wards.length = 1;     // Reset Xã
+                    if (this.value != "") {
+                        const result = data.filter(n => n.Name === this.value);
+                        for (const k of result[0].Districts) {
+                            districts.options[districts.options.length] = new Option(k.Name, k.Name);
+                        }
+                    }
+                };
+
+                // Khi chọn Huyện -> Đổ Xã
+                districts.onchange = function () {
+                    wards.length = 1; // Reset Xã
+                    const dataCity = data.filter((n) => n.Name === citis.value);
+                    if (this.value != "") {
+                        const dataWards = dataCity[0].Districts.filter(n => n.Name === this.value)[0].Wards;
+                        for (const w of dataWards) {
+                            wards.options[wards.options.length] = new Option(w.Name, w.Name);
+                        }
+                    }
+                };
+            }
+        </script>
 
         <!-- Danh sách sản phẩm -->
         <div class="product-list">
@@ -56,10 +133,10 @@
                     <div class="product-card">
                         <div class="product-image">
                             <img src="~/Font-end/asset/icon/Product_Null.jpg"
-                             alt="Avatar"
-                             style="width:100px; height:100px; border-radius:50%; object-fit:cover;" />
-                                 
-                                 
+                                 alt="Avatar"
+                                 style="width:100px; height:100px; border-radius:50%; object-fit:cover;" />
+
+
                         </div>
                         <span class="badge">@item.ListingType</span>
                         <h1>@item.Title</h1>
@@ -86,9 +163,9 @@
                 {
                     <div class="product-card">
                         <div class="product-image">
-                           <img src="~/Font-end/asset/icon/Product_Null.jpg"
-                                alt="Avatar"
-                                style="width:100px; height:100px; border-radius:50%; object-fit:cover;" />
+                            <img src="~/Font-end/asset/icon/Product_Null.jpg"
+                                 alt="Avatar"
+                                 style="width:100px; height:100px; border-radius:50%; object-fit:cover;" />
                         </div>
                         <span class="badge">@item.ListingType</span>
                         <h1>@item.Title</h1>

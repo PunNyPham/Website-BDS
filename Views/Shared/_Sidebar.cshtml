@@ -34,34 +34,33 @@
 </div>
 
 
-<div class="financial_management-Tag">
-    <h3>Quản lý tài chính</h3>
-    <div class="balance">
-        <p>Tài Khoản chính: <span>0đ</span> </p>
+<div class="sidebar-wrapper">
+
+    <div class="financial_management-Tag">
+        <h3>Quản lý tài chính</h3>
+        <div class="balance">
+            <p>Tài Khoản chính:</p>
+            <span>0đ</span>
+        </div>
+
+        <a href="#" class="transaction_history"><i class="fa-solid fa-angle-right"></i> Lịch sử giao dịch</a>
+
+        <button class="Button_Blue"><i class="fa-solid fa-wallet"></i> Nạp tiền</button>
     </div>
-
-    <a href="#" class="transaction_history"><i class="fa-solid fa-angle-right"></i> lịch sử giao dịch</a>  <br>
-    <button class="Button_Blue"><i class="fa-solid fa-wallet"></i> Nạp tiền</button>
-</div>
-
 
     <div class="menu-group">
         <div class="menu-title">Quản lý giao dịch</div>
         <ul class="submenu">
             <li>
-                <a href="#" class="sidebar-link"
-                   data-url="@Url.Action("DepositPartial", "Users", new { id = Model.User.UserID })">
+                <a href="#" class="sidebar-link" data-url="@Url.Action("DepositPartial", "Users", new { id = Model.User.UserID })">
                     Nạp tiền
                 </a>
             </li>
-
             <li>
-                <a href="#" class="sidebar-link"
-                   data-url="@Url.Action("DepositPartial", "Users", new { id = Model.User.UserID })">
+                <a href="#" class="sidebar-link" data-url="@Url.Action("DepositPartial", "Users", new { id = Model.User.UserID })">
                     Quản lý giao dịch
                 </a>
             </li>
-
         </ul>
     </div>
 
@@ -81,19 +80,19 @@
         <div class="menu-title">Hồ sơ môi giới</div>
         <ul class="submenu">
             <li>
-                <a href="#" class="sidebar-link"
-                   data-url="@Url.Action("Update_Profile", "Users", new { id = Model.User.UserID })">
+                <a href="#" class="sidebar-link" data-url="@Url.Action("Update_Profile", "Users", new { id = Model.User.UserID })">
                     Cập nhật hồ sơ
                 </a>
             </li>
             <li>
-                <a href="#" class="sidebar-link"
-                   data-url="@Url.Action("SavedProductsPartial", "Users", new { id = Model.User.UserID })">
+                <a href="#" class="sidebar-link" data-url="@Url.Action("SavedProductsPartial", "Users", new { id = Model.User.UserID })">
                     Tin đã lưu
                 </a>
             </li>
         </ul>
     </div>
+
+</div>
 
     <div class="menu-group">
         <div class="menu-title">Tài khoản</div>
@@ -128,3 +127,164 @@
     });
 
 </script>
+
+<style>
+    /* Reset cơ bản để đảm bảo hiển thị giống nhau */
+    .sidebar-wrapper {
+        width: 280px; /* Độ rộng sidebar, bạn có thể chỉnh lại */
+        background-color: #fff;
+        border-right: 1px solid #e0e0e0;
+        padding: 20px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+    }
+
+    /* --- Phần 1: Thẻ Quản lý tài chính --- */
+    .financial_management-Tag {
+        background: linear-gradient(135deg, #f6f8fd 0%, #e9f0ff 100%); /* Màu nền nhẹ nhàng */
+        border: 1px solid #d0dbe7;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 25px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        text-align: center;
+    }
+
+        .financial_management-Tag h3 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            color: #1a1a1a;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+    .balance {
+        background-color: #fff;
+        border-radius: 6px;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px dashed #ccc;
+    }
+
+        .balance p {
+            margin: 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .balance span {
+            display: block;
+            font-size: 20px;
+            font-weight: 700;
+            color: #007bff; /* Màu xanh nổi bật cho số tiền */
+            margin-top: 5px;
+        }
+
+    .transaction_history {
+        display: inline-block;
+        font-size: 13px;
+        color: #666;
+        text-decoration: none;
+        margin-bottom: 15px;
+        transition: color 0.3s;
+    }
+
+        .transaction_history:hover {
+            color: #007bff;
+            text-decoration: underline;
+        }
+
+        .transaction_history i {
+            font-size: 11px;
+            margin-right: 4px;
+        }
+
+    /* Nút bấm */
+    .Button_Blue {
+        width: 100%;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.1s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px; /* Khoảng cách giữa icon và chữ */
+    }
+
+        .Button_Blue:hover {
+            background-color: #0056b3;
+        }
+
+        .Button_Blue:active {
+            transform: scale(0.98);
+        }
+
+    /* --- Phần 2: Menu Group --- */
+    .menu-group {
+        margin-bottom: 20px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+
+        .menu-group:last-child {
+            border-bottom: none;
+        }
+
+    .menu-title {
+        font-size: 13px;
+        text-transform: uppercase;
+        color: #888;
+        font-weight: 700;
+        margin-bottom: 10px;
+        letter-spacing: 0.5px;
+    }
+
+    .submenu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .submenu li {
+            margin-bottom: 2px;
+        }
+
+        /* Link trong menu */
+        .submenu a, .sidebar-link {
+            display: block;
+            text-decoration: none;
+            color: #444;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: all 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+        }
+
+            /* Hiệu ứng khi rê chuột vào link */
+            .submenu a:hover, .sidebar-link:hover {
+                background-color: #f0f7ff; /* Nền xanh nhạt */
+                color: #007bff; /* Chữ chuyển xanh */
+                padding-left: 18px; /* Hiệu ứng trượt nhẹ sang phải */
+            }
+
+            /* Thêm icon giả lập nếu muốn (Optional) */
+            .submenu a::before {
+                content: "•"; /* Dấu chấm tròn nhỏ */
+                margin-right: 10px;
+                font-size: 18px;
+                color: #ccc;
+                line-height: 1;
+            }
+
+            .submenu a:hover::before {
+                color: #007bff;
+            }
+</style>

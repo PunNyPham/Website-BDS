@@ -1,4 +1,4 @@
-﻿@model  Website_BDS.Models.ViewModel.ProductDetailViewModel
+﻿@model Website_BDS.Models.ViewModel.ProductDetailViewModel
 @{
     Layout = "~/Views/Shared/_LayoutPageHome.cshtml";
 }
@@ -8,16 +8,33 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Product_Details</title>
+    <title>Chi tiết sản phẩm</title>
     <link rel="stylesheet" href="~/Font-end/asset/base.css" />
     <link rel="stylesheet" href="~/Font-end/css/style-Product-Details.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-    <!-- Script -->
+    <style>
+        /* CSS nhỏ để ô nhập từ khóa đẹp hơn */
+        .input-keyword {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+    </style>
+
     <script>
         function openMap() {
+            // --- SỬA LỖI TẠI ĐÂY ---
+            // 1. HtmlDecode: Chuyển đổi mã &#224; thành chữ à
+            // 2. JavaScriptStringEncode: Đảm bảo chuỗi an toàn trong JS
+            var address = '@HttpUtility.JavaScriptStringEncode(System.Web.HttpUtility.HtmlDecode(Model.Product.Address ?? ""))';
+
+            // 3. encodeURIComponent: Mã hóa URL để Google Maps hiểu
             window.open(
-                "https://www.google.com/maps/search/?api=1&query=Landmark+81+Ho+Chi+Minh",
+                "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(address),
                 "_blank"
             );
         }
@@ -32,6 +49,7 @@
                      height="300"
                      width="300" />
             </div>
+
             <div class="Infomation-detailt-product">
                 <div class="save">
                     <button class="button_small @(ViewBag.IsSaved == true ? "active-yellow" : "")"
@@ -42,7 +60,7 @@
                 <div class="listing-overview">
                     <h1>@Model.Product.Title</h1>
                     <h3>Price : <strong>@Model.Product.Price</strong> VNĐ</h3>
-                    <h3>Địa chỉ: @Model.Product.Address</h3>
+                    <h3>Địa chỉ: @(Model.Product.Address?.ToLower())</h3>
                 </div>
                 <div class="Contact">Thông tin mô tả</div>
                 <div class="information-base">
@@ -58,7 +76,6 @@
                         </div>
                         <div class="action-button">
                             <button class="button_small"><i class="fa-solid fa-heart"></i> Lưu</button>
-
                             <button class="button_small"><i class="fa-solid fa-share"></i> Chia sẻ</button>
                             <button class="button_small"><i class="fa-solid fa-circle-exclamation"></i> Báo vi phạm</button>
                         </div>
@@ -66,14 +83,15 @@
                 </div>
             </div>
         </div>
+
         <div class="user-info">
             <div class="product-user-infomation_details">
                 <div class="User">
                     <span id="Avatar-User">
                         <img src="@Url.Content(
-                        string.IsNullOrEmpty(Model?.Seller?.Avatar_User)
-                            ? "~/Font-end/asset/icon/User-default.jpg"
-                            : "~/Content/" + Model.Seller.Avatar_User
+                            string.IsNullOrEmpty(Model?.Seller?.Avatar_User)
+                                ? "~/Font-end/asset/icon/User-default.jpg"
+                                : "~/Content/" + Model.Seller.Avatar_User
                         )" alt="Avatar" style="width:70px; height:70px; border-radius:50%; object-fit:cover;" />
                     </span>
                     <button class="button_small">Xem trang</button>
@@ -84,6 +102,7 @@
                     <button class="button_small">Liên hệ zalo</button>
                 </div>
             </div>
+
             <div class="comment-section">
                 <h4>Bình luận</h4>
                 <div class="Area-comment">
@@ -94,95 +113,31 @@
                     </button>
                 </div>
             </div>
-            <div class="mini-map" onclick="openMap()">
-                <iframe width= "100%"
-                        height="200"
-                        style="border: 0; pointer-events: none"
-                        src="https://www.google.com/maps?q=10.7950,106.7200&z=15&output=embed">
+
+            <div class="mini-map" onclick="openMap()" style="cursor: pointer; margin-top: 20px;">
+                <h4 style="margin-bottom: 10px;">Vị trí trên bản đồ:</h4>
+                <iframe width="100%"
+                        height="250"
+                        style="border: 0; pointer-events: none;"
+                        loading="lazy"
+                        allowfullscreen
+                        src="https://maps.google.com/maps?q=@HttpUtility.UrlEncode(Model.Product.Address)&t=&z=15&ie=UTF8&iwloc=&output=embed">
                 </iframe>
+                <p style="text-align:center; font-size: 12px; color: #666; margin-top: 5px;">(Nhấn vào bản đồ để xem chi tiết)</p>
             </div>
         </div>
     </div>
 
-    <h2 class="section-title" style="text-align: center">
-        Các Mẫu mà Bạn có thể quan tâm đến
-    </h2>
-    <div class="listing-section">
-        <div class="product-listings">
-            <div class="product-card">
-                <!-- Nội dung sản phẩm -->
-                <button class="btn-view">Xem chi tiết</button>
-                <button class="btn-save">Lưu tin</button>
-            </div>
-            <!-- Các thẻ khác -->
-        </div>
-        <aside class="filter-panel">
-            <!-- Bộ lọc tìm kiếm -->
-            <div class="search-box">
-                <input type="hidden" id="transaction-type" name="TransactionType" value="Bán">
-
-                <div class="tabs">
-                    <button class="tab active" onclick="updateType('Bán')">Bán</button>
-                    <button class="tab" onclick="updateType('Mua')">Mua</button>
-                </div>
-
-            </div>
-
-            <script>
-                // Hàm xử lý giao diện active
-                const tabs = document.querySelectorAll('.search-box .tab');
-                tabs.forEach(tab => {
-                    tab.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        tabs.forEach(t => t.classList.remove('active'));
-                        this.classList.add('active');
-                    });
-                });
-
-                // Hàm cập nhật giá trị vào input ẩn để gửi về server
-                function updateType(type) {
-                    document.getElementById('transaction-type').value = type;
-                }
-            </script>
-
-            <div class="form">
-                <select>
-                    <option>Từ khóa</option>
-                </select>
-                <select>
-                    <option>Chọn loại đất</option>
-                </select>
-                <select>
-                    <option>Tỉnh thành, quận huyện</option>
-                </select>
-                <select>
-                    <option>Phường, xã</option>
-                </select>
-
-                <div class="price-row">
-                    <select>
-                        <option>Giá thấp nhất</option>
-                    </select>
-                    <select>
-                        <option>Giá cao nhất</option>
-                    </select>
-                </div>
-
-                <button class="btn-search">Tìm kiếm</button>
-            </div>
-    </div>
-    </aside>
-    </div>
+    
 
 </body>
-
 </html>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
     function ToggleSave(productId, btnElement) {
         $.ajax({
-            
             url: '@Url.Action("ToggleSaveProduct", "Users")',
             type: 'POST',
             data: { productId: productId },
@@ -190,24 +145,18 @@
                 if (response.success) {
                     if (response.isSaved) {
                         $(btnElement).addClass('active-yellow');
-                        // $(btnElement).html('<i class="fa-solid fa-heart"></i> Đã lưu');
                         alert("Đã lưu tin thành công!");
                     } else {
                         $(btnElement).removeClass('active-yellow');
-                        // $(btnElement).html('<i class="fa-solid fa-heart"></i> Lưu tin');
                         alert("Đã bỏ lưu tin!");
                     }
                 } else {
-                    // In ra message cụ thể từ server (ví dụ: chưa đăng nhập)
                     alert(response.message);
                 }
             },
             error: function (xhr, status, error) {
-                // In lỗi chi tiết ra console của trình duyệt (F12 -> Console)
                 console.error("Lỗi:", error);
-                console.log("Chi tiết:", xhr.responseText);
-
-                alert("Có lỗi kết nối: " + xhr.status + " " + xhr.statusText + ". Vui lòng kiểm tra Console (F12) để biết chi tiết.");
+                alert("Có lỗi kết nối: " + xhr.status + ". Vui lòng kiểm tra Console (F12).");
             }
         });
     }

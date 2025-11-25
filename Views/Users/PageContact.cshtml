@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "Liên hệ - Tin tức";
+    Layout = null;
+}
+
+<div class="contact-page-container" style="padding: 50px 0; max-width: 800px; margin: 0 auto;">
+    <div class="contact-form">
+        <h1>Gửi tin nhắn cho tôi</h1>
+        <p>
+            Chúng tôi luôn lắng nghe và hỗ trợ bạn. Nếu bạn có bất kỳ câu hỏi
+            nào về dịch vụ của chúng tôi hoặc cần tư vấn, vui lòng để lại lời nhắn
+            để được hỗ trợ:
+        </p>
+
+        <form method="post" action="@Url.Action("SendContact", "Users")">
+
+            <div class="form-group">
+                <label for="name">Họ và tên</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="Họ và tên" required />
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Số điện thoại</label>
+                <input type="tel" id="phone" name="phone" class="form-control" placeholder="Số điện thoại" required />
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="Email" required />
+            </div>
+
+            <div class="form-group">
+                <label for="subject">Tiêu đề</label>
+                <input type="text" id="subject" name="subject" class="form-control" placeholder="Tiêu đề" required />
+            </div>
+
+            <div class="form-group">
+                <label for="message">Nội dung</label>
+                <textarea id="message" name="message" class="form-control" rows="5" placeholder="Tin nhắn" required></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit" style="margin-top: 20px;">Gửi thông tin</button>
+
+        </form>
+    </div>
+</div>
+
+<link rel="stylesheet" href="~/Font-end/CSS/Page-Contact.css">

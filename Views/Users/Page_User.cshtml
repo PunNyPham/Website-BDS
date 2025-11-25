@@ -4,20 +4,23 @@
     ViewBag.Title = "Trang cá nhân - " + userName;
     Layout = "~/Views/Shared/_LayoutPageUser.cshtml";
 }
+
 <link rel="stylesheet" href="@Url.Content("~/Font-end/asset/reset.css")" />
 <link rel="stylesheet" href="@Url.Content("~/Font-end/asset/base.css")" />
 <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/LayoutHome.css")" />
 <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/Page-User.css")" />
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-
-<!-- DANH SÁCH TIN -->
 <div class="post-list-container">
 
     <h3 class="section-title">Quản lý bài đăng</h3>
 
     <div class="listing-summary">
-        <div class="listing-status-item"><span class="listing-label">Tất cả</span><span class="listing-count">@Model.Products.Count()</span></div>
+        <div class="listing-status-item">
+            <span class="listing-label">Tất cả</span>
+            <span class="listing-count">@Model.Products.Count()</span>
+        </div>
         <div class="listing-status-item"><span class="listing-label">Tin chưa duyệt</span><span class="listing-count">0</span></div>
         <div class="listing-status-item"><span class="listing-label">Tin hết hạn</span><span class="listing-count">0</span></div>
     </div>
@@ -38,30 +41,255 @@
             <i class="fa-solid fa-gear action-gear" data-id="@item.ProductID"></i>
 
             <div class="action-menu" id="menu-@item.ProductID">
-                <a href="@Url.Action("Details", "Products", new { id = item.ProductID })">Xem</a>
+                <a href="@Url.Action("Product_details", "Product", new { id = item.ProductID })">Xem</a>
                 <a href="@Url.Action("Edit", "RealEstate", new { id = item.ProductID })">Sửa</a>
-                <a href="@Url.Action("Delete", "Products", new { id = item.ProductID })"
-                   onclick="return confirm('Xóa bài đăng này?')">Xóa</a>
+                <a href="javascript:void(0)"
+                   class="btn-delete"
+                   data-id="@item.ProductID">Xóa</a>
             </div>
         </div>
     }
 </div>
 
 <script>
-    // Toggle setting gear
+    // 1. Script Toggle Menu (Bánh răng cài đặt)
     document.addEventListener("click", function (e) {
         if (e.target.classList.contains("action-gear")) {
             let id = e.target.dataset.id;
             let menu = document.getElementById("menu-" + id);
 
+            // Ẩn tất cả các menu khác trước khi mở cái mới
             document.querySelectorAll(".action-menu").forEach(m => {
                 if (m !== menu) m.style.display = "none";
             });
 
+            // Toggle hiển thị
             menu.style.display = (menu.style.display === "block") ? "none" : "block";
         }
         else if (!e.target.closest(".post-item-card")) {
+            // Click ra ngoài thì đóng menu
             document.querySelectorAll(".action-menu").forEach(m => m.style.display = "none");
         }
     });
+
+    // 2. Script Xóa bài đăng (AJAX)
+    $(document).ready(function () {
+
+        // Sử dụng 'on' click để bắt sự kiện chuẩn xác nhất
+        $(document).on('click', '.btn-delete', function (e) {
+            e.preventDefault(); // Ngăn chặn hành động mặc định
+
+            var btn = $(this);
+            var id = btn.data('id');
+            var postItem = btn.closest('.post-item-card');
+
+            if (confirm('Bạn có chắc chắn muốn xóa bài đăng này không?')) {
+                $.ajax({
+                    // LƯU Ý QUAN TRỌNG: Controller tên là "Product" (không có s)
+                    url: '@Url.Action("Delete", "Product")',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (response) {
+                        if (response.success) {
+                            // Ẩn menu đi cho đẹp
+                            btn.closest('.action-menu').hide();
+
+                            // Hiệu ứng làm mờ và xóa dòng HTML
+                            postItem.fadeOut(500, function () {
+                                $(this).remove();
+                                updateCount(); // Cập nhật số lượng
+                            });
+
+                            // alert(response.message); // Bỏ comment nếu muốn hiện thông báo
+                        } else {
+                            alert("Lỗi: " + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr.responseText);
+                        alert('Lỗi kết nối server. Vui lòng kiểm tra Console (F12).');
+                    }
+                });
+            }
+        });
+
+        // Hàm cập nhật lại số lượng tin hiển thị trên đầu trang
+        function updateCount() {
+            var countElement = $('.listing-count').first();
+            var currentCountText = countElement.text();
+            var currentCount = parseInt(currentCountText);
+
+            if (!isNaN(currentCount) && currentCount > 0) {
+                countElement.text(currentCount - 1);
+            }
+        }
+    });
 </script>
+
+<style>
+    /* --- Khung thẻ chính --- */
+.post-item-card {
+    position: relative; /* Quan trọng để căn chỉnh nút bánh răng và menu */
+    background-color: #fff;
+    border-radius: 30px; /* Bo góc mềm mại */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06); /* Đổ bóng nhẹ tạo chiều sâu */
+    padding: 30px;
+    margin-bottom: 30px; /* Khoảng cách giữa các thẻ */
+    border: 1px solid #f0f0f0; /* Viền mờ */
+    transition: all 0.2s ease-in-out; /* Hiệu ứng mượt mà */
+    height:auto;
+}
+
+/* Hiệu ứng khi di chuột vào thẻ */
+.post-item-card:hover {
+    transform: translateY(-3px); /* Nổi lên nhẹ */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Bóng đậm hơn */
+    border-color: #e0e0e0;
+}
+
+/* --- Phần thông tin (Ảnh + Text) --- */
+.post-info {
+    display: flex; /* Sắp xếp ảnh và text nằm ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    gap: 16px; /* Khoảng cách giữa ảnh và text */
+}
+
+/* --- Phần hình ảnh thumbnail --- */
+.post-thumb {
+    flex-shrink: 0; /* Không bị co lại khi màn hình nhỏ */
+    width: 110px;  /* Chiều rộng cố định */
+    height: 85px;  /* Chiều cao cố định */
+    border-radius: 8px;
+    overflow: hidden; /* Ẩn phần ảnh thừa */
+    border: 1px solid #eee;
+}
+
+.post-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ảnh tự động lấp đầy khung mà không bị méo */
+    
+}
+
+/* --- Phần nội dung chữ --- */
+.post-text {
+    flex-grow: 1; /* Chiếm phần không gian còn lại */
+    overflow: hidden; /* Xử lý text dài */
+    padding-right: 40px; /* Dành chỗ cho nút bánh răng không đè lên text */
+}
+
+.post-text h4 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #222;
+    /* Tự động cắt text nếu quá dài (1 dòng) */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.post-text p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    /* Tự động cắt text địa chỉ nếu quá dài (tối đa 2 dòng) */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* (Tùy chọn) Làm nổi bật giá tiền */
+.price-highlight {
+    color: #d32f2f; /* Màu đỏ cho giá */
+    font-weight: 700;
+    font-size: 15px;
+}
+
+/* --- Nút bánh răng cài đặt --- */
+.action-gear {
+    position: absolute; /* Căn vị trí tuyệt đối so với thẻ cha */
+    top: 12px;
+    right: 12px;
+    font-size: 18px;
+    color: #a0a0a0;
+    cursor: pointer;
+    padding: 8px; /* Tăng vùng bấm cho dễ click */
+    border-radius: 50%;
+    transition: all 0.2s;
+    z-index: 2;
+}
+
+.action-gear:hover {
+    color: #555;
+    background-color: #f5f5f5; /* Nền xám nhẹ khi hover */
+}
+
+/* --- Menu hành động (Ẩn/Hiện) --- */
+.action-menu {
+    /* display: none;  <- Cái này JS của bạn đã xử lý, không cần CSS set none ở đây nếu JS hoạt động tốt */
+    position: absolute;
+    top: 50px; /* Vị trí ngay dưới nút bánh răng */
+    right: 12px;
+    background-color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* Bóng đổ nổi bật */
+    border-radius: 8px;
+    padding: 8px 0;
+    min-width: 140px; /* Chiều rộng tối thiểu */
+    z-index: 10; /* Đảm bảo nằm trên các phần tử khác */
+    border: 1px solid #eee;
+    animation: fadeInMenu 0.2s ease-in-out; /* Hiệu ứng hiện ra */
+}
+
+/* Link trong menu */
+.action-menu a {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    text-decoration: none;
+    color: #444;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.action-menu a:hover {
+    background-color: #f7f9fa;
+    color: #007bff; /* Màu xanh khi hover link thường */
+}
+
+/* Riêng nút Xóa */
+.action-menu a.btn-delete {
+    color: #d32f2f; /* Màu đỏ */
+    border-top: 1px solid #f0f0f0; /* Đường kẻ ngăn cách nhẹ phía trên nút xóa */
+    margin-top: 4px;
+    padding-top: 12px;
+}
+
+.action-menu a.btn-delete:hover {
+    background-color: #fff1f0; /* Nền đỏ nhạt khi hover */
+    color: #c62828;
+}
+
+/* (Tùy chọn) Mũi tên nhỏ chỉ lên của menu */
+.action-menu::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    right: 14px;
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    transform: rotate(45deg);
+    border-top: 1px solid #eee;
+    border-left: 1px solid #eee;
+}
+
+/* Hiệu ứng menu hiện ra */
+@@keyframes fadeInMenu {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>

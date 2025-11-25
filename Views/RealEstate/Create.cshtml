@@ -7,6 +7,25 @@
 <script defer src="~/Scripts/Scripts-fontend/API-Address-Selector.js"></script>
 <div class="listing-form">
     <h2>Tạo tin đăng</h2>
+    @using (Html.BeginForm("Create", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-md-2">Hình ảnh sản phẩm</label>
+                <div class="col-md-10">
+                    <input type="file" name="imageFile" class="form-control" accept="image/*" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Đăng tin" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
 
     <!-- Hiển thị lỗi nếu có -->
     @if (!ViewData.ModelState.IsValid)
@@ -39,18 +58,18 @@
         <!-- Loại giao dịch (ListingType: Bán/Cho thuê) -->
         <div class="form-group">
             <label>Loại giao dịch:</label>
-            
-                    <input type="radio" name="ListingType" value="Sale" required> 
-                <label>
-                    Bán
-                </label>
 
-                    <input type="radio" name="ListingType" value="Rent"> 
-                <label>
+            <input type="radio" name="ListingType" value="Sale" required>
+            <label>
+                Bán
+            </label>
+
+            <input type="radio" name="ListingType" value="Rent">
+            <label>
                 Cho thuê
-                </label>
+            </label>
 
-            
+
         </div>
 
         <!-- Loại hình BĐS -->

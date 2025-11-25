@@ -236,5 +236,16 @@ namespace Website_BDS.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult SendContact(string name, string phone, string email, string subject, string message)
+        {
+            return View("SendContact");
+
+        }
+
+        public ActionResult PageContact()
+        {
+            return View();
+        }
     }
 }

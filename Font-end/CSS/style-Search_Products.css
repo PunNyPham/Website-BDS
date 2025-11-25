@@ -1,189 +1,378 @@
-.header{
-    height: 100px;
-    width: 100%;
-    background-color: #000000;
-    opacity: 0.9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-   
-}
-.Navication{
-   display: flex;
-   gap: 50px;
-   top: 0;
-   align-items: center;
-}
-.logo{
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-.nav-list{
-    display: flex;
-    gap: 25px;
-    margin: 0 20px;
-}
-.nav-list .nav-item a{
-   color: var(--floralwhite);
-   text-decoration: none;
-   font-size: 24px;
-   position: relative;
-}
-.nav-list .nav-item a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  width: 0%;
-  height: 2px;
-  background-color: var(--floralwhite);
-  transition: width 0.3s ease;
-}
-.nav-list .nav-item a:hover::after {
-  width: 100%;
-}
-.link-navication{
-    display: flex;
-    justify-content: space-around;
-    gap: 25px;
-}
-.Title-header{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
-}
-
-
-/* =================== Fill product ================== */
-
+/* =================== PRODUCT LIST & CARD (Đã Tối Ưu) ================== */
 
 /* Container tổng */
 .container {
     display: flex;
-    gap: 20px;
-    margin-top: 20px;
+    gap: 30px; /* Tăng khoảng cách giữa bộ lọc và list cho thoáng */
+    margin-top: 30px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 15px;
 }
 
-/* Bộ lọc bên trái */
+/* --- Bộ lọc bên trái --- */
 .filter-panel {
-    display: none;
-    width: 25%;
+    display: none; /* JS sẽ bật cái này lên */
+    width: 280px; /* Cố định chiều rộng đẹp hơn % */
+    flex-shrink: 0;
     background-color: #fff;
-    padding: 15px;
-    border-radius: 6px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    border: 1px solid #f0f0f0;
+    height: fit-content; /* Chỉ cao bằng nội dung */
 }
 
-.filter-panel h3 {
-    margin-bottom: 15px;
-    font-size: 18px;
-    color: #333;
-}
+    .filter-panel h3 {
+        margin-bottom: 20px;
+        font-size: 18px;
+        font-weight: 700;
+        color: #2c3e50;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+    }
 
-.filter-panel select {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-}
+    .filter-panel select {
+        width: 100%;
+        padding: 10px 12px;
+        margin-bottom: 15px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 14px;
+        color: #555;
+        outline: none;
+        transition: border-color 0.3s;
+    }
+
+        .filter-panel select:focus {
+            border-color: var(--primary-color, #e03c31);
+        }
 
 .filter-btn {
     width: 100%;
-    padding: 10px;
-    background-color: #007bff;
+    padding: 12px;
+    background-color: var(--primary-color, #e03c31);
     color: white;
     border: none;
-    border-radius: 4px;
-    font-weight: bold;
+    border-radius: 8px;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 14px;
 }
 
-.filter-btn:hover {
-    background-color: #0056b3;
-}
+    .filter-btn:hover {
+        background-color: #c9302c;
+        box-shadow: 0 4px 10px rgba(224, 60, 49, 0.3);
+    }
 
-/* Danh sách sản phẩm bên phải */
+/* --- Danh sách sản phẩm bên phải (Dùng Grid) --- */
 .product-list {
-    width: 75%;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    flex-grow: 1;
+    display: grid;
+    /* Tự động chia cột: Tối thiểu 260px, còn lại tự co giãn */
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 25px;
 }
 
-/* Card sản phẩm */
+/* --- Card sản phẩm (Hiện đại hóa) --- */
 .product-card {
-    width: calc(33.333% - 13.333px);
     background-color: #fff;
-    padding: 15px;
-    border-radius: 6px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    border: 1px solid #f0f0f0;
     position: relative;
-    transition: transform 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    flex-direction: column; /* Căn dọc nội dung */
+    overflow: hidden; /* Để bo góc ảnh không bị lòi ra */
 }
 
-.product-card:hover {
-    transform: scale(1.02);
-}
+    /* Hiệu ứng bay lên khi hover */
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+        border-color: transparent;
+    }
 
+/* Khung ảnh */
 .product-image {
     width: 100%;
-    height: 250px;
-    background-color: #ddd;
-    border-radius: 8px;
-    margin-bottom: 10px;
+    height: 200px; /* Chiều cao cố định cho đều */
+    background-color: #f9f9f9;
+    overflow: hidden; /* Để zoom ảnh không bị tràn */
+    position: relative;
 }
 
-/* Badge NEW PROJECT */
+    /* Ảnh bên trong */
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Ảnh luôn lấp đầy khung đẹp */
+        transition: transform 0.5s ease;
+    }
+
+/* Zoom ảnh khi hover vào card */
+.product-card:hover .product-image img {
+    transform: scale(1.1);
+}
+
+/* Badge (Nhãn dán) */
 .badge {
     position: absolute;
     top: 15px;
     left: 15px;
-    background-color: green;
+    background-color: rgba(40, 167, 69, 0.9); /* Màu xanh trong suốt nhẹ */
     color: white;
-    padding: 4px 8px;
-    font-size: 12px;
-    border-radius: 3px;
+    padding: 5px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: 4px;
+    z-index: 2;
+    backdrop-filter: blur(4px);
 }
 
-/* Nội dung sản phẩm */
-.product-card h4 {
+/* --- Nội dung chữ bên trong --- */
+/* Tiêu đề */
+.product-card h1 {
     font-size: 16px;
-    margin-bottom: 6px;
-    color: #333;
+    font-weight: 700;
+    margin: 15px 15px 5px 15px;
+    color: #2c3e50;
+    line-height: 1.4;
+    /* Cắt dòng nếu tiêu đề quá dài (tối đa 2 dòng) */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
+/* Mô tả phụ (Description) */
+.product-card h4 {
+    font-size: 13px;
+    font-weight: 400;
+    color: #888;
+    margin: 0 15px 10px 15px;
+    /* Cắt 1 dòng */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Địa chỉ & Giá */
 .product-card p {
     font-size: 14px;
     color: #555;
-    margin-bottom: 4px;
+    margin: 0 15px 5px 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
-/* Nút chức năng */
+    /* Riêng phần giá tiền làm nổi bật */
+    .product-card p:last-of-type {
+        color: #d32f2f; /* Màu đỏ */
+        font-weight: 700;
+        font-size: 16px;
+        margin-top: auto; /* Đẩy giá xuống sát nút bấm nếu nội dung trên ngắn */
+        margin-bottom: 15px;
+    }
+
+/* --- Nút chức năng --- */
 .card-buttons {
     display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
+    gap: 10px;
+    padding: 15px;
+    border-top: 1px solid #f0f0f0;
+    background-color: #fff;
 }
 
 .view-btn, .save-btn {
-    padding: 6px 10px;
+    flex: 1; /* Chia đều 2 nút */
+    padding: 10px;
     font-size: 13px;
+    font-weight: 600;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
 }
 
 .view-btn {
-    background-color: #17a2b8;
-    color: white;
+    background-color: #eef2f7;
+    color: #007bff;
+    text-decoration: none; /* Bỏ gạch chân thẻ a */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+    .view-btn:hover {
+        background-color: #007bff;
+        color: white;
+    }
+
 .save-btn {
-    background-color: #e0e0e0;
-    color: #333;
+    background-color: #fff;
+    color: #666;
+    border: 1px solid #ddd;
+}
+
+    .save-btn:hover {
+        border-color: #d32f2f;
+        color: #d32f2f;
+        background-color: #fff5f5;
+    }
+
+/* --- Căn giữa Section Tại sao chọn chúng tôi --- */
+/* 1. Ép Container thành cột dọc và căn giữa mọi thứ */
+.why-choose-us .container {
+    display: flex !important;
+    flex-direction: column !important; /* Xếp dọc từ trên xuống */
+    align-items: center !important; /* Căn giữa trục ngang */
+    text-align: center !important; /* Căn giữa văn bản */
+}
+
+/* 2. Xử lý Tiêu đề (Quan trọng) */
+.why-choose-us .section-title {
+    /* Chuyển thành khối vừa khít nội dung để căn giữa được */
+    display: inline-block !important;
+    width: auto !important;
+    /* Style chữ */
+    font-size: 28px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    /* Xử lý vạch đỏ: Khi căn giữa, vạch đỏ bên trái nhìn sẽ hơi lệch */
+    /* Cách đẹp nhất là chuyển vạch đỏ xuống dưới chân */
+    border-left: none !important;
+    padding-left: 0 !important;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+    /* Tạo gạch chân màu đỏ nằm chính giữa (Thay cho vạch bên trái) */
+    .why-choose-us .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%); /* Căn giữa tuyệt đối */
+        width: 60px;
+        height: 4px;
+        background-color: #e03c31; /* Màu đỏ */
+        border-radius: 2px;
+    }
+
+/* 3. Xử lý đoạn mô tả */
+.why-choose-us .section-description {
+    max-width: 800px !important; /* Giới hạn độ rộng để chữ không tràn màn hình */
+    margin: 0 auto 40px auto !important; /* Căn giữa block */
+    text-align: center !important;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* 4. Xử lý Grid chứa các thẻ */
+.features-grid {
+    display: flex !important;
+    justify-content: center !important; /* Căn giữa các thẻ trong hàng */
+    flex-wrap: wrap !important;
+    gap: 30px;
+    width: 100%;
+}
+
+/* Căn giữa nội dung TRONG từng thẻ */
+.feature-item {
+    text-align: center !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+        /* --- Option 2 (Khuyên dùng): Đổi sang gạch chân sẽ đẹp hơn khi căn giữa --- */
+        /*
+    border-left: none;
+    padding-left: 0;
+    position: relative;
+    padding-bottom: 15px;
+    */
+    }
+
+    /* (Nếu dùng Option 2 thì mở comment đoạn này) */
+    /*
+.why-choose-us .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background-color: #e03c31;
+    border-radius: 2px;
+}
+*/
+
+    /* Đoạn văn mô tả */
+    .why-choose-us .section-description {
+        max-width: 800px; /* Giới hạn độ rộng để không bị tràn ra 2 mép quá nhiều */
+        margin: 0 auto 50px; /* Canh giữa block và đẩy danh sách thẻ xuống */
+        color: #666;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+/* Grid chứa các thẻ (Card) */
+.features-grid {
+    display: flex;
+    justify-content: center; /* Căn giữa các thẻ */
+    flex-wrap: wrap; /* Xuống dòng nếu màn hình nhỏ */
+    gap: 30px;
+    width: 100%;
+}
+
+/* Tinh chỉnh thẻ Card cho đẹp hơn */
+.feature-item {
+    flex: 1;
+    min-width: 250px;
+    max-width: 280px;
+    background: #fff;
+    padding: 30px 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Căn giữa nội dung trong thẻ */
+}
+
+    .feature-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+.feature-icon img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+    object-fit: contain;
+}
+
+.feature-item h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #222;
+}
+
+.feature-item p {
+    font-size: 14px;
+    color: #777;
+    line-height: 1.5;
 }

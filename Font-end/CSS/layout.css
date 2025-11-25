@@ -1,323 +1,271 @@
-﻿* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-/* --- Cấu hình chung --- */
+﻿/* ================= 1. CẤU HÌNH CHUNG (VARIABLES) ================= */
 :root {
-    --primary-color: #e03c31; /* Màu đỏ nổi bật cho BĐS, bạn có thể đổi thành màu xanh */
-    --text-color: #333;
-    --text-light: #666;
+    --primary-color: #e03c31;       /* Màu chủ đạo (Đỏ BĐS) */
+    --primary-hover: #c9302c;
+    --secondary-color: #007bff;     /* Màu phụ (Xanh dương) */
+    --text-dark: #2c3e50;           /* Màu chữ đậm */
+    --text-light: #6c757d;          /* Màu chữ nhạt */
+    --bg-body: #f4f6f9;             /* Màu nền trang web (xám rất nhạt) */
     --bg-white: #ffffff;
-    --border-color: #e5e5e5;
-    --shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    --border-color: #e9ecef;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 15px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 25px rgba(0,0,0,0.12);
+    --radius: 10px;                 /* Độ bo góc chuẩn */
+    --transition: all 0.3s ease;    /* Hiệu ứng chuyển động chuẩn */
 }
 
+/* Reset cơ bản */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-body); color: var(--text-dark); line-height: 1.6; }
+ul { list-style: none; }
+a { text-decoration: none; color: inherit; transition: var(--transition); }
 
-ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
+/* ================= 2. SIDEBAR (QUẢN LÝ TÀI CHÍNH & MENU) ================= */
 
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-/* --- Container chính --- */
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 40px;
-    height: 80px;
-    background-color: var(--bg-white);
-    box-shadow: var(--shadow);
-    position: sticky; /* Ghim menu khi cuộn trang */
-    top: 0;
-    z-index: 1000;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* --- Logo --- */
-.logo-box {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-}
-
-    .logo-box img {
-        height: 45px;
-        width: auto;
-        object-fit: contain;
-    }
-
-.logo-text {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--text-color);
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-}
-
-/* --- Menu điều hướng (Nav) --- */
-.main-nav {
-    flex: 1; /* Để nav chiếm không gian giữa */
-    display: flex;
-    justify-content: center; /* Căn giữa menu */
-}
-
-.nav-list {
-    display: flex;
-    gap: 30px;
-    align-items: center;
-}
-
-    .nav-list > li {
-        position: relative;
-        padding: 25px 0; /* Tăng vùng hover */
-    }
-
-        .nav-list > li > a {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-color);
-            transition: color 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-            .nav-list > li > a:hover {
-                color: var(--primary-color);
-            }
-
-/* Mũi tên dropdown */
-.arrow-down {
-    display: inline-block;
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid #666;
-    transition: transform 0.3s ease;
-}
-
-.has-dropdown:hover .arrow-down {
-    transform: rotate(180deg);
-    border-top-color: var(--primary-color);
-}
-
-/* --- Dropdown Menu --- */
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: var(--bg-white);
-    min-width: 200px;
-    border-radius: 8px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(15px);
-    transition: all 0.3s ease;
+/* Thẻ Quản lý tài chính */
+.financial_management-Tag {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
     border: 1px solid var(--border-color);
-    overflow: hidden;
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+    transition: var(--transition);
 }
 
-/* Hiệu ứng hiện dropdown khi hover */
-.has-dropdown:hover .dropdown-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+.financial_management-Tag:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
 }
 
-.dropdown-menu li a {
-    display: block;
-    padding: 12px 20px;
-    font-size: 0.95rem;
+.financial_management-Tag h3 {
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
     color: var(--text-light);
-    border-bottom: 1px solid #f5f5f5;
-    transition: background 0.2s, color 0.2s;
+    margin-bottom: 15px;
 }
 
-.dropdown-menu li:last-child a {
-    border-bottom: none;
+.balance {
+    background: #eef2f7;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
 }
 
-.dropdown-menu li a:hover {
-    background-color: #f9f9f9;
-    color: var(--primary-color);
-    padding-left: 25px; /* Hiệu ứng trượt nhẹ chữ */
-}
+.balance p { font-size: 13px; color: var(--text-light); margin: 0; }
+.balance span { display: block; font-size: 24px; font-weight: 800; color: var(--secondary-color); }
 
-/* --- Khu vực User Actions (Nút bấm) --- */
-.user-actions {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+.transaction_history {
+    font-size: 13px;
+    color: var(--text-light);
+    display: inline-block;
+    margin-bottom: 15px;
 }
+.transaction_history:hover { color: var(--secondary-color); text-decoration: underline; }
 
-.btn {
-    padding: 10px 24px;
+/* Nút Nạp tiền */
+.Button_Blue {
+    width: 100%;
+    background-color: var(--secondary-color);
+    color: var(--bg-white);
+    border: none;
+    padding: 10px;
     border-radius: 6px;
-    font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-}
-
-/* Nút Đăng tin (Nổi bật) */
-.btn-primary {
-    background-color: var(--primary-color);
-    color: #fff;
-    border: 1px solid var(--primary-color);
-}
-
-    .btn-primary:hover {
-        background-color: #c9302c; /* Màu tối hơn khi hover */
-        box-shadow: 0 4px 10px rgba(224, 60, 49, 0.3);
-    }
-
-/* Nút Đăng nhập / Trang cá nhân (Viền) */
-.btn-outline {
-    background-color: transparent;
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
-}
-
-    .btn-outline:hover {
-        border-color: var(--text-color);
-        background-color: var(--text-color);
-        color: #fff;
-    }
-
-.header {
-    height: 100vh;
-    width: 100%;
-    background: url("../asset/img/Subtract.svg") no-repeat center;
-    background-size: cover;
-    background-color: #000000;
-    opacity: 0.9;
-    padding-top: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
+    transition: var(--transition);
+}
+.Button_Blue:hover { background-color: #0056b3; box-shadow: 0 4px 10px rgba(0,123,255,0.3); }
+
+/* Nhóm Menu Sidebar */
+.menu-group { margin-bottom: 20px; }
+.menu-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #adb5bd;
+    margin-bottom: 8px;
+    padding-left: 10px;
 }
 
-.Navication {
+.submenu li a {
     display: flex;
-    gap: 50px;
-    position: absolute;
-    top: 0;
     align-items: center;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-dark);
+    border-radius: 6px;
+    margin-bottom: 2px;
 }
 
-.logo {
+.submenu li a:hover {
+    background-color: #ffffff;
+    color: var(--primary-color);
+    box-shadow: var(--shadow-sm);
+    padding-left: 20px; /* Hiệu ứng trượt phải */
+}
+
+/* ================= 3. DANH SÁCH BÀI ĐĂNG (POST LIST) ================= */
+
+.post-list-container {
+    background: var(--bg-white);
+    padding: 25px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    border-left: 4px solid var(--primary-color);
+    padding-left: 12px;
+}
+
+/* Thống kê bài đăng */
+.listing-summary {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+}
+
+.listing-status-item {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-light);
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 20px;
+    transition: var(--transition);
 }
 
-.nav-list {
+.listing-status-item:hover { background-color: #f1f1f1; color: var(--text-dark); }
+.listing-count { font-weight: 700; background: #e9ecef; padding: 2px 8px; border-radius: 10px; font-size: 12px; }
+
+/* Card bài đăng */
+.post-item-card {
     display: flex;
-    gap: 25px;
-    margin: 0 20px;
-}
-
-    .nav-list .nav-item a {
-        color: var(--floralwhite);
-        text-decoration: none;
-        font-size: 24px;
-        position: relative;
-    }
-
-        .nav-list .nav-item a::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            bottom: -2px;
-            width: 0%;
-            height: 2px;
-            background-color: var(--floralwhite);
-            transition: width 0.3s ease;
-        }
-
-        .nav-list .nav-item a:hover::after {
-            width: 100%;
-        }
-
-.link-navication {
-    display: flex;
-    justify-content: space-around;
-    gap: 25px;
-}
-
-.Title-header {
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 24px;
+    justify-content: space-between;
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 15px;
+    margin-bottom: 15px;
+    position: relative;
+    transition: var(--transition);
 }
 
-
-/* ================= footer =============== */
-.footer {
-    background-color: #f7f7f7;
-    padding: 40px 80px 20px;
-    font-family: 'Segoe UI', sans-serif;
-    color: #222;
+.post-item-card:hover {
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
 }
 
-.footer-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 30px;
-    margin-bottom: 30px;
+.post-info { display: flex; align-items: center; gap: 15px; flex: 1; }
+
+.post-thumb {
+    width: 90px;
+    height: 70px;
+    border-radius: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
 }
 
-.footer-column h4 {
+.post-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.post-item-card:hover .post-thumb img { transform: scale(1.1); }
+
+.post-text h4 {
     font-size: 16px;
-    margin-bottom: 10px;
-    font-weight: bold;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--text-dark);
+    display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
 }
 
-.footer-column ul {
-    list-style: none;
-    padding: 0;
-}
-
-    .footer-column ul li {
-        margin-bottom: 6px;
-    }
-
-.footer-column a {
-    color: #000;
-    text-decoration: none;
-}
-
-    .footer-column a:hover {
-        text-decoration: underline;
-        color: #0066cc;
-    }
-
-.social-icons a img {
-    width: 28px;
-    margin-right: 10px;
-    transition: transform 0.2s;
-}
-
-    .social-icons a img:hover {
-        transform: scale(1.1);
-    }
-
-.footer-bottom {
-    text-align: center;
+.post-text p {
     font-size: 13px;
-    color: #555;
-    border-top: 1px solid #ddd;
-    padding-top: 15px;
+    color: var(--text-light);
+    display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
 }
+
+/* Nút bánh răng & Menu */
+.action-gear {
+    font-size: 18px;
+    color: #ccc;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+.action-gear:hover { color: var(--text-dark); background: #f1f1f1; transform: rotate(90deg); }
+
+.action-menu {
+    display: none; /* JS sẽ toggle cái này */
+    position: absolute;
+    top: 45px;
+    right: 15px;
+    background: var(--bg-white);
+    min-width: 140px;
+    box-shadow: var(--shadow-lg);
+    border-radius: 8px;
+    z-index: 100;
+    overflow: hidden;
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+.action-menu a {
+    display: block;
+    padding: 10px 15px;
+    font-size: 14px;
+    color: var(--text-dark);
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.action-menu a:hover { background: #f8f9fa; color: var(--secondary-color); }
+.action-menu a.btn-delete:hover { background: #fff5f5; color: #dc3545; }
+
+/* ================= 4. CÁC NÚT BẤM (BUTTONS) ================= */
+.btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: var(--transition);
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-primary { background-color: var(--primary-color); color: white; }
+.btn-primary:hover { background-color: var(--primary-hover); box-shadow: 0 4px 12px rgba(224, 60, 49, 0.3); }
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-dark);
+}
+.btn-outline:hover { border-color: var(--text-dark); background: var(--text-dark); color: white; }
+
+/* ================= 5. FOOTER (Gọn gàng) ================= */
+.footer { background-color: #fff; border-top: 1px solid var(--border-color); padding: 40px 0; margin-top: 40px; }
+.footer-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+.footer-column h4 { font-size: 16px; font-weight: 700; margin-bottom: 15px; color: var(--text-dark); }
+.footer-column ul li a { color: var(--text-light); font-size: 14px; transition: var(--transition); }
+.footer-column ul li a:hover { color: var(--primary-color); padding-left: 5px; }
+.footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid #eee; font-size: 13px; color: #999; margin-top: 30px; }
