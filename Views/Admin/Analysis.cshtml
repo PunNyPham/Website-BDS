@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "Analysis";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/CSS_Admin/Style_Analysis.css")" />
+
+<body>
+
+    <div class="grid-4">
+        <div class="card">
+            <p class="title"><span class="icon ic-money"></span> Doanh thu trung bình/tháng</p>
+            <div class="value">--</div>
+        </div>
+        <div class="card">
+            <p class="title"><span class="icon ic-transaction"></span> Giao dịch trung bình/tháng</p>
+            <div class="value">--</div>
+        </div>
+        <div class="card">
+            <p class="title"><span class="icon ic-value"></span> Giá trị giao dịch TB</p>
+            <div class="value">--</div>
+        </div>
+        <div class="card">
+            <p class="title"><span class="icon ic-rate"></span> Tỷ lệ chuyển đổi</p>
+            <div class="value">--</div>
+        </div>
+    </div>
+
+    <div class="card chart-placeholder">Biểu đồ doanh thu 12 tháng (để trống)</div>
+
+    <div class="grid-2">
+        <div class="card chart-placeholder">Biểu đồ hiệu suất theo loại BĐS (để trống)</div>
+        <div class="card chart-placeholder">Biểu đồ doanh thu theo khu vực (để trống)</div>
+    </div>
+
+    <div class="card">
+        <h3>Chi tiết hiệu suất theo loại BĐS</h3>
+        <table>
+            <thead>
+                <tr><th>Loại BĐS</th><th>Đã bán</th><th>Doanh thu</th><th>Giá TB</th><th>Hiệu suất</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>
+                <tr><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+
+

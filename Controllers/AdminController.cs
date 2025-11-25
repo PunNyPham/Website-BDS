@@ -13,5 +13,22 @@ namespace Website_BDS.Controllers
         {
             return View();
         }
+
+        public ActionResult List_RealEstate()
+        {
+            return View();
+        }
+        public ActionResult Analysis()
+        {
+            return View();
+        }
+        public ActionResult Customer()
+        {
+            return View();
+        }
+        public ActionResult transaction_management()
+        {
+            return View();
+        }
     }
 }

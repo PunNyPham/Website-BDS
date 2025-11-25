@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "List_RealEstate";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<body>
+
+
+    <div class="header">
+        <h2>Quản lý bất động sản</h2>
+        <div class="actions">
+            <button>+ Thêm BĐS mới</button>
+        </div>
+    </div>
+
+
+    <div class="filters">
+        <input type="text" placeholder="Tìm kiếm..." />
+        <select>
+            <option>Tất cả loại</option>
+        </select>
+        <select>
+            <option>Tất cả trạng thái</option>
+        </select>
+    </div>
+
+
+    <div class="list">
+        <!-- CARD TEMPLATE (Backend sẽ render lặp lại nhiều lần theo dữ liệu) -->
+        <div class="card">
+            <div style="position: relative;">
+                <img src="/mnt/data/3d1c3653-07d8-40b9-8f8d-ebf8927193e9.png" alt="House" />
+                <div class="status">Còn trống</div>
+            </div>
+            <div class="card-body">
+                <div class="title">Tên bất động sản</div>
+                <div class="location">📍 Quận X, TP.HCM</div>
+                <div class="info">
+                    <div>🛏 2</div>
+                    <div>🛁 2</div>
+                    <div>📐 80m²</div>
+                </div>
+                <div class="price">5.0 tỷ</div>
+            </div>
+            <div class="card-footer">
+                <div class="icon">👁</div>
+                <div class="icon">✏</div>
+                <div class="icon">🗑</div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</body>

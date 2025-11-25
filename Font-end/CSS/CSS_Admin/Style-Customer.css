@@ -1,0 +1,106 @@
+﻿body {
+    font-family: Arial;
+    background: #f5f6fa;
+    padding: 24px;
+}
+
+.container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.header {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.filters {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.input, .select {
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    flex: 1;
+    font-size: 14px;
+}
+
+.stats {
+    display: flex;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.stat-box {
+    flex: 1;
+    background: #fafafa;
+    padding: 14px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+}
+
+th, td {
+    padding: 14px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+th {
+    background: #f9f9f9;
+    text-align: left;
+}
+
+.avatar {
+    width: 34px;
+    height: 34px;
+    background: #cfe2ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #2c4f9e;
+}
+
+.badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    display: inline-block;
+}
+
+.b-mua {
+    background: #e3f2fd;
+    color: #0d47a1;
+}
+
+.b-ban {
+    background: #f3e5f5;
+    color: #6a1b9a;
+}
+
+.st-active {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.st-pending {
+    background: #fff8e1;
+    color: #ff8f00;
+}
+
+.st-inactive {
+    background: #ffebee;
+    color: #c62828;
+}

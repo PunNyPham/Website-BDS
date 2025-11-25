@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "transaction_management";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/CSS_Admin/Style-transaction_management.css")" />
+<!-- Transaction Management UI -->
+<section class="transaction-container">
+    <h2>Quản lý giao dịch</h2>
+    <div class="summary-grid">
+        <div class="summary-item">Tổng doanh thu</div>
+        <div class="summary-item">Hoa hồng</div>
+        <div class="summary-item">Đã hoàn thành</div>
+        <div class="summary-item">Đang xử lý</div>
+    </div>
+
+    <div class="filters">
+        <input type="text" placeholder="Tìm kiếm giao dịch..." />
+        <select>
+            <option>Tất cả loại</option>
+        </select>
+        <select>
+            <option>Tất cả trạng thái</option>
+        </select>
+    </div>
+
+    <table class="transaction-table">
+        <thead>
+            <tr>
+                <th>Mã GD</th>
+                <th>BĐS</th>
+                <th>Khách hàng</th>
+                <th>Loại</th>
+                <th>Số tiền</th>
+                <th>Hoa hồng</th>
+                <th>Ngày GD</th>
+                <th>PT thanh toán</th>
+                <th>Trạng thái</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Empty placeholder rows -->
+            <tr><td colspan="9" class="empty">(Chưa có dữ liệu)</td></tr>
+        </tbody>
+    </table>
+</section>
+
+
+

@@ -1,0 +1,53 @@
+﻿.transaction-container {
+    padding: 20px;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.summary-item {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+    .filters input, .filters select {
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+    }
+
+.transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+}
+
+    .transaction-table th {
+        background: #f7f7f7;
+        text-align: left;
+        padding: 10px;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .transaction-table td {
+        padding: 10px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+.empty {
+    text-align: center;
+    padding: 20px;
+    color: #888;
+}

@@ -1,0 +1,67 @@
+﻿
+@{
+    ViewBag.Title = "Customer";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/CSS_Admin/Style-Customer.css")" />
+
+<body>
+
+    <div class="container">
+        <div class="header">Quản lý khách hàng</div>
+
+        <div class="filters">
+            <input class="input" placeholder="Tìm kiếm khách hàng..." />
+            <select class="select"><option>Tất cả loại</option></select>
+            <select class="select"><option>Tất cả trạng thái</option></select>
+        </div>
+
+        <div class="stats">
+            <div class="stat-box">Tổng khách hàng<br><b>--</b></div>
+            <div class="stat-box">Khách hoạt động<br><b>--</b></div>
+            <div class="stat-box">Khách mua<br><b>--</b></div>
+            <div class="stat-box">Khách bán<br><b>--</b></div>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Khách hàng</th>
+                    <th>Liên hệ</th>
+                    <th>Địa chỉ</th>
+                    <th>Loại</th>
+                    <th>BĐS</th>
+                    <th>Tổng giá trị</th>
+                    <th>Trạng thái</th>
+                    <th>Ngày tham gia</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><div class="avatar">--</div></td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td><span class="badge b-mua">--</span></td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td><span class="badge st-active">--</span></td>
+                    <td>--</td>
+                </tr>
+                <tr>
+                    <td><div class="avatar">--</div></td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td><span class="badge b-ban">--</span></td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td><span class="badge st-inactive">--</span></td>
+                    <td>--</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+
+

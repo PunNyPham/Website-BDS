@@ -3,55 +3,78 @@
     ViewBag.Title = "Index_Admin";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+<link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/CSS_Admin/Style_Index-Admin.css")" />
+<!-- main content -->
 
-<div class="board">
-    <section class="kpis">
-        <div class="card">
-            <div class="meta">Net Sales</div>
-            <div class="big">₹33,596</div>
-            <div style="margin-top:10px;color:green;font-size:13px">▲ 21% (2)</div>
-        </div>
 
-        <div class="card">
-            <div class="meta">Net Customers</div>
-            <div class="big">20,596</div>
-            <div style="margin-top:10px;color:green;font-size:13px">▲ 5% (10)</div>
-        </div>
-
-        <div class="card">
-            <div class="meta">Total Expenses</div>
-            <div class="big">₹6,779</div>
-            <div style="margin-top:10px;color:#ef4444;font-size:13px">▼ 2% (1,000)</div>
-        </div>
-    </section>
-
-    <section class="grid">
-        <div class="card chart-placeholder">
+    <!-- KPI Cards -->
+    <div class="kpi-cards">
+        <div class="kpi-card">
+            <div class="icon blue"><i class="fa-solid fa-building"></i></div>
             <div>
-                <div style="font-weight:600;margin-bottom:8px">Revenue report</div>
-                <svg width="520" height="160" viewBox="0 0 520 160" preserveAspectRatio="none">
-                    <polyline fill="none" stroke="#3b82f6" stroke-width="3" points="0,120 70,90 140,110 210,70 280,100 350,80 420,95 520,65" />
-                </svg>
+                <p class="label">Tổng bất động sản</p>
+                <h3 class="value">—</h3>
             </div>
         </div>
 
-        <div>
-            <div class="card mini" style="margin-bottom:12px">
-                <div style="font-weight:600">Order Placed</div>
-                <div class="chart-placeholder" style="height:120px;margin-top:10px">Bar chart</div>
-            </div>
-            <div class="card mini">
-                <div style="font-weight:600">Engagement (30 days)</div>
-                <div class="chart-placeholder" style="height:80px;margin-top:10px">Small sparkline</div>
+        <div class="kpi-card">
+            <div class="icon green"><i class="fa-solid fa-dollar-sign"></i></div>
+            <div>
+                <p class="label">Doanh thu tháng này</p>
+                <h3 class="value">—</h3>
             </div>
         </div>
-    </section>
 
-    <section class="widgets">
-        <div class="card">Sales Returned <div style="height:80px;margin-top:8px" class="chart-placeholder">heatmap</div></div>
-        <div class="card">Payment mode <div style="height:80px;margin-top:8px" class="chart-placeholder">progress bars</div></div>
-        <div class="card">Quick Actions <div style="height:80px;margin-top:8px" class="chart-placeholder">buttons</div></div>
-    </section>
+        <div class="kpi-card">
+            <div class="icon purple"><i class="fa-solid fa-user"></i></div>
+            <div>
+                <p class="label">Khách hàng</p>
+                <h3 class="value">—</h3>
+            </div>
+        </div>
 
-</div>
+        <div class="kpi-card">
+            <div class="icon orange"><i class="fa-solid fa-chart-line"></i></div>
+            <div>
+                <p class="label">Giao dịch hoàn thành</p>
+                <h3 class="value">—</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="chart-section">
+        <div class="chart-box">
+            <h3>Doanh thu 6 tháng gần đây</h3>
+            <span class="sub">Đơn vị: Tỷ VND</span>
+            <div class="chart-placeholder">Biểu đồ Line Chart</div>
+        </div>
+
+        <div class="chart-box">
+            <h3>Phân loại bất động sản</h3>
+            <span class="sub">Theo loại hình</span>
+            <div class="chart-placeholder">Biểu đồ Pie Chart</div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-box">
+        <h3>Bất động sản mới nhất</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Tên BĐS</th>
+                    <th>Vị trí</th>
+                    <th>Loại</th>
+                    <th>Giá</th>
+                    <th>Trạng thái</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="5" class="empty">Chưa có dữ liệu</td></tr>
+            </tbody>
+        </table>
+    </div>
+
 

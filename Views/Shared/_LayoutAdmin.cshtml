@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Dashboard Layout - Light Theme</title>
+    <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/Style_LayoutAdmin.css") ">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="layout">
+        <!-- Side bar -->
+        @Html.Partial("_SidebarPageAdmin")
+        <!-- Side bar -->
+
+        <!-- Topbar -->
+        @Html.Partial("_TopbarPageAdmin")
+        <!-- Topbar -->
+        <!-- Main content -->
+        <main class="main-content">
+            @RenderBody()
+        </main>
+        <!-- Main content -->
+    </div>
+</body>
+</html>
