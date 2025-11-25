@@ -7,14 +7,30 @@
     <div class="top-right">
         <i class="fa-regular fa-bell notification"></i>
 
-        <div class="userinfo">
-            <div class="text">
-                <span class="name">Nguyễn Văn A</span>
-                <span class="role">Admin</span>
+        @if (Session["AdminName"] != null)
+        {
+            <div class="userinfo" style="display: flex; align-items: center; gap: 10px;">
+                <div class="text" style="text-align: right;">
+                    <span class="name" style="display: block; font-weight: bold; color: #333;">
+                        @Session["AdminName"]
+                    </span>
+                    <span class="role" style="display: block; font-size: 12px; color: #666;">
+                        @Session["AdminRole"]
+                    </span>
+                </div>
+
+                <div class="avatar" style="width: 40px; height: 40px; background: #3b82f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+
+                <a href="@Url.Action("Logout", "Admin")" style="margin-left:10px; font-size:12px; color:red; text-decoration:none;">
+                    <i class="fa-solid fa-power-off"></i>
+                </a>
             </div>
-            <div class="avatar">
-                <i class="fa-solid fa-user"></i>
-            </div>
-        </div>
+        }
+        else
+        {
+            <a href="@Url.Action("Login", "Admin")" style="font-weight:bold;">Đăng nhập ngay</a>
+        }
     </div>
 </header>

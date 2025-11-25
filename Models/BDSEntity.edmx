@@ -120,6 +120,16 @@
           <Property Name="Comment" Type="nvarchar(max)" />
           <Property Name="CreatedAt" Type="datetime2" Precision="7" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="UserID" />
@@ -133,6 +143,7 @@
           <Property Name="CreatedAt" Type="datetime2" Precision="7" />
           <Property Name="Status" Type="bit" />
           <Property Name="Avatar_User" Type="nvarchar" MaxLength="255" />
+          <Property Name="LastLogin" Type="datetime2" Precision="7" />
         </EntityType>
         <Association Name="FK_AdminActivity_Admin">
           <End Role="AdminUser" Type="Self.AdminUser" Multiplicity="0..1" />
@@ -267,9 +278,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PropertyImage_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="PropertyImage" Type="Self.PropertyImage" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Product">
@@ -315,6 +324,7 @@
           <EntitySet Name="PropertyAmenities" EntityType="Self.PropertyAmenities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PropertyImage" EntityType="Self.PropertyImage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_AdminActivity_Admin" Association="Self.FK_AdminActivity_Admin">
             <End Role="AdminUser" EntitySet="AdminUser" />
@@ -505,6 +515,16 @@
           <NavigationProperty Name="Product" Relationship="Self.FK_Review_Product" FromRole="Review" ToRole="Product" />
           <NavigationProperty Name="User" Relationship="Self.FK_Review_User" FromRole="Review" ToRole="Users" />
         </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserID" />
@@ -518,6 +538,7 @@
           <Property Name="CreatedAt" Type="DateTime" Precision="7" />
           <Property Name="Status" Type="Boolean" />
           <Property Name="Avatar_User" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="LastLogin" Type="DateTime" Precision="7" />
           <NavigationProperty Name="Contracts" Relationship="Self.FK_Contracts_Buyer" FromRole="Users" ToRole="Contracts" />
           <NavigationProperty Name="Contracts1" Relationship="Self.FK_Contracts_Seller" FromRole="Users" ToRole="Contracts" />
           <NavigationProperty Name="Favorites" Relationship="Self.FK_Favorites_User" FromRole="Users" ToRole="Favorites" />
@@ -634,9 +655,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PropertyImage_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="PropertyImage" Type="Self.PropertyImage" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Product">
@@ -685,6 +704,7 @@
           <EntitySet Name="Products" EntityType="Self.Product" />
           <EntitySet Name="PropertyImages" EntityType="Self.PropertyImage" />
           <EntitySet Name="Reviews" EntityType="Self.Review" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Users" EntityType="Self.User" />
           <AssociationSet Name="FK_AdminActivity_Admin" Association="Self.FK_AdminActivity_Admin">
             <End Role="AdminUser" EntitySet="AdminUsers" />
@@ -861,6 +881,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="RealEstateDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="RealEstateDBModel.User">
               <MappingFragment StoreEntitySet="Users">
@@ -873,6 +904,7 @@
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Avatar_User" ColumnName="Avatar_User" />
+                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

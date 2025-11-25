@@ -1,53 +1,172 @@
-﻿
+﻿@using Website_BDS.Models.ViewModel
+@model AnalysisViewModel
+
 @{
     ViewBag.Title = "Analysis";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/CSS_Admin/Style_Analysis.css")" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <body>
 
     <div class="grid-4">
         <div class="card">
-            <p class="title"><span class="icon ic-money"></span> Doanh thu trung bình/tháng</p>
-            <div class="value">--</div>
+            <p class="title"><span class="icon ic-money"></span> Doanh thu TB/tháng</p>
+            <div class="value" style="color:#22c55e">@Model.DoanhThuTrungBinhThang.ToString("N0")</div>
+            <small>VND</small>
         </div>
         <div class="card">
-            <p class="title"><span class="icon ic-transaction"></span> Giao dịch trung bình/tháng</p>
-            <div class="value">--</div>
+            <p class="title"><span class="icon ic-transaction"></span> Giao dịch TB/tháng</p>
+            <div class="value" style="color:#3b82f6">@Model.GiaoDichTrungBinhThang</div>
+            <small>Giao dịch</small>
         </div>
         <div class="card">
             <p class="title"><span class="icon ic-value"></span> Giá trị giao dịch TB</p>
-            <div class="value">--</div>
+            <div class="value" style="color:#a855f7">@Model.GiaTriGiaoDichTB.ToString("N0")</div>
+            <small>VND</small>
         </div>
         <div class="card">
             <p class="title"><span class="icon ic-rate"></span> Tỷ lệ chuyển đổi</p>
-            <div class="value">--</div>
+            <div class="value" style="color:#f59e0b">@Model.TyLeChuyenDoi%</div>
+            <small>Từ liên hệ</small>
         </div>
     </div>
 
-    <div class="card chart-placeholder">Biểu đồ doanh thu 12 tháng (để trống)</div>
+    <div class="card">
+        <h3>Doanh thu & Mục tiêu 12 tháng</h3>
+        <div style="height: 300px">
+            <canvas id="revenueChart"></canvas>
+        </div>
+    </div>
 
     <div class="grid-2">
-        <div class="card chart-placeholder">Biểu đồ hiệu suất theo loại BĐS (để trống)</div>
-        <div class="card chart-placeholder">Biểu đồ doanh thu theo khu vực (để trống)</div>
+        <div class="card">
+            <h3>Hiệu suất theo loại BĐS (Số lượng)</h3>
+            <div style="height: 250px">
+                <canvas id="typeChart"></canvas>
+            </div>
+        </div>
+        <div class="card">
+            <h3>Doanh thu theo khu vực (Top 5)</h3>
+            <div style="height: 250px">
+                <canvas id="locationChart"></canvas>
+            </div>
+        </div>
     </div>
 
     <div class="card">
         <h3>Chi tiết hiệu suất theo loại BĐS</h3>
         <table>
             <thead>
-                <tr><th>Loại BĐS</th><th>Đã bán</th><th>Doanh thu</th><th>Giá TB</th><th>Hiệu suất</th></tr>
+                <tr>
+                    <th>Loại BĐS</th>
+                    <th>Đã bán</th>
+                    <th>Doanh thu (VND)</th>
+                    <th>Giá TB (VND)</th>
+                    <th>Hiệu suất (%)</th>
+                </tr>
             </thead>
             <tbody>
-                <tr><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>
-                <tr><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>
+                @if (Model.HieuSuatTheoLoai != null && Model.HieuSuatTheoLoai.Any())
+                {
+                    foreach (var item in Model.HieuSuatTheoLoai)
+                    {
+                        <tr>
+                            <td>@item.LoaiBDS</td>
+                            <td>@item.SoLuongDaBan</td>
+                            <td>@item.TongDoanhThu.ToString("N0")</td>
+                            <td>@item.GiaTrungBinh.ToString("N0")</td>
+                            <td>
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <div style="width:100px; background:#eee; height:6px; border-radius:3px;">
+                                        <div style="width:@item.HieuSuat%; background:#3b82f6; height:100%; border-radius:3px;"></div>
+                                    </div>
+                                    <span>@Math.Round(item.HieuSuat, 1)%</span>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="5" style="text-align:center">Chưa có dữ liệu</td></tr>
+                }
             </tbody>
         </table>
     </div>
 
+    <script>
+        // --- DATA TỪ SERVER ---
+        const labelsThang = @Html.Raw(Json.Encode(Model.LabelsThang));
+        const dataThucTe = @Html.Raw(Json.Encode(Model.DataDoanhThuThucTe));
+        const dataMucTieu = @Html.Raw(Json.Encode(Model.DataDoanhThuMucTieu));
+
+        const labelsType = @Html.Raw(Json.Encode(Model.HieuSuatTheoLoai.Select(x => x.LoaiBDS)));
+        const dataTypeCount = @Html.Raw(Json.Encode(Model.HieuSuatTheoLoai.Select(x => x.SoLuongDaBan)));
+
+        const labelsKhuVuc = @Html.Raw(Json.Encode(Model.LabelsKhuVuc));
+        const dataKhuVuc = @Html.Raw(Json.Encode(Model.DataDoanhThuKhuVuc));
+
+        // --- CHART 1: LINE CHART DOANH THU ---
+        new Chart(document.getElementById('revenueChart'), {
+            type: 'line',
+            data: {
+                labels: labelsThang,
+                datasets: [
+                    {
+                        label: 'Doanh thu thực tế',
+                        data: dataThucTe,
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Mục tiêu',
+                        data: dataMucTieu,
+                        borderColor: '#22c55e',
+                        borderDash: [5, 5], // Nét đứt
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+
+        // --- CHART 2: BAR CHART (LOẠI BĐS) ---
+        new Chart(document.getElementById('typeChart'), {
+            type: 'bar',
+            data: {
+                labels: labelsType,
+                datasets: [{
+                    label: 'Số lượng đã bán',
+                    data: dataTypeCount,
+                    backgroundColor: '#3b82f6',
+                    borderRadius: 4
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+
+        // --- CHART 3: HORIZONTAL BAR (KHU VỰC) ---
+        new Chart(document.getElementById('locationChart'), {
+            type: 'bar', // Chart.js v3+ dùng 'bar' với indexAxis: 'y'
+            data: {
+                labels: labelsKhuVuc,
+                datasets: [{
+                    label: 'Doanh thu',
+                    data: dataKhuVuc,
+                    backgroundColor: '#10b981',
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                indexAxis: 'y', // Xoay ngang biểu đồ
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    </script>
 </body>
-
-
-

@@ -31,6 +31,7 @@
     text-decoration: none;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin: 20px 0;
 }
 
     .button-outline.primary {

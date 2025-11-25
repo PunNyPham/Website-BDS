@@ -1,26 +1,44 @@
-﻿
+﻿@model Website_BDS.Models.ViewModel.CustomerPageViewModel
+
 @{
-    ViewBag.Title = "Customer";
+    ViewBag.Title = "Quản lý Khách hàng";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/CSS_Admin/Style-Customer.css")" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
 <body>
 
     <div class="container">
-        <div class="header">Quản lý khách hàng</div>
-
-        <div class="filters">
-            <input class="input" placeholder="Tìm kiếm khách hàng..." />
-            <select class="select"><option>Tất cả loại</option></select>
-            <select class="select"><option>Tất cả trạng thái</option></select>
+        <div class="header">
+            Quản lý khách hàng
+            <a href="#" class="btn btn-primary" style="float:right; font-size:14px; text-decoration:none; color:white; background:#3b82f6; padding:8px 16px; border-radius:6px;">+ Thêm khách hàng</a>
         </div>
 
+        @using (Html.BeginForm("Customer", "Admin", FormMethod.Get))
+        {
+            <div class="filters">
+                <input class="input" name="searchString" placeholder="Tìm kiếm tên, email..." value="@Request["searchString"]" />
+
+                <select class="select" name="type" onchange="this.form.submit()">
+                    <option value="">Tất cả loại</option>
+                    <option value="Mua" @(Request["type"] == "Mua" ? "selected" : "")>Khách mua</option>
+                    <option value="Bán" @(Request["type"] == "Bán" ? "selected" : "")>Khách bán</option>
+                </select>
+
+                <select class="select" name="status" onchange="this.form.submit()">
+                    <option value="">Tất cả trạng thái</option>
+                    <option value="Hoạt động" @(Request["status"] == "Hoạt động" ? "selected" : "")>Hoạt động</option>
+                    <option value="Bị khóa" @(Request["status"] == "Bị khóa" ? "selected" : "")>Bị khóa</option>
+                </select>
+            </div>
+        }
+
         <div class="stats">
-            <div class="stat-box">Tổng khách hàng<br><b>--</b></div>
-            <div class="stat-box">Khách hoạt động<br><b>--</b></div>
-            <div class="stat-box">Khách mua<br><b>--</b></div>
-            <div class="stat-box">Khách bán<br><b>--</b></div>
+            <div class="stat-box">Tổng khách hàng<br><b> @Model.TongKhachHang</b></div>
+            <div class="stat-box" style="color:#22c55e">Khách hoạt động<br><b>@Model.KhachHoatDong</b></div>
+            <div class="stat-box" style="color:#3b82f6">Khách mua<br><b>@Model.KhachMua</b></div>
+            <div class="stat-box" style="color:#a855f7">Khách bán<br><b>@Model.KhachBan</b></div>
         </div>
 
         <table class="table">
@@ -34,34 +52,97 @@
                     <th>Tổng giá trị</th>
                     <th>Trạng thái</th>
                     <th>Ngày tham gia</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><div class="avatar">--</div></td>
-                    <td>--</td>
-                    <td>--</td>
-                    <td><span class="badge b-mua">--</span></td>
-                    <td>--</td>
-                    <td>--</td>
-                    <td><span class="badge st-active">--</span></td>
-                    <td>--</td>
-                </tr>
-                <tr>
-                    <td><div class="avatar">--</div></td>
-                    <td>--</td>
-                    <td>--</td>
-                    <td><span class="badge b-ban">--</span></td>
-                    <td>--</td>
-                    <td>--</td>
-                    <td><span class="badge st-inactive">--</span></td>
-                    <td>--</td>
-                </tr>
+                @if (Model.DanhSachKhachHang != null && Model.DanhSachKhachHang.Any())
+                {
+                    foreach (var item in Model.DanhSachKhachHang)
+                    {
+                        <tr>
+                            <td>
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    @if (!string.IsNullOrEmpty(item.Avatar))
+                                    {
+                                        <img src="@item.Avatar" class="avatar" style="object-fit:cover" />
+                                    }
+                                    else
+                                    {
+                                        // Tạo avatar chữ cái đầu nếu không có ảnh
+                                        <div class="avatar" style="background:#e0e7ff; color:#3b82f6; display:flex; align-items:center; justify-content:center; font-weight:bold;">
+                                            @item.FullName.Substring(0, 1).ToUpper()
+                                        </div>
+                                    }
+                                    <span style="font-weight:500">@item.FullName</span>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div style="font-size:13px; color:#666">
+                                    <i class="fa-regular fa-envelope"></i> @item.Email <br />
+                                    <i class="fa-solid fa-phone" style="margin-top:4px"></i> @item.PhoneNumber
+                                </div>
+                            </td>
+
+                            <td>@item.Address</td>
+
+                            <td>
+                                @if (item.Type == "Mua")
+                                {
+                                    <span class="badge b-mua" style="background:#e0f2fe; color:#0369a1; padding:4px 8px; border-radius:4px; font-size:12px;">Mua</span>
+                                }
+                                else
+                                {
+                                    <span class="badge b-ban" style="background:#f3e8ff; color:#7e22ce; padding:4px 8px; border-radius:4px; font-size:12px;">Bán</span>
+                                }
+                            </td>
+
+                            <td style="text-align:center">@item.SoLuongBDS</td>
+
+                            <td style="font-weight:bold; color:#333">
+                                @if (item.TongGiaTri >= 1000000000)
+                                {
+                                    <span>@((item.TongGiaTri / 1000000000).ToString("0.##")) tỷ</span>
+                                }
+                                else if (item.TongGiaTri > 0)
+                                {
+                                    <span>@((item.TongGiaTri / 1000000).ToString("0.##")) tr</span>
+                                }
+                                else
+                                {
+                                    <span>0</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (item.Status)
+                                {
+                                    <span class="badge st-active" style="background:#dcfce7; color:#15803d; padding:4px 8px; border-radius:4px; font-size:12px;">Hoạt động</span>
+                                }
+                                else
+                                {
+                                    <span class="badge st-inactive" style="background:#fee2e2; color:#b91c1c; padding:4px 8px; border-radius:4px; font-size:12px;">Bị khóa</span>
+                                }
+                            </td>
+
+                            <td>@item.CreatedAt.ToString("dd/MM/yyyy")</td>
+
+                            <td>
+                                <a href="#" style="color:#999"><i class="fa-solid fa-ellipsis-vertical"></i></a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="9" style="text-align:center; padding: 20px; color:#999;">
+                            Không tìm thấy khách hàng nào.
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
-
 </body>
-
-
-
