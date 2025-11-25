@@ -1,57 +1,99 @@
-﻿
+﻿@model IEnumerable<Website_BDS.Models.Product>
+
 @{
-    ViewBag.Title = "List_RealEstate";
+    ViewBag.Title = "Quản lý Bất động sản";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+<link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/CSS_Admin/Style_List-RealEstate.css")" />
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
 <body>
-
-
     <div class="header">
-        <h2>Quản lý bất động sản</h2>
+        <h2>Quản lý bất động sản <span style="font-size:14px; color:#666; font-weight:normal">(Tổng số: @Model.Count() tin)</span></h2>
         <div class="actions">
-            <button>+ Thêm BĐS mới</button>
+            <a href="@Url.Action("Create", "Admin")" class="btn-add">+ Thêm BĐS mới</a>
         </div>
     </div>
 
+    @using (Html.BeginForm("List_RealEstate", "Admin", FormMethod.Get))
+    {
+        <div class="filters">
+            <input type="text" name="searchString" placeholder="Tìm kiếm theo tên hoặc địa chỉ..." value="@Request["searchString"]" />
 
-    <div class="filters">
-        <input type="text" placeholder="Tìm kiếm..." />
-        <select>
-            <option>Tất cả loại</option>
-        </select>
-        <select>
-            <option>Tất cả trạng thái</option>
-        </select>
-    </div>
+            <select name="type" onchange="this.form.submit()">
+                <option value="">Tất cả loại</option>
+                <option value="Căn hộ" @(Request["type"] == "Căn hộ" ? "selected" : "")>Căn hộ</option>
+                <option value="Biệt thự" @(Request["type"] == "Biệt thự" ? "selected" : "")>Biệt thự</option>
+                <option value="Nhà phố" @(Request["type"] == "Nhà phố" ? "selected" : "")>Nhà phố</option>
+                <option value="Đất nền" @(Request["type"] == "Đất nền" ? "selected" : "")>Đất nền</option>
+            </select>
 
+            <select name="status" onchange="this.form.submit()">
+                <option value="">Tất cả trạng thái</option>
+                <option value="Active" @(Request["status"] == "Active" ? "selected" : "")>Còn trống</option>
+                <option value="Sold" @(Request["status"] == "Sold" ? "selected" : "")>Đã bán</option>
+            </select>
+
+            <button type="submit" style="display:none">Lọc</button>
+        </div>
+    }
 
     <div class="list">
-        <!-- CARD TEMPLATE (Backend sẽ render lặp lại nhiều lần theo dữ liệu) -->
-        <div class="card">
-            <div style="position: relative;">
-                <img src="/mnt/data/3d1c3653-07d8-40b9-8f8d-ebf8927193e9.png" alt="House" />
-                <div class="status">Còn trống</div>
-            </div>
-            <div class="card-body">
-                <div class="title">Tên bất động sản</div>
-                <div class="location">📍 Quận X, TP.HCM</div>
-                <div class="info">
-                    <div>🛏 2</div>
-                    <div>🛁 2</div>
-                    <div>📐 80m²</div>
+        @if (Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <div class="card">
+                    <div style="position: relative;">
+                        @{
+                            var imgUrl = item.PropertyImages.FirstOrDefault(x => x.IsPrimary == true)?.ImageUrl ?? Url.Content("~/Font-end/asset/icon/Home-default.jpg");
+                        }
+                        <img src="@imgUrl" alt="@item.Title" style="width:100%; height:180px; object-fit:cover; border-radius: 8px 8px 0 0;" />
+
+                        @if (item.Status == "Active")
+                        {
+                            <div class="status" style="background:#e6f4ea; color:#1e8e3e;">Còn trống</div>
+                        }
+                        else
+                        {
+                            <div class="status" style="background:#fce8e6; color:#c5221f;">Đã bán</div>
+                        }
+                    </div>
+
+                    <div class="card-body">
+                        <div class="title">@item.Title</div>
+                        <div class="location">📍 @item.District, @item.City</div>
+
+                        <div class="info">
+                            <div><i class="fa-solid fa-bed"></i> @item.Bedrooms</div>
+                            <div><i class="fa-solid fa-bath"></i> @item.Bathrooms</div>
+                            <div><i class="fa-solid fa-ruler-combined"></i> @(item.Area)m²</div>
+                        </div>
+
+                        <div class="price">
+                            @if (item.Price >= 1000000000)
+                            {
+                                <span>@((item.Price / 1000000000)?.ToString("0.##")) tỷ</span>
+                            }
+                            else
+                            {
+                                <span>@((item.Price / 1000000)?.ToString("0.##")) triệu</span>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <a href="@Url.Action("Details", new { id = item.ProductID })" class="icon" title="Xem"><i class="fa-solid fa-eye"></i></a>
+                        <a href="@Url.Action("Edit", new { id = item.ProductID })" class="icon" title="Sửa"><i class="fa-solid fa-pen"></i></a>
+                        <a href="@Url.Action("Delete", new { id = item.ProductID })" class="icon" title="Xóa" onclick="return confirm('Bạn có chắc muốn xóa không?');"><i class="fa-solid fa-trash"></i></a>
+                    </div>
                 </div>
-                <div class="price">5.0 tỷ</div>
-            </div>
-            <div class="card-footer">
-                <div class="icon">👁</div>
-                <div class="icon">✏</div>
-                <div class="icon">🗑</div>
-            </div>
-        </div>
-
-
+            }
+        }
+        else
+        {
+            <p style="text-align:center; width:100%; color:#666; margin-top:50px;">Không tìm thấy bất động sản nào phù hợp.</p>
+        }
     </div>
-
-
 </body>

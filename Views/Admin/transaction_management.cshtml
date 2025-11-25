@@ -1,29 +1,69 @@
-﻿
+﻿@model Website_BDS.Models.ViewModel.TransactionViewModel
+
 @{
-    ViewBag.Title = "transaction_management";
+    ViewBag.Title = "Quản lý giao dịch";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/CSS_Admin/Style-transaction_management.css")" />
-<!-- Transaction Management UI -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
 <section class="transaction-container">
     <h2>Quản lý giao dịch</h2>
+
     <div class="summary-grid">
-        <div class="summary-item">Tổng doanh thu</div>
-        <div class="summary-item">Hoa hồng</div>
-        <div class="summary-item">Đã hoàn thành</div>
-        <div class="summary-item">Đang xử lý</div>
+        <div class="summary-item">
+            <div class="icon-box" style="background:#e0f2fe; color:#0369a1"><i class="fa-solid fa-dollar-sign"></i></div>
+            <div>
+                <span class="label">Tổng doanh thu</span>
+                <div class="value">@Model.TongDoanhThu.ToString("N0") đ</div>
+            </div>
+        </div>
+
+        <div class="summary-item">
+            <div class="icon-box" style="background:#dcfce7; color:#15803d"><i class="fa-solid fa-chart-line"></i></div>
+            <div>
+                <span class="label">Hoa hồng (3%)</span>
+                <div class="value">@Model.TongHoaHong.ToString("N0") đ</div>
+            </div>
+        </div>
+
+        <div class="summary-item">
+            <div class="icon-box" style="background:#f3e8ff; color:#7e22ce"><i class="fa-solid fa-check-circle"></i></div>
+            <div>
+                <span class="label">Đã hoàn thành</span>
+                <div class="value">@Model.DaHoanThanh</div>
+            </div>
+        </div>
+
+        <div class="summary-item">
+            <div class="icon-box" style="background:#ffedd5; color:#c2410c"><i class="fa-solid fa-hourglass-half"></i></div>
+            <div>
+                <span class="label">Đang xử lý</span>
+                <div class="value">@Model.DangXuLy</div>
+            </div>
+        </div>
     </div>
 
-    <div class="filters">
-        <input type="text" placeholder="Tìm kiếm giao dịch..." />
-        <select>
-            <option>Tất cả loại</option>
-        </select>
-        <select>
-            <option>Tất cả trạng thái</option>
-        </select>
-    </div>
+    @using (Html.BeginForm("transaction_management", "Admin", FormMethod.Get))
+    {
+        <div class="filters">
+            <input type="text" name="searchString" placeholder="Tìm kiếm giao dịch..." value="@Request["searchString"]" />
+
+            <select name="type" onchange="this.form.submit()">
+                <option value="">Tất cả loại</option>
+                <option value="Sale" @(Request["type"] == "Sale" ? "selected" : "")>Mua bán</option>
+                <option value="Rent" @(Request["type"] == "Rent" ? "selected" : "")>Cho thuê</option>
+            </select>
+
+            <select name="status" onchange="this.form.submit()">
+                <option value="">Tất cả trạng thái</option>
+                <option value="Completed" @(Request["status"] == "Completed" ? "selected" : "")>Hoàn thành</option>
+                <option value="Pending" @(Request["status"] == "Pending" ? "selected" : "")>Đang xử lý</option>
+                <option value="Cancelled" @(Request["status"] == "Cancelled" ? "selected" : "")>Đã hủy</option>
+            </select>
+        </div>
+    }
 
     <table class="transaction-table">
         <thead>
@@ -40,11 +80,94 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Empty placeholder rows -->
-            <tr><td colspan="9" class="empty">(Chưa có dữ liệu)</td></tr>
+            @if (Model.DanhSachGiaoDich != null && Model.DanhSachGiaoDich.Any())
+            {
+                foreach (var item in Model.DanhSachGiaoDich)
+                {
+                    <tr>
+                        <td style="font-weight:bold; color:#3b82f6">@item.MaGD</td>
+
+                        <td style="max-width: 250px;">
+                            <i class="fa-solid fa-house" style="color:#999; margin-right:5px"></i> @item.TenBDS
+                        </td>
+
+                        <td><i class="fa-regular fa-user" style="color:#999; margin-right:5px"></i> @item.TenKhachHang</td>
+
+                        <td>
+                            @if (item.LoaiGiaoDich == "Sale")
+                            {
+                                <span class="badge" style="background:#e0f2fe; color:#0369a1; padding:4px 8px; border-radius:4px; font-size:12px;">Mua</span>
+                            }
+                            else
+                            {
+                                <span class="badge" style="background:#f3e8ff; color:#7e22ce; padding:4px 8px; border-radius:4px; font-size:12px;">Thuê</span>
+                            }
+                        </td>
+
+                        <td style="font-weight:bold">@item.SoTien.ToString("N0")</td>
+
+                        <td style="color:#16a34a">@item.HoaHong.ToString("N0")</td>
+
+                        <td>@item.NgayGD.ToString("dd/MM/yyyy")</td>
+
+                        <td>@item.PTThanhToan</td>
+
+                        <td>
+                            @if (item.TrangThai == "Completed")
+                            {
+                                <span style="color:#15803d; font-weight:500">Hoàn thành</span>
+                            }
+                            else if (item.TrangThai == "Pending")
+                            {
+                                <span style="color:#c2410c; font-weight:500">Đang xử lý</span>
+                            }
+                            else
+                            {
+                                <span style="color:#b91c1c; font-weight:500">@item.TrangThai</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="9" class="empty" style="text-align:center; padding:20px; color:#999">Chưa có giao dịch nào</td></tr>
+            }
         </tbody>
     </table>
 </section>
 
+<style>
+    .summary-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+    }
 
+    .icon-box {
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        font-size: 20px;
+    }
 
+    .label {
+        font-size: 14px;
+        color: #6b7280;
+        display: block;
+        margin-bottom: 4px;
+    }
+
+    .value {
+        font-size: 20px;
+        font-weight: bold;
+        color: #111827;
+    }
+</style>

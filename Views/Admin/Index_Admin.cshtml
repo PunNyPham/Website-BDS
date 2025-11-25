@@ -1,80 +1,199 @@
-﻿
+﻿@model Website_BDS.Models.ViewModel.AdminDashboardViewModel
 @{
     ViewBag.Title = "Index_Admin";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/CSS_Admin/Style_Index-Admin.css")" />
 <!-- main content -->
+<!-- KPI Cards -->
 
 
-    <!-- KPI Cards -->
-    <div class="kpi-cards">
-        <div class="kpi-card">
-            <div class="icon blue"><i class="fa-solid fa-building"></i></div>
-            <div>
-                <p class="label">Tổng bất động sản</p>
-                <h3 class="value">—</h3>
-            </div>
-        </div>
+@{
+    ViewBag.Title = "Index_Admin";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/CSS_Admin/Style_Index-Admin.css")" />
 
-        <div class="kpi-card">
-            <div class="icon green"><i class="fa-solid fa-dollar-sign"></i></div>
-            <div>
-                <p class="label">Doanh thu tháng này</p>
-                <h3 class="value">—</h3>
-            </div>
-        </div>
-
-        <div class="kpi-card">
-            <div class="icon purple"><i class="fa-solid fa-user"></i></div>
-            <div>
-                <p class="label">Khách hàng</p>
-                <h3 class="value">—</h3>
-            </div>
-        </div>
-
-        <div class="kpi-card">
-            <div class="icon orange"><i class="fa-solid fa-chart-line"></i></div>
-            <div>
-                <p class="label">Giao dịch hoàn thành</p>
-                <h3 class="value">—</h3>
-            </div>
+<div class="kpi-cards">
+    <div class="kpi-card">
+        <div class="icon blue"><i class="fa-solid fa-building"></i></div>
+        <div>
+            <p class="label">Tổng bất động sản</p>
+            <h3 class="value">@Model.TongSoBDS</h3>
         </div>
     </div>
 
-    <!-- Charts -->
-    <div class="chart-section">
-        <div class="chart-box">
-            <h3>Doanh thu 6 tháng gần đây</h3>
-            <span class="sub">Đơn vị: Tỷ VND</span>
-            <div class="chart-placeholder">Biểu đồ Line Chart</div>
-        </div>
-
-        <div class="chart-box">
-            <h3>Phân loại bất động sản</h3>
-            <span class="sub">Theo loại hình</span>
-            <div class="chart-placeholder">Biểu đồ Pie Chart</div>
+    <div class="kpi-card">
+        <div class="icon green"><i class="fa-solid fa-dollar-sign"></i></div>
+        <div>
+            <p class="label">Doanh thu tháng này</p>
+            <h3 class="value">@Model.DoanhThuThangNay.ToString("N0") đ</h3>
         </div>
     </div>
 
-    <!-- Table -->
-    <div class="table-box">
-        <h3>Bất động sản mới nhất</h3>
+    <div class="kpi-card">
+        <div class="icon purple"><i class="fa-solid fa-user"></i></div>
+        <div>
+            <p class="label">Khách hàng</p>
+            <h3 class="value">@Model.TongSoKhachHang</h3>
+        </div>
+    </div>
 
-        <table>
-            <thead>
+    <div class="kpi-card">
+        <div class="icon orange"><i class="fa-solid fa-chart-line"></i></div>
+        <div>
+            <p class="label">Giao dịch hoàn thành</p>
+            <h3 class="value">@Model.GiaoDichHoanThanh</h3>
+        </div>
+    </div>
+</div>
+
+<div class="chart-section">
+    <div class="chart-box">
+        <h3>Doanh thu 6 tháng gần đây</h3>
+        <span class="sub">Đơn vị: VND</span>
+        <div style="height: 300px; margin-top: 20px;">
+            <canvas id="revenueChart"></canvas>
+        </div>
+    </div>
+
+    <div class="chart-box">
+        <h3>Phân loại bất động sản</h3>
+        <span class="sub">Theo loại hình</span>
+        <div style="height: 300px; margin-top: 20px;">
+            <canvas id="typeChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<div class="table-box">
+    <h3>Bất động sản mới nhất</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tên BĐS</th>
+                <th>Vị trí</th>
+                <th>Loại & Hình thức</th>
+                <th>Giá</th>
+                <th>Trạng thái</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.DanhSachBDSMoiNhat != null && Model.DanhSachBDSMoiNhat.Count > 0)
+            {
+                foreach (var item in Model.DanhSachBDSMoiNhat)
+                {
+                    <tr>
+                        <td style="font-weight: bold; color: #333;">@item.Title</td>
+
+                        <td>
+                            <i class="fa-solid fa-location-dot" style="color:#999; margin-right:5px"></i>
+                            @item.District, @item.City
+                        </td>
+
+                        <td>
+                            <span>@item.Type</span>
+                            <br />
+                            <small style="color: #666;">
+                                @if (item.ListingType == "Sale")
+                                {<text>(Bán)</text> }
+                            else
+                            { <text>(Cho thuê)</text>}
+                            </small>
+                        </td>
+
+                        <td style="color: #d32f2f; font-weight:bold;">
+                            @((item.Price ?? 0).ToString("N0")) đ
+                        </td>
+
+                        <td>
+                            @if (item.Status == "Active")
+                            {
+                                <span style="background:#e6f4ea; color:#1e8e3e; padding: 4px 8px; border-radius:4px; font-size:12px;">Đang hiện</span>
+                            }
+                            else if (item.Status == "Sold")
+                            {
+                                <span style="background:#ceead6; color:#137333; padding: 4px 8px; border-radius:4px; font-size:12px;">Đã bán</span>
+                            }
+                            else
+                            {
+                                <span style="background:#fce8e6; color:#c5221f; padding: 4px 8px; border-radius:4px; font-size:12px;">@item.Status</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
                 <tr>
-                    <th>Tên BĐS</th>
-                    <th>Vị trí</th>
-                    <th>Loại</th>
-                    <th>Giá</th>
-                    <th>Trạng thái</th>
+                    <td colspan="5" class="empty" style="padding: 30px; text-align: center;">
+                        <i class="fa-regular fa-folder-open" style="font-size: 24px; margin-bottom: 10px;"></i>
+                        <p>Chưa có dữ liệu bất động sản nào.</p>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                <tr><td colspan="5" class="empty">Chưa có dữ liệu</td></tr>
-            </tbody>
-        </table>
-    </div>
+            }
+        </tbody>
+    </table>
+</div>
 
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // 1. LẤY DỮ LIỆU TỪ C# CHUYỂN SANG JAVASCRIPT
+    // Sử dụng Html.Raw(Json.Encode(...)) để chuyển List C# thành Array JS
+    var labelsDoanhThu = @Html.Raw(Json.Encode(Model.LabelsDoanhThu));
+    var dataDoanhThu = @Html.Raw(Json.Encode(Model.DataDoanhThu));
+
+    var labelsPhanLoai = @Html.Raw(Json.Encode(Model.LabelsPhanLoai));
+    var dataPhanLoai = @Html.Raw(Json.Encode(Model.DataPhanLoai));
+
+    // 2. VẼ BIỂU ĐỒ DOANH THU (LINE CHART)
+    var ctx1 = document.getElementById('revenueChart').getContext('2d');
+    new Chart(ctx1, {
+        type: 'line', // Loại biểu đồ đường
+        data: {
+            labels: labelsDoanhThu,
+            datasets: [{
+                label: 'Doanh thu',
+                data: dataDoanhThu,
+                borderColor: '#3b82f6', // Màu đường (Xanh dương)
+                backgroundColor: 'rgba(59, 130, 246, 0.1)', // Màu nền mờ dưới đường
+                tension: 0.3, // Độ cong của đường
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // 3. VẼ BIỂU ĐỒ PHÂN LOẠI (DOUGHNUT CHART)
+    var ctx2 = document.getElementById('typeChart').getContext('2d');
+    new Chart(ctx2, {
+        type: 'doughnut', // Loại biểu đồ tròn khuyết giữa
+        data: {
+            labels: labelsPhanLoai,
+            datasets: [{
+                data: dataPhanLoai,
+                backgroundColor: [
+                    '#3b82f6', // Xanh dương
+                    '#22c55e', // Xanh lá
+                    '#f59e0b', // Cam
+                    '#a855f7', // Tím
+                    '#ef4444'  // Đỏ
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+</script>

@@ -41,7 +41,12 @@
     </div>
 
     <a href="#" class="transaction_history"><i class="fa-solid fa-angle-right"></i> lịch sử giao dịch</a>  <br>
-    <button class="Button_Blue"><i class="fa-solid fa-wallet"></i> Nạp tiền</button>
+   <div style="display: flex; justify-content: center;">
+     <a href="#" class="sidebar-link button-outline primary" 
+        data-url="@Url.Action("DepositPartial", "Users", new { id = Model.User.UserID })">
+         Nạp tiền
+     </a>
+   </div>
 </div>
 
 
