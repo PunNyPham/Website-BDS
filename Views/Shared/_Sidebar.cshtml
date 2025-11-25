@@ -69,16 +69,10 @@
         <div class="menu-title">Quản lý tin</div>
         <ul class="submenu">
             <li>
-                <a href="#" class="sidebar-link"
-                   data-url="@Url.Action("Page_User", "Users", new { id = Model.User.UserID })">
-                    Tin đã đăng
-                </a>
+                <a href="@Url.Action("Page_User", "Users", new { id = Session["UserID"] })">Tin đã đăng</a>
             </li>
             <li>
-                <a href="#" class="sidebar-link"
-                   data-url="@Url.Action("DepositPartial", "Users", new { id = Model.User.UserID })">
-                    Đăng tin mới
-                </a>
+                <a href="@Url.Action("Create", "RealEstate")">Đăng tin</a>
             </li>
         </ul>
     </div>
@@ -106,7 +100,7 @@
         <ul class="submenu">
             <li>
                 <a href="#" class="sidebar-link"
-                   data-url="@Url.Action("DepositPartial", "Users", new { id = Model.User.UserID })">
+                   data-url="@Url.Action("_Updtae_Profile", "Users", new { id = Model.User.UserID })">
                     Thông tin các nhân
                 </a>
             </li>
