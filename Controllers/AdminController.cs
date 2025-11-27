@@ -397,6 +397,52 @@ namespace Website_BDS.Controllers
         }
 
 
+        [HttpPost] // Bắt buộc dùng POST để bảo mật
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                // 1. Tìm sản phẩm
+                var product = db.Products.Find(id);
+                if (product == null)
+                {
+                    return Json(new { success = false, message = "Tin không tồn tại!" });
+                }
+
+                // 2. Xóa các dữ liệu liên quan trước (Cascade Delete thủ công để tránh lỗi FK)
+
+                // Xóa ảnh trong bảng PropertyImage
+                var images = db.PropertyImages.Where(x => x.ProductID == id).ToList();
+                db.PropertyImages.RemoveRange(images);
+
+                // Xóa yêu thích (Favorites)
+                var favs = db.Favorites.Where(x => x.ProductID == id).ToList();
+                db.Favorites.RemoveRange(favs);
+
+                // Xóa bình luận (Reviews) - Nếu có
+                var reviews = db.Reviews.Where(x => x.ProductID == id).ToList();
+                db.Reviews.RemoveRange(reviews);
+
+                // (Tùy chọn) Kiểm tra Hợp đồng (Contracts)
+                // Nếu tin đã có hợp đồng thì KHÔNG cho xóa, chỉ cho ẩn (Status = Sold)
+                bool hasContract = db.Contracts.Any(x => x.ProductID == id);
+                if (hasContract)
+                {
+                    return Json(new { success = false, message = "Tin này đã có hợp đồng giao dịch, không thể xóa! Hãy chuyển trạng thái sang 'Đã bán'." });
+                }
+
+                // 3. Xóa sản phẩm
+                db.Products.Remove(product);
+                db.SaveChanges();
+
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Lỗi hệ thống: " + ex.Message });
+            }
+        }
 
     }
 }

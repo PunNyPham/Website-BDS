@@ -85,8 +85,13 @@
 
                     <div class="card-footer">
                         <a href="@Url.Action("Product_details","Product" ,new { id = item.ProductID })" class="icon" title="Xem"><i class="fa-solid fa-eye"></i></a>
-                        
-                        <a href="@Url.Action("Delete", new { id = item.ProductID })" class="icon" title="Xóa" onclick="return confirm('Bạn có chắc muốn xóa không?');"><i class="fa-solid fa-trash"></i></a>
+
+                        <a href="javascript:void(0);"
+                           class="icon btn-delete"
+                           data-id="@item.ProductID"
+                           title="Xóa">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
                     </div>
                 </div>
             }
@@ -97,3 +102,45 @@
         }
     </div>
 </body>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.btn-delete').click(function (e) {
+            e.preventDefault(); // Chặn hành động mặc định
+
+            var btn = $(this);
+            var id = btn.data('id');
+
+            if (confirm('Bạn có chắc chắn muốn xóa tin này không? Hành động này không thể hoàn tác.')) {
+                $.ajax({
+                    url: '@Url.Action("Delete", "Product")', // Hoặc "Admin" tùy controller bạn để
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            // Xóa thành công -> Ẩn dòng đó đi
+                            btn.closest('.card').fadeOut(500, function() {
+                                $(this).remove();
+                            });
+                            alert('Đã xóa thành công!');
+                        } else {
+                            alert('Lỗi: ' + response.message);
+                        }
+                    },
+                    error: function () {
+                        alert('Có lỗi xảy ra khi kết nối server.');
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+@Html.AntiForgeryToken()
