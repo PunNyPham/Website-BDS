@@ -7,7 +7,7 @@ namespace Website_BDS.Models.ViewModel
         public Product Product { get; set; }
         public User Seller { get; set; }
 
-        //public List<Product> listproduct { get; set; }
+        public List<Product> listproduct { get; set; }
 
         
     }

@@ -1,81 +1,95 @@
 ﻿@model Website_BDS.Models.ViewModel.ProductDetailViewModel
+
 @{
+    ViewBag.Title = Model.Product.Title;
     Layout = "~/Views/Shared/_LayoutPageHome.cshtml";
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chi tiết sản phẩm</title>
-    <link rel="stylesheet" href="~/Font-end/asset/base.css" />
-    <link rel="stylesheet" href="~/Font-end/css/style-Product-Details.css" />
+    <link rel="stylesheet" href="@Url.Content("~/Font-end/asset/base.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/style-Product-Details.css")" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
-    <style>
-        /* CSS nhỏ để ô nhập từ khóa đẹp hơn */
-        .input-keyword {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-    </style>
 
     <script>
         function openMap() {
-           
             var address = '@HttpUtility.JavaScriptStringEncode(System.Web.HttpUtility.HtmlDecode(Model.Product.Address ?? ""))';
-
-            window.open(
-                "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(address),
-                "_blank"
-            );
+            window.open("https://www.google.com/maps/search/?api=1&query=?q=" + encodeURIComponent(address), "_blank");
         }
     </script>
 </head>
 <body>
     <div class="product-page">
         <div class="product-info">
+
             <div class="Image-details">
-                <img src="./asset/icon/Product_Null.jpg"
-                     alt="image-product"
-                     height="300"
-                     width="300" />
+                @{
+                    // Lấy link ảnh từ DB (Ưu tiên ảnh chính -> ảnh đầu tiên -> ảnh mặc định)
+                    string rawImg = Model.Product.PropertyImages.FirstOrDefault(x => x.IsPrimary == true)?.ImageUrl
+                                 ?? Model.Product.PropertyImages.FirstOrDefault()?.ImageUrl;
+
+                    string displayImg = "/Font-end/asset/icon/Product_Null.jpg"; // Ảnh fallback
+
+                    if (!string.IsNullOrEmpty(rawImg))
+                    {
+                        // Nếu là ảnh Cloudinary (bắt đầu bằng http) -> Dùng luôn
+                        if (rawImg.StartsWith("http"))
+                        {
+                            displayImg = rawImg;
+                        }
+                        // Nếu là ảnh local (bắt đầu bằng ~) -> Convert
+                        else
+                        {
+                            displayImg = Url.Content(rawImg);
+                        }
+                    }
+                }
+
+                <img src="@displayImg"
+                     alt="@Model.Product.Title"
+                     style="width: 100%; height: 400px; object-fit: cover; border-radius: 8px;"
+                     onerror="this.src='/Font-end/asset/icon/Product_Null.jpg'" />
             </div>
 
             <div class="Infomation-detailt-product">
                 <div class="save">
                     <button class="button_small @(ViewBag.IsSaved == true ? "active-yellow" : "")"
-                            onclick="ToggleSave(@Model.Product.ProductID, this)">
-                        <i class="fa-solid fa-heart"></i> Lưu tin
+                            onclick="ToggleSave(@Model.Product.ProductID, this)"
+                            style="cursor:pointer;">
+                        <i class="fa-solid fa-heart"></i> @(ViewBag.IsSaved == true ? "Đã lưu" : "Lưu tin")
                     </button>
                 </div>
+
                 <div class="listing-overview">
-                    <h1>@Model.Product.Title</h1>
-                    <h3>Price : <strong>@Model.Product.Price</strong> VNĐ</h3>
-                    <h3>Địa chỉ: @(Model.Product.Address?.ToLower())</h3>
+                    <h1 style="margin-top:10px;">@Model.Product.Title</h1>
+                    <h3 style="color:#d32f2f; font-size: 24px;">
+                        @if (Model.Product.Price >= 1000000000)
+                        {
+                            <strong>@((Model.Product.Price / 1000000000)?.ToString("0.##")) Tỷ</strong>
+                        }
+                        else
+                        {
+                            <strong>@((Model.Product.Price / 1000000)?.ToString("0.##")) Triệu</strong>
+                        }
+                    </h3>
+                    <p><i class="fa-solid fa-location-dot"></i> @(Model.Product.Address ?? "Đang cập nhật")</p>
                 </div>
-                <div class="Contact">Thông tin mô tả</div>
-                <div class="information-base">
-                    <div class="utility">
-                        <h1>Thông tin cơ bản</h1>
-                        <div>
-                            <p><i class="fa-solid fa-shapes"></i> Loại hình bất động sản: @Model.Product.Type</p>
-                            <p><i class="fa-solid fa-chart-area"></i> Diện tích: @Model.Product.Area</p>
-                        </div>
-                        <div>
-                            <p><i class="fa-solid fa-bed"></i> Số phòng ngủ: @Model.Product.Bedrooms</p>
-                            <p><i class="fa-solid fa-bath"></i> Số phòng vệ sinh: @Model.Product.Bathrooms </p>
-                        </div>
-                        <div class="action-button">
-                            <button class="button_small"><i class="fa-solid fa-heart"></i> Lưu</button>
-                            <button class="button_small"><i class="fa-solid fa-share"></i> Chia sẻ</button>
-                            <button class="button_small"><i class="fa-solid fa-circle-exclamation"></i> Báo vi phạm</button>
-                        </div>
+
+                <div class="Contact" style="margin-top:20px; font-weight:bold; font-size:18px;">Thông tin mô tả</div>
+                <div class="information-base" style="margin-top:10px; line-height:1.6;">
+                    @Html.Raw(Model.Product.Description?.Replace("\n", "<br>"))
+                </div>
+
+                <div class="utility" style="margin-top:30px; background:#f9f9f9; padding:20px; border-radius:8px;">
+                    <h2>Thông tin cơ bản</h2>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px;">
+                        <p><i class="fa-solid fa-building"></i> Loại hình: <b>@Model.Product.Type</b></p>
+                        <p><i class="fa-solid fa-ruler-combined"></i> Diện tích: <b>@Model.Product.Area m²</b></p>
+                        <p><i class="fa-solid fa-bed"></i> Phòng ngủ: <b>@Model.Product.Bedrooms</b></p>
+                        <p><i class="fa-solid fa-bath"></i> Phòng tắm: <b>@Model.Product.Bathrooms</b></p>
                     </div>
                 </div>
             </div>
@@ -83,57 +97,86 @@
 
         <div class="user-info">
             <div class="product-user-infomation_details">
-                <div class="User">
-                    <span id="Avatar-User">
-                        <img src="@Url.Content(
-                            string.IsNullOrEmpty(Model?.Seller?.Avatar_User)
-                                ? "~/Font-end/asset/icon/User-default.jpg"
-                                : "~/Content/" + Model.Seller.Avatar_User
-                        )" alt="Avatar" style="width:70px; height:70px; border-radius:50%; object-fit:cover;" />
-                    </span>
-                    <button class="button_small">Xem trang</button>
+                <div class="User" style="display:flex; align-items:center; gap:10px; margin-bottom:15px;">
+                    <div id="Avatar-User">
+                        <img src="@Url.Content(string.IsNullOrEmpty(Model.Seller?.Avatar_User) ? "~/Font-end/asset/icon/User-default.jpg" : "~/Content/" + Model.Seller.Avatar_User)"
+                             alt="Avatar"
+                             style="width:60px; height:60px; border-radius:50%; object-fit:cover;"
+                             onerror="this.src='@Url.Content("~/Font-end/asset/icon/User-default.jpg")'" />
+                    </div>
+                    <div>
+                        <div style="font-weight:bold; font-size:16px;">@(Model.Seller?.FullName ?? "Người dùng ẩn danh")</div>
+                        <div style="font-size:12px; color:#666;">Đã tham gia: @(Model.Seller?.CreatedAt?.ToString("dd/MM/yyyy") ?? "--")</div>
+                    </div>
                 </div>
 
-                <div class="contact">
-                    <button class="button_small">Liên hệ số điện thoại</button>
-                    <button class="button_small">Liên hệ zalo</button>
-                </div>
-            </div>
-
-            <div class="comment-section">
-                <h4>Bình luận</h4>
-                <div class="Area-comment">
-                    <textarea placeholder="Bình Luận..." class="Comment"></textarea>
-                    <button class="button_small">
-                        <i class="fa-solid fa-paper-plane"></i>
-                        Gửi
+                <div class="contact" style="display:flex; flex-direction:column; gap:10px;">
+                    <a href="tel:@Model.Seller.PhoneNumber" class="button_small" style="background:#22c55e; color:white; text-align:center; text-decoration:none; padding:10px;">
+                        <i class="fa-solid fa-phone"></i> @(Model.Seller?.PhoneNumber ?? "Liên hệ")
+                    </a>
+                    <button class="button_small" style="background:#0084ff; color:white;">
+                        <i class="fa-brands fa-facebook-messenger"></i> Chat Zalo
                     </button>
+                    <a href="@Url.Action("Page_User", "Users", new { id = Model.Seller.UserID })" class="button_small" style="text-align:center; text-decoration:none; border:1px solid #ddd;">
+                        Xem trang cá nhân
+                    </a>
                 </div>
             </div>
 
-            <div class="mini-map" onclick="openMap()" style="cursor: pointer; margin-top: 20px;">
-                <h4 style="margin-bottom: 10px;">Vị trí trên bản đồ:</h4>
-                <iframe width="100%"
-                        height="250"
-                        style="border: 0; pointer-events: none;"
-                        loading="lazy"
-                        allowfullscreen
-                        src="https://maps.google.com/maps?q=@HttpUtility.UrlEncode(Model.Product.Address)&t=&z=15&ie=UTF8&iwloc=&output=embed">
+            <div class="mini-map" onclick="openMap()" style="cursor: pointer; margin-top: 20px; border:1px solid #ddd; padding:5px;">
+                <h4 style="margin-bottom: 10px;">Vị trí bất động sản:</h4>
+                <iframe width="100%" height="200" style="border:0; pointer-events:none;"
+                        src="https://maps.google.com/maps?q=@HttpUtility.UrlEncode(Model.Product.Address)&output=embed">
                 </iframe>
-                <p style="text-align:center; font-size: 12px; color: #666; margin-top: 5px;">(Nhấn vào bản đồ để xem chi tiết)</p>
+                <p style="text-align:center; font-size: 12px; color: #666; margin-top: 5px;">(Nhấn để xem bản đồ lớn)</p>
             </div>
         </div>
     </div>
 
-    <div class="news-of-interest">
-        
+    <div class="product-list" style="margin-top:50px; border-top:1px solid #eee; padding-top:30px;">
+        <div style="font-weight: 700; font-size: 20px; margin-bottom: 20px;">🕓 Bất động sản tương tự</div>
+
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+            @if (Model.listproduct != null && Model.listproduct.Any())
+            {
+                foreach (var item in Model.listproduct)
+                {
+                    <div class="product-image" style="height:180px; overflow:hidden;">
+                        @{
+                            string relatedRaw = item.PropertyImages.FirstOrDefault(x => x.IsPrimary == true)?.ImageUrl
+                                             ?? item.PropertyImages.FirstOrDefault()?.ImageUrl;
+
+                            string relatedDisplay = "/Font-end/asset/icon/Product_Null.jpg";
+
+                            if (!string.IsNullOrEmpty(relatedRaw))
+                            {
+                                if (relatedRaw.StartsWith("http"))
+                                {
+                                    relatedDisplay = relatedRaw;
+                                }
+                                else
+                                {
+                                    relatedDisplay = Url.Content(relatedRaw);
+                                }
+                            }
+                        }
+                        <img src="@relatedDisplay"
+                             style="width:100%; height:100%; object-fit:cover;"
+                             onerror="this.src='/Font-end/asset/icon/Product_Null.jpg'" />
+                    </div>
+                }
+            }
+            else
+            {
+                <p style="grid-column: 1/-1; text-align:center; color:#999;">Không có bất động sản tương tự nào.</p>
+            }
+        </div>
     </div>
 
 </body>
 </html>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
 <script>
     function ToggleSave(productId, btnElement) {
         $.ajax({
@@ -144,18 +187,20 @@
                 if (response.success) {
                     if (response.isSaved) {
                         $(btnElement).addClass('active-yellow');
-                        alert("Đã lưu tin thành công!");
+                        $(btnElement).html('<i class="fa-solid fa-heart"></i> Đã lưu');
                     } else {
                         $(btnElement).removeClass('active-yellow');
-                        alert("Đã bỏ lưu tin!");
+                        $(btnElement).html('<i class="fa-regular fa-heart"></i> Lưu tin');
                     }
                 } else {
-                    alert(response.message);
+                    alert(response.message); // Bắt buộc đăng nhập
+                    if(response.message.includes("đăng nhập")) {
+                        window.location.href = '@Url.Action("Login", "Account")';
+                    }
                 }
             },
-            error: function (xhr, status, error) {
-                console.error("Lỗi:", error);
-                alert("Có lỗi kết nối: " + xhr.status + ". Vui lòng kiểm tra Console (F12).");
+            error: function () {
+                alert("Có lỗi xảy ra khi kết nối server.");
             }
         });
     }

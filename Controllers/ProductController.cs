@@ -5,22 +5,32 @@ using System.Web;
 using System.Web.Mvc;
 using Website_BDS.Models;
 using Website_BDS.Models.ViewModel;
+using System.Data.Entity; // Cần thiết để dùng .Include()
 
 namespace Website_BDS.Controllers
 {
     public class ProductController : Controller
     {
+        // 1. Khởi tạo DB Context một lần duy nhất
         private RealEstateDBEntities db = new RealEstateDBEntities();
 
+        // Hàm tiện ích: Chuyển địa chỉ về chữ thường
         private void ConvertToLowerCase(Product p)
         {
-            if (p == null) return;
-            if (!string.IsNullOrEmpty(p.Address)) p.Address = p.Address.ToLower();
+            if (p != null && !string.IsNullOrEmpty(p.Address))
+                p.Address = p.Address.ToLower();
         }
 
+        // ==========================================
+        // TÌM KIẾM SẢN PHẨM
+        // ==========================================
         public ActionResult Search_Product(string City, string district, string ward, string price, string area, string Type, string ListingType)
         {
-            var query = db.Products.AsQueryable();
+            // Eager Loading ảnh để tối ưu query
+            var query = db.Products.Include(p => p.PropertyImages).AsQueryable();
+
+            // Chỉ hiện tin đã duyệt (Active)
+            query = query.Where(p => p.Status == "Active");
 
             if (!string.IsNullOrEmpty(City)) query = query.Where(p => p.City.Contains(City));
             if (!string.IsNullOrEmpty(district)) query = query.Where(p => p.District.Contains(district));
@@ -28,30 +38,22 @@ namespace Website_BDS.Controllers
 
             if (!string.IsNullOrEmpty(Type))
             {
-                string typeClean = Server.UrlDecode(System.Web.HttpUtility.HtmlDecode(Type)).Trim().ToLower();
-                query = query.Where(p => p.Type.ToLower().Contains(typeClean));
+                string typeClean = Server.UrlDecode(Type).Trim().ToLower();
+                // Lưu ý: So sánh chuỗi trong SQL đôi khi cần cẩn thận với ToLower()
+                query = query.Where(p => p.Type.Contains(typeClean));
             }
 
             if (!string.IsNullOrEmpty(ListingType))
             {
-                string listingClean = Server.UrlDecode(ListingType).Trim();
-
-                if (listingClean.Equals("Rent", StringComparison.OrdinalIgnoreCase) || listingClean.Equals("Cho thuê", StringComparison.OrdinalIgnoreCase))
-                {
-                    query = query.Where(p => p.ListingType == "Rent" || p.ListingType == "Cho thuê");
-                }
-                else if (listingClean.Equals("Sale", StringComparison.OrdinalIgnoreCase) || listingClean.Equals("Bán", StringComparison.OrdinalIgnoreCase))
-                {
-                    query = query.Where(p => p.ListingType == "Sale" || p.ListingType == "Bán");
-                }
-                else
-                {
-                    query = query.Where(p => p.ListingType == listingClean);
-                }
+                // Mapping giá trị tiếng Việt/Anh
+                string searchType = (ListingType == "Bán" || ListingType == "Sale") ? "Sale" : "Rent";
+                query = query.Where(p => p.ListingType == searchType);
             }
 
-            List<Product> listOnRam = query.ToList();
+            // Thực thi query lấy dữ liệu về RAM để lọc giá/diện tích (Vì LINQ to Entities hạn chế convert số)
+            var listOnRam = query.ToList();
 
+            // Lọc Giá
             if (!string.IsNullOrEmpty(price))
             {
                 switch (price)
@@ -64,6 +66,7 @@ namespace Website_BDS.Controllers
                 }
             }
 
+            // Lọc Diện tích
             if (!string.IsNullOrEmpty(area))
             {
                 switch (area)
@@ -76,124 +79,103 @@ namespace Website_BDS.Controllers
                 }
             }
 
-            foreach (var item in listOnRam)
-            {
-                ConvertToLowerCase(item);
-            }
+            foreach (var item in listOnRam) ConvertToLowerCase(item);
 
-            return View(listOnRam);
+            return View(listOnRam.OrderByDescending(x => x.CreatedAt).ToList());
         }
 
+        // ==========================================
+        // CHI TIẾT SẢN PHẨM
+        // ==========================================
         public ActionResult Product_details(int id)
         {
-            var product = db.Products.FirstOrDefault(p => p.ProductID == id);
+            var product = db.Products.Find(id);
             if (product == null) return HttpNotFound();
 
             ConvertToLowerCase(product);
 
-            var seller = db.Users.FirstOrDefault(u => u.UserID == product.OwnerID);
+            var seller = db.Users.Find(product.OwnerID);
 
+            // Kiểm tra đã lưu tin chưa
             bool isSaved = false;
             if (Session["UserID"] != null)
             {
-                int currentUserId = (int)Session["UserID"];
+                int currentUserId = Convert.ToInt32(Session["UserID"]);
                 isSaved = db.Favorites.Any(f => f.UserID == currentUserId && f.ProductID == id);
             }
             ViewBag.IsSaved = isSaved;
+
+            // Lấy danh sách tin liên quan (cùng loại, trừ tin hiện tại)
+            var relatedList = db.Products
+                                .Where(p => p.Type == product.Type && p.ProductID != id && p.Status == "Active")
+                                .OrderByDescending(p => p.CreatedAt)
+                                .Take(4)
+                                .ToList();
 
             var vm = new ProductDetailViewModel
             {
                 Product = product,
                 Seller = seller,
+                listproduct = relatedList // Gán vào đây để tránh lỗi null bên View
             };
 
             return View(vm);
         }
 
+        // ==========================================
+        // XÓA SẢN PHẨM (Dùng Transaction để an toàn)
+        // ==========================================
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            using (var context = new RealEstateDBEntities())
+            // Kiểm tra quyền: Phải là chủ sở hữu mới được xóa
+            if (Session["UserID"] == null) return Json(new { success = false, message = "Vui lòng đăng nhập!" });
+
+            using (var transaction = db.Database.BeginTransaction())
             {
-                using (var transaction = context.Database.BeginTransaction())
+                try
                 {
-                    try
+                    var product = db.Products.Find(id);
+                    if (product == null) return Json(new { success = false, message = "Tin không tồn tại!" });
+
+                    // Check quyền sở hữu (Tránh việc ông A xóa tin ông B)
+                    int currentUserId = Convert.ToInt32(Session["UserID"]);
+                    if (product.OwnerID != currentUserId)
                     {
-                        var product = context.Products.Find(id);
-                        if (product == null)
-                        {
-                            return Json(new { success = false, message = "Không tìm thấy bài đăng!" });
-                        }
-
-                        var favorites = context.Favorites.Where(x => x.ProductID == id);
-                        context.Favorites.RemoveRange(favorites);
-
-                        var images = context.PropertyImages.Where(x => x.ProductID == id);
-                        context.PropertyImages.RemoveRange(images);
-
-                        var reviews = context.Reviews.Where(x => x.ProductID == id);
-                        context.Reviews.RemoveRange(reviews);
-
-                        var inquiries = context.Inquiries.Where(x => x.ProductID == id);
-                        context.Inquiries.RemoveRange(inquiries);
-
-                       
-                        var contracts = context.Contracts.Where(x => x.ProductID == id);
-                        context.Contracts.RemoveRange(contracts);
-
-                        context.Products.Remove(product);
-
-                        context.SaveChanges();
-                        transaction.Commit();
-
-                        return Json(new { success = true, message = "Xóa thành công!" });
+                        return Json(new { success = false, message = "Bạn không có quyền xóa tin này!" });
                     }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback(); 
-                                                
-                        return Json(new { success = false, message = "Lỗi hệ thống: " + ex.Message }); 
-                    }
+
+                    // --- XÓA CÁC BẢNG LIÊN QUAN ---
+                    db.Favorites.RemoveRange(db.Favorites.Where(x => x.ProductID == id));
+                    db.PropertyImages.RemoveRange(db.PropertyImages.Where(x => x.ProductID == id));
+                    db.Reviews.RemoveRange(db.Reviews.Where(x => x.ProductID == id));
+                    db.Inquiries.RemoveRange(db.Inquiries.Where(x => x.ProductID == id));
+
+                    // Lưu ý: Contracts (Hợp đồng) có thể chứa dữ liệu tiền bạc, KHÔNG NÊN XÓA.
+                    // Nếu vẫn muốn xóa thì uncomment dòng dưới:
+                    // db.Contracts.RemoveRange(db.Contracts.Where(x => x.ProductID == id));
+
+                    db.Products.Remove(product);
+                    db.SaveChanges();
+
+                    transaction.Commit();
+                    return Json(new { success = true, message = "Xóa thành công!" });
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return Json(new { success = false, message = "Lỗi: " + ex.Message });
                 }
             }
         }
 
+       
+
+        // Giải phóng tài nguyên
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
+            if (disposing) db.Dispose();
             base.Dispose(disposing);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(Product product, HttpPostedFileBase imageFile) 
-        {
-            if (ModelState.IsValid)
-            {
-                if (imageFile != null && imageFile.ContentLength > 0)
-                {
-                    string imageUrl = CloudinaryService.UploadImage(imageFile);
-
-                    product.Images = imageUrl;
-                }
-                else
-                {
-                    product.Images = "https://res.cloudinary.com/demo/image/upload/v1/product_default.jpg";
-                }
-
-                if (!string.IsNullOrEmpty(product.Address))
-                    product.Address = product.Address.ToLower();
-
-                db.Products.Add(product);
-                db.SaveChanges();
-
-                return RedirectToAction("Index");
-            }
-
-            return View(product);
         }
     }
 }

@@ -9,95 +9,103 @@ namespace Website_BDS.Controllers
 {
     public class RealEstateController : Controller
     {
+        private RealEstateDBEntities db = new RealEstateDBEntities();
+
         // GET: RealEstate
-        [HttpGet]
+        // ==========================================
+        // ĐĂNG TIN MỚI (CREATE)
+        // ==========================================
+        // 1. GET (Hiển thị form) - Nếu bạn chưa có thì thêm vào để tránh lỗi 404
+        // Hàm phụ giúp chuyển địa chỉ sang chữ thường
+        private void ConvertToLowerCase(Product p)
+        {
+            if (p != null && !string.IsNullOrEmpty(p.Address))
+            {
+                p.Address = p.Address.ToLower();
+            }
+        }
         public ActionResult Create()
         {
+            if (Session["UserID"] == null) return RedirectToAction("Login", "Account");
             return View();
         }
 
+        // 2. POST (Xử lý lưu)
         [HttpPost]
-        public ActionResult Create(Product model, HttpPostedFileBase Image_product)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Product product, HttpPostedFileBase uploadImage) // Đổi tên tham số cho khớp View
         {
-            RealEstateDBEntities db = new RealEstateDBEntities();
-
-            // Safely read UserID from session
-            int? currentUserId = null;
-            if (Session["UserID"] != null)
-            {
-                try
-                {
-                    currentUserId = Convert.ToInt32(Session["UserID"]);
-                }
-                catch
-                {
-                    currentUserId = null;
-                }
-            }
-
-            if (currentUserId == null)
-            {
-                // Not logged in → redirect to Login
-                return RedirectToAction("Login", "Users");
-            }
-
-            model.OwnerID = currentUserId.Value;
-
-            // Handle file upload
-            if (Image_product != null && Image_product.ContentLength > 0)
-            {
-                try
-                {
-                    string fileName = Path.GetFileNameWithoutExtension(Image_product.FileName);
-                    string fileExtension = Path.GetExtension(Image_product.FileName);
-                    string uniqueFileName = fileName + "_" + DateTime.Now.Ticks + fileExtension;
-                    string uploadPath = Path.Combine(Server.MapPath("~/Font-end/asset/img/"), uniqueFileName);
-
-                    // Ensure directory exists
-                    string uploadDir = Path.Combine(Server.MapPath("~/Font-end/asset/img/"));
-                    if (!Directory.Exists(uploadDir))
-                    {
-                        Directory.CreateDirectory(uploadDir);
-                    }
-
-                    Image_product.SaveAs(uploadPath);
-                    //model.Image_product = uniqueFileName;
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("Image_product", "Lỗi khi tải ảnh: " + ex.Message);
-                    return View(model);
-                }
-            }
-
-            // Set default timestamps
-            model.CreatedAt = DateTime.Now;
-            model.UpdatedAt = DateTime.Now;
-
-            // Debug: Log ModelState errors
-            if (!ModelState.IsValid)
-            {
-                var errors = ModelState.Values.SelectMany(v => v.Errors);
-                foreach (var error in errors)
-                {
-                    System.Diagnostics.Debug.WriteLine("ModelState Error: " + error.ErrorMessage);
-                }
-            }
-
             try
             {
-                db.Products.Add(model);
-                db.SaveChanges();
-                // Redirect to search page after successful create
-                return RedirectToAction("Search_Product", "Product");
+                // Kiểm tra đăng nhập
+                if (Session["UserID"] == null) return RedirectToAction("Login", "Account");
+
+                // Xóa validation cho các trường tự sinh
+                ModelState.Remove("OwnerID");
+                ModelState.Remove("Status");
+                ModelState.Remove("CreatedAt");
+                ModelState.Remove("UpdatedAt");
+
+                if (ModelState.IsValid)
+                {
+                    // Gán thông tin hệ thống
+                    product.OwnerID = Convert.ToInt32(Session["UserID"]);
+                    product.Status = "Pending"; // Chờ duyệt
+                    product.CreatedAt = DateTime.Now;
+                    product.UpdatedAt = DateTime.Now;
+
+                    // Xử lý địa chỉ chữ thường
+                    ConvertToLowerCase(product);
+
+                    // Lưu Product trước để có ID
+                    db.Products.Add(product);
+                    db.SaveChanges();
+
+                    // Xử lý ảnh (Nếu có) -> Lưu vào bảng PropertyImage
+                    // Xử lý ảnh (Nếu có) -> Lưu vào bảng PropertyImage
+                    if (uploadImage != null && uploadImage.ContentLength > 0)
+                    {
+                        // 1. Upload lên Cloud
+                        string cloudUrl = CloudinaryService.UploadImage(uploadImage);
+
+                        // 2. Kiểm tra xem có link trả về không (Tránh lỗi upload thất bại)
+                        if (cloudUrl.StartsWith("ERROR"))
+                        {
+                            // Xóa Product vừa lưu để tránh rác data
+                            db.Products.Remove(product);
+                            db.SaveChanges();
+
+                            // Hiện nguyên văn lỗi lên màn hình để đọc
+                            ModelState.AddModelError("", "Chi tiết lỗi: " + cloudUrl);
+                            return View(product);
+                        }
+                        var propImg = new PropertyImage
+                        {
+                            ProductID = product.ProductID, // ID lấy từ product vừa lưu bên trên
+                            ImageUrl = cloudUrl,           // Link ảnh từ Cloudinary
+                            IsPrimary = true,
+                            CreatedAt = DateTime.Now
+                        };
+                        db.PropertyImages.Add(propImg);
+                        db.SaveChanges();
+
+                    }
+                    else
+                    {
+                        // Nếu upload thất bại -> Ghi nhận lỗi nhưng không crash trang web
+                        // Bạn có thể thêm ModelState error nếu muốn báo cho user
+                        System.Diagnostics.Debug.WriteLine(">>> LỖI: Không lấy được link ảnh từ Cloudinary.");
+                    }
+
+                    return RedirectToAction("Page_User", "Users", new { id = product.OwnerID });
+                }
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", "Lỗi khi lưu dữ liệu: " + ex.Message);
+                ModelState.AddModelError("", "Lỗi: " + ex.Message);
             }
 
-            // Return view with model and errors for display
-            return View(model);
+            return View(product);
         }
         // GET: Users/Edit/5
         // GET: RealEstate/Edit/5
