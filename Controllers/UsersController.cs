@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Website_BDS.Models;
-using Newtonsoft.Json;
 using Website_BDS.Models.ViewModel;
 
 namespace Website_BDS.Controllers
@@ -14,7 +11,6 @@ namespace Website_BDS.Controllers
         RealEstateDBEntities db = new RealEstateDBEntities();
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            // Chỉ cần kiểm tra đã đăng nhập là được (Admin hay User đều có thể có profile)
             if (Session["UserID"] == null)
             {
                 filterContext.Result = new RedirectToRouteResult(
@@ -42,7 +38,7 @@ namespace Website_BDS.Controllers
         }
 
         // Nạp tiền
-       
+
         public ActionResult DepositPartial(int id)
         {
             var user = db.Users.Find(id);
@@ -87,7 +83,6 @@ namespace Website_BDS.Controllers
         {
             try
             {
-                // 1. Kiểm tra session đăng nhập
                 if (Session["UserID"] == null)
                 {
                     return Json(new { success = false, message = "Bạn vui lòng đăng nhập để lưu tin!" });
@@ -95,24 +90,20 @@ namespace Website_BDS.Controllers
 
                 int userId = Convert.ToInt32(Session["UserID"]);
 
-                // 2. (Quan trọng) Kiểm tra dữ liệu tồn tại để tránh lỗi Khóa Ngoại (Foreign Key)
-                // Kiểm tra xem User có thật trong DB không?
+               
                 var userExists = db.Users.Any(u => u.UserID == userId);
                 if (!userExists)
                 {
-                    // Trường hợp hy hữu: Session còn lưu nhưng User trong DB đã bị xóa
-                    Session.Abandon(); // Xóa session lỗi
+                    Session.Abandon(); 
                     return Json(new { success = false, message = "Tài khoản không tồn tại hoặc đã bị xóa. Vui lòng đăng nhập lại!" });
                 }
 
-                // Kiểm tra xem Sản phẩm có thật trong DB không?
                 var productExists = db.Products.Any(p => p.ProductID == productId);
                 if (!productExists)
                 {
                     return Json(new { success = false, message = "Sản phẩm này không tồn tại hoặc đã bị xóa!" });
                 }
 
-                // 3. Xử lý Lưu / Bỏ lưu
                 var existingFavorite = db.Favorites
                     .FirstOrDefault(f => f.UserID == userId && f.ProductID == productId);
 
@@ -120,32 +111,27 @@ namespace Website_BDS.Controllers
 
                 if (existingFavorite != null)
                 {
-                    // --- XÓA (BỎ LƯU) ---
                     db.Favorites.Remove(existingFavorite);
                     isSaved = false;
                 }
                 else
                 {
-                    // --- THÊM MỚI ---
                     var newFavorite = new Favorite
                     {
                         UserID = userId,
                         ProductID = productId
-                        // KHÔNG CẦN dòng CreatedAt vì Database của bạn đã có default sysdatetime()
                     };
                     db.Favorites.Add(newFavorite);
                     isSaved = true;
                 }
 
-                // 4. Lưu thay đổi vào DB
                 db.SaveChanges();
 
                 return Json(new { success = true, isSaved = isSaved });
             }
             catch (Exception ex)
             {
-                // In lỗi chi tiết ra console của trình duyệt để dễ debug
-                // Nếu lỗi liên quan đến EntityValidation, nó sẽ hiện rõ ở đây
+                
                 return Json(new { success = false, message = "Lỗi hệ thống: " + ex.Message });
             }
         }
@@ -171,16 +157,18 @@ namespace Website_BDS.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult SendContact(string name, string phone, string email, string subject, string message)
-        {
-            return View("SendContact");
-
-        }
-
+        
         public ActionResult PageContact()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult SendContact(string name, string phone, string email, string message)
+        {
+            
+            ViewBag.Message = "Cảm ơn bạn đã liên hệ. Chúng tôi sẽ phản hồi sớm nhất!";
+            return View("PageContact");
         }
     }
 }

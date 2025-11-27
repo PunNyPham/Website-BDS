@@ -9,16 +9,16 @@
     <link rel="stylesheet" href="@Url.Content("~/Font-end/asset/base.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/LayoutHome.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/edit-page_user.css")" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 </head>
 <body>
     <!-- Header -->
     <header class="site-header">
         <div class="header-container">
-            <a href="@Url.Action("Index", "Home")" class="logo-box">
-                <img src="@Url.Content("~/Font-end/asset/icon/logo.png")" alt="logo" />
-                <span class="logo-text">BĐS Việt Nam</span>
+            <a href="@Url.Action("Search_Product", "Product")" class="logo-box">
+                <h2 style="font-weight: 700; font-size: 28px; color: #000f"><i class="fa-solid fa-building" style="color: #3b82f6;"></i> RealEstate Pro</h2>
             </a>
 
             <nav class="main-nav">
@@ -83,7 +83,7 @@
                 }
                 else
                 {
-                    <a href="@Url.Action("Login", "Users")" class="btn btn-outline">Đăng nhập</a>
+                    <a href="@Url.Action("Login", "Account")" class="btn btn-outline">Đăng nhập</a>
                 }
             </div>
         </div>

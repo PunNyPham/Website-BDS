@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace Website_BDS.Models.ViewModel
 {
@@ -9,5 +6,9 @@ namespace Website_BDS.Models.ViewModel
     {
         public Product Product { get; set; }
         public User Seller { get; set; }
+
+        //public List<Product> listproduct { get; set; }
+
+        
     }
 }

@@ -1,48 +1,53 @@
 ﻿@{
-    ViewBag.Title = "Liên hệ - Tin tức";
-    Layout = null;
+    ViewBag.Title = "Liên hệ với chúng tôi";
+    Layout = "~/Views/Shared/_LayoutPageHome.cshtml"; 
 }
 
-<div class="contact-page-container" style="padding: 50px 0; max-width: 800px; margin: 0 auto;">
-    <div class="contact-form">
-        <h1>Gửi tin nhắn cho tôi</h1>
-        <p>
-            Chúng tôi luôn lắng nghe và hỗ trợ bạn. Nếu bạn có bất kỳ câu hỏi
-            nào về dịch vụ của chúng tôi hoặc cần tư vấn, vui lòng để lại lời nhắn
-            để được hỗ trợ:
-        </p>
+<div class="container" style="margin-top: 40px; margin-bottom: 40px;">
+    <h2 class="section-title" style="text-align:center; margin-bottom: 30px;">Liên hệ với BĐS Việt Nam</h2>
 
-        <form method="post" action="@Url.Action("SendContact", "Users")">
+    <div style="display:flex; gap:30px; justify-content:center;">
 
-            <div class="form-group">
-                <label for="name">Họ và tên</label>
-                <input type="text" id="name" name="name" class="form-control" placeholder="Họ và tên" required />
-            </div>
+        <div style="flex:1; max-width:600px; background:white; padding:30px; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
 
-            <div class="form-group">
-                <label for="phone">Số điện thoại</label>
-                <input type="tel" id="phone" name="phone" class="form-control" placeholder="Số điện thoại" required />
-            </div>
+            @if (ViewBag.Message != null)
+            {
+                <div style="background:#dcfce7; color:#166534; padding:10px; border-radius:5px; margin-bottom:15px;">
+                    @ViewBag.Message
+                </div>
+            }
 
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" class="form-control" placeholder="Email" required />
-            </div>
+            <form action="@Url.Action("SendContact", "Users")" method="post">
+                <div style="margin-bottom:15px;">
+                    <label style="display:block; margin-bottom:5px; font-weight:bold;">Họ và tên</label>
+                    <input type="text" name="name" class="form-control" placeholder="Nhập họ tên..." required style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+                </div>
 
-            <div class="form-group">
-                <label for="subject">Tiêu đề</label>
-                <input type="text" id="subject" name="subject" class="form-control" placeholder="Tiêu đề" required />
-            </div>
+                <div style="margin-bottom:15px;">
+                    <label style="display:block; margin-bottom:5px; font-weight:bold;">Số điện thoại</label>
+                    <input type="text" name="phone" class="form-control" placeholder="Nhập SĐT..." required style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+                </div>
 
-            <div class="form-group">
-                <label for="message">Nội dung</label>
-                <textarea id="message" name="message" class="form-control" rows="5" placeholder="Tin nhắn" required></textarea>
-            </div>
+                <div style="margin-bottom:15px;">
+                    <label style="display:block; margin-bottom:5px; font-weight:bold;">Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="Nhập email..." style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+                </div>
 
-            <button type="submit" class="btn-submit" style="margin-top: 20px;">Gửi thông tin</button>
+                <div style="margin-bottom:15px;">
+                    <label style="display:block; margin-bottom:5px; font-weight:bold;">Nội dung</label>
+                    <textarea name="message" rows="5" class="form-control" placeholder="Bạn cần hỗ trợ gì?..." required style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;"></textarea>
+                </div>
 
-        </form>
+                <button type="submit" class="btn btn-primary" style="width:100%; padding:12px; border:none; border-radius:5px; background:#3b82f6; color:white; font-weight:bold; cursor:pointer;">Gửi tin nhắn</button>
+            </form>
+        </div>
+
+        <div style="width:350px; background:#f9fafb; padding:30px; border-radius:10px; height:fit-content;">
+            <h3 style="margin-bottom:20px;">Thông tin liên hệ</h3>
+            <p style="margin-bottom:15px;"><i class="fa-solid fa-location-dot" style="color:#3b82f6; width:20px;"></i> 123 Đường ABC, Quận 1, TP.HCM</p>
+            <p style="margin-bottom:15px;"><i class="fa-solid fa-phone" style="color:#3b82f6; width:20px;"></i> 0901.234.567</p>
+            <p style="margin-bottom:15px;"><i class="fa-solid fa-envelope" style="color:#3b82f6; width:20px;"></i> hotro@bdsvietnam.vn</p>
+            <p style="margin-bottom:15px;"><i class="fa-solid fa-clock" style="color:#3b82f6; width:20px;"></i> 8:00 - 22:00 (Thứ 2 - CN)</p>
+        </div>
     </div>
 </div>
-
-<link rel="stylesheet" href="~/Font-end/CSS/Page-Contact.css">

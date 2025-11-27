@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace Website_BDS.Models.ViewModel
 {
@@ -15,8 +12,8 @@ namespace Website_BDS.Models.ViewModel
         // Danh sách này chứa các object từ bảng Product
         public List<Product> DanhSachBDSMoiNhat { get; set; }
         //Dữ liệu cho biểu đồ Doanh thu(Line Chart)
-        public List<string> LabelsDoanhThu { get; set; } 
-        public List<decimal> DataDoanhThu { get; set; }  
+        public List<string> LabelsDoanhThu { get; set; }
+        public List<decimal> DataDoanhThu { get; set; }
 
         // THÊM MỚI: Dữ liệu cho biểu đồ Phân loại (Pie Chart)
         public List<string> LabelsPhanLoai { get; set; }

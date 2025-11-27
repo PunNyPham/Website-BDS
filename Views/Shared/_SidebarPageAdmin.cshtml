@@ -1,4 +1,5 @@
 ﻿@{
+    // Lấy tên Action hiện tại để tô màu Active
     string currentAction = ViewContext.RouteData.Values["action"].ToString();
 }
 
@@ -9,6 +10,7 @@
     </div>
 
     <nav class="menu">
+
         <a class="@(currentAction == "Index_Admin" ? "active" : "")"
            href="@Url.Action("Index_Admin", "Admin")">
             <i class="fa-solid fa-chart-line"></i> Tổng quan
@@ -38,8 +40,6 @@
            href="@Url.Action("transaction_management", "Admin")">
             <i class="fa-solid fa-handshake"></i> Giao dịch
         </a>
-
-
 
     </nav>
 

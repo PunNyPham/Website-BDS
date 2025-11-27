@@ -3,125 +3,99 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 <link rel="stylesheet" href="@Url.Content("~/Font-end/asset/reset.css")" />
 <link rel="stylesheet" href="@Url.Content("~/Font-end/asset/base.css")" />
-@*<link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/Page-User.css?v=1")" />*@
-<div class="profile-left">
-    <div class="avatar-circle">
-        <img src="@Url.Content(string.IsNullOrEmpty(Model?.User?.Avatar_User) ? "~/Font-end/asset/icon/User-default.jpg" : "~/Content/" + Model.User.Avatar_User)"
-             onerror="this.src='@Url.Content("~/Font-end/asset/icon/User-default.jpg")'" />
-    </div>
-
-    <div class="info-row" style="margin-top: 10px;">
-
-        <div class="info-value">@Model.User.FullName</div>
-        <div class="info-value">Mã ID: #######</div>
-        <div class="info-value">Tham gia từ : 21/07/2006</div>
-        <div class="post-count-badge">
-            Số tin đã đăng: @(Model?.Products?.Count() ?? 0)
-        </div>
-    </div>
-
-    <div class="info-row">
-        <div class="info-label">Khu Vực: Việt Nam</div>
-    </div>
-
-    <div class="info-row">
-        <div class="info-value">SĐT: @(Model?.User?.PhoneNumber ?? "---")</div>
-    </div>
-
-    <div class="info-row">
-        <div class="info-value">Email: @(Model?.User?.Email ?? "---")</div>
-    </div>
-</div>
-
-
 <div class="sidebar-wrapper">
 
     <div class="financial_management-Tag">
         <h3>Quản lý tài chính</h3>
         <div class="balance">
-            <p>Tài Khoản chính:</p>
-            <span>0đ</span>
+            <p>Tài khoản chính:</p>
+            <span>0 đ</span>
         </div>
 
-        <a href="#" class="transaction_history"><i class="fa-solid fa-angle-right"></i> Lịch sử giao dịch</a>
+        <a href="#" class="transaction_history"><i class="fa-solid fa-angle-right"></i> lịch sử giao dịch</a>  <br>
+        <div style="display: flex; justify-content: center;">
+            <a href="" class="sidebar-link button-outline primary"
+               data-url="@Url.Action("DepositPartial", "Users", new { id = Model.User.UserID })">
+                Nạp tiền
+            </a>
+        </div>
 
-        <button class="Button_Blue"><i class="fa-solid fa-wallet"></i> Nạp tiền</button>
+        <div class="menu-group">
+            <div class="menu-title">Quản lý giao dịch</div>
+            <ul class="submenu">
+                <li>
+                    <a href="" class="sidebar-link">
+                        Lịch sử giao dịch
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("DepositPartial", "Users", new { id = Model.User.UserID })" class="sidebar-link"
+                       data-url="@Url.Action("DepositPartial", "Users", new { id = Model.User.UserID })">
+                        Nạp tiền vào tài khoản
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="menu-group">
+            <div class="menu-title">Quản lý tin</div>
+            <ul class="submenu">
+                <li>
+                    <a href="@Url.Action("Page_User", "Users", new { id = Session["UserID"] })">
+                        Tin đã đăng
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Create", "RealEstate")">
+                        Đăng tin mới
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="menu-group">
+            <div class="menu-title">Hồ sơ cá nhân</div>
+            <ul class="submenu">
+                <li>
+                    <a href="#" class="sidebar-link"
+                       data-url="@Url.Action("Update_Profile", "Users", new { id = Model.User.UserID })">
+                        Cập nhật hồ sơ
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link"
+                       data-url="@Url.Action("SavedProductsPartial", "Users", new { id = Model.User.UserID })">
+                        Tin đã lưu
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="sidebar-link">
+                        Đổi mật khẩu
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="menu-group">
+            <div class="logout">
+                <a href="@Url.Action("Logout", "Account")" style="color: #d32f2f; font-weight:600;">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất
+                </a>
+            </div>
+        </div>
+
+        <div class="contact">
+            <p>Hỗ trợ đăng tin, mua tin</p>
+            <p>
+                Tell/Zalo: 0974453596
+            </p>
+            <p>Email: PunNy_Pham@gmail.com</p>
+        </div>
+
     </div>
 
-<<<<<<< HEAD
-=======
-    <a href="#" class="transaction_history"><i class="fa-solid fa-angle-right"></i> lịch sử giao dịch</a>  <br>
-   <div style="display: flex; justify-content: center;">
-     <a href="#" class="sidebar-link button-outline primary" 
-        data-url="@Url.Action("DepositPartial", "Users", new { id = Model.User.UserID })">
-         Nạp tiền
-     </a>
-   </div>
-</div>
 
-
->>>>>>> e42204574af489958605c4e9c2ff68e44de371c9
-    <div class="menu-group">
-        <div class="menu-title">Quản lý giao dịch</div>
-        <ul class="submenu">
-            <li>
-                <a href="#" class="sidebar-link" data-url="@Url.Action("DepositPartial", "Users", new { id = Model.User.UserID })">
-                    Nạp tiền
-                </a>
-            </li>
-            <li>
-                <a href="#" class="sidebar-link" data-url="@Url.Action("DepositPartial", "Users", new { id = Model.User.UserID })">
-                    Quản lý giao dịch
-                </a>
-            </li>
-        </ul>
     </div>
-
-    <div class="menu-group">
-        <div class="menu-title">Quản lý tin</div>
-        <ul class="submenu">
-            <li>
-                <a href="@Url.Action("Page_User", "Users", new { id = Session["UserID"] })">Tin đã đăng</a>
-            </li>
-            <li>
-                <a href="@Url.Action("Create", "RealEstate")">Đăng tin</a>
-            </li>
-        </ul>
-    </div>
-
-    <div class="menu-group">
-        <div class="menu-title">Hồ sơ môi giới</div>
-        <ul class="submenu">
-            <li>
-                <a href="#" class="sidebar-link" data-url="@Url.Action("Update_Profile", "Users", new { id = Model.User.UserID })">
-                    Cập nhật hồ sơ
-                </a>
-            </li>
-            <li>
-                <a href="#" class="sidebar-link" data-url="@Url.Action("SavedProductsPartial", "Users", new { id = Model.User.UserID })">
-                    Tin đã lưu
-                </a>
-            </li>
-        </ul>
-    </div>
-
-</div>
-
-    <div class="menu-group">
-        <div class="menu-title">Tài khoản</div>
-        <ul class="submenu">
-            <li>
-                <a href="#" class="sidebar-link"
-                   data-url="@Url.Action("_Updtae_Profile", "Users", new { id = Model.User.UserID })">
-                    Thông tin các nhân
-                </a>
-            </li>
-        </ul>
-        <div class="logout"><a href="@Url.Action("Login", "Users")"><i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất</a></div>
-    </div>
-
-
-
 <script>
     document.querySelectorAll(".menu-title").forEach(title => {
         title.addEventListener("click", function () {
@@ -274,7 +248,7 @@
             text-decoration: none;
             color: #444;
             padding: 10px 12px;
-            border-radius: 6px;
+            border-radius: 6p   x;
             font-size: 15px;
             transition: all 0.2s ease-in-out;
             display: flex;

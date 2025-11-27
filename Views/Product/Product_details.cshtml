@@ -27,12 +27,9 @@
 
     <script>
         function openMap() {
-            // --- SỬA LỖI TẠI ĐÂY ---
-            // 1. HtmlDecode: Chuyển đổi mã &#224; thành chữ à
-            // 2. JavaScriptStringEncode: Đảm bảo chuỗi an toàn trong JS
+           
             var address = '@HttpUtility.JavaScriptStringEncode(System.Web.HttpUtility.HtmlDecode(Model.Product.Address ?? ""))';
 
-            // 3. encodeURIComponent: Mã hóa URL để Google Maps hiểu
             window.open(
                 "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(address),
                 "_blank"
@@ -128,7 +125,9 @@
         </div>
     </div>
 
-    
+    <div class="news-of-interest">
+        
+    </div>
 
 </body>
 </html>

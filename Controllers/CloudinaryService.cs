@@ -1,7 +1,6 @@
-﻿using CloudinaryDotNet;
+﻿using System.Web;
+using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
-using System.IO;
-using System.Web;
 
 public class CloudinaryService
 {
