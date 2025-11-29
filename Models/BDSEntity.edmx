@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="RealEstateDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="RealEstateDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AdminActivityLogs">
           <Key>
             <PropertyRef Name="LogID" />
@@ -49,6 +49,8 @@
           <Property Name="Status" Type="nvarchar" MaxLength="20" />
           <Property Name="CreatedAt" Type="datetime2" Precision="7" />
           <Property Name="UpdatedAt" Type="datetime2" Precision="7" />
+          <Property Name="PaymentMethod" Type="nvarchar" MaxLength="50" />
+          <Property Name="Commission" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="Favorites">
           <Key>
@@ -90,6 +92,8 @@
           <Property Name="Status" Type="nvarchar" MaxLength="20" />
           <Property Name="CreatedAt" Type="datetime2" Precision="7" />
           <Property Name="UpdatedAt" Type="datetime2" Precision="7" />
+          <Property Name="Rank" Type="int" />
+          <Property Name="VipExpirationDate" Type="datetime" />
         </EntityType>
         <EntityType Name="PropertyAmenities">
           <Key>
@@ -383,8 +387,7 @@
             <End Role="Review" EntitySet="Review" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="RealEstateDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -438,6 +441,8 @@
           <NavigationProperty Name="User" Relationship="Self.FK_Contracts_Buyer" FromRole="Contracts" ToRole="Users" />
           <NavigationProperty Name="Product" Relationship="Self.FK_Contracts_Product" FromRole="Contracts" ToRole="Product" />
           <NavigationProperty Name="User1" Relationship="Self.FK_Contracts_Seller" FromRole="Contracts" ToRole="Users" />
+          <Property Name="PaymentMethod" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Commission" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="Favorite">
           <Key>
@@ -490,6 +495,8 @@
           <NavigationProperty Name="PropertyImages" Relationship="Self.FK_PropertyImage_Product" FromRole="Product" ToRole="PropertyImage" />
           <NavigationProperty Name="Reviews" Relationship="Self.FK_Review_Product" FromRole="Product" ToRole="Review" />
           <NavigationProperty Name="Amenities" Relationship="Self.PropertyAmenities" FromRole="Product" ToRole="Amenities" />
+          <Property Name="Rank" Type="Int32" />
+          <Property Name="VipExpirationDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="PropertyImage">
           <Key>
@@ -802,6 +809,8 @@
           <EntitySetMapping Name="Contracts">
             <EntityTypeMapping TypeName="RealEstateDBModel.Contract">
               <MappingFragment StoreEntitySet="Contracts">
+                <ScalarProperty Name="Commission" ColumnName="Commission" />
+                <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
                 <ScalarProperty Name="ContractID" ColumnName="ContractID" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="BuyerID" ColumnName="BuyerID" />
@@ -838,6 +847,8 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="RealEstateDBModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="VipExpirationDate" ColumnName="VipExpirationDate" />
+                <ScalarProperty Name="Rank" ColumnName="Rank" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Description" ColumnName="Description" />

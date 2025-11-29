@@ -117,3 +117,95 @@ textarea.form-control {
     margin-left: 15px;
     font-size: 14px;
 }
+
+
+
+/* Badge VIP */
+.badge-vip {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+}
+
+    .badge-vip.silver {
+        background: #bdc3c7;
+    }
+
+    .badge-vip.gold {
+        background: #f1c40f;
+    }
+
+    .badge-vip.diamond {
+        background: #9b59b6;
+    }
+
+/* Modal VIP */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.vip-modal-box {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 350px;
+    text-align: center;
+}
+
+.vip-options {
+    margin: 20px 0;
+    text-align: left;
+}
+
+.vip-option {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+    .vip-option:hover {
+        background: #f9f9f9;
+        border-color: #3b82f6;
+    }
+
+    .vip-option.gold {
+        border: 1px solid #f1c40f;
+        background: #fffdf0;
+    }
+
+.btn-confirm {
+    background: #d35400;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    background: #eee;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}

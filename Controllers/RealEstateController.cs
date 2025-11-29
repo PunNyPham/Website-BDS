@@ -211,5 +211,65 @@ namespace Website_BDS.Controllers
 
             return View(model);
         }
+        [HttpPost]
+        public ActionResult BuyVip(int productId, int vipLevel)
+        {
+            // 1. Kiểm tra đăng nhập
+            if (Session["UserID"] == null)
+                return Json(new { success = false, message = "Vui lòng đăng nhập!" });
+
+            int userId = Convert.ToInt32(Session["UserID"]);
+
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    // 2. Lấy thông tin User và Tin đăng
+                    var user = db.Users.Find(userId);
+                    var product = db.Products.Find(productId);
+
+                    if (product == null || product.OwnerID != userId)
+                        return Json(new { success = false, message = "Tin không tồn tại hoặc không phải của bạn!" });
+
+                    // 3. Định giá các gói VIP (Có thể lưu trong DB nếu muốn dynamic)
+                    decimal price = 0;
+                    int days = 7; // Mặc định mua 7 ngày
+                    string vipName = "";
+
+                    switch (vipLevel)
+                    {
+                        case 1: price = 50000; vipName = "VIP Bạc"; break;
+                        case 2: price = 100000; vipName = "VIP Vàng"; break;
+                        case 3: price = 200000; vipName = "VIP Kim Cương"; break;
+                        default: return Json(new { success = false, message = "Gói không hợp lệ!" });
+                    }
+
+                    // 4. Kiểm tra tiền trong tài khoản
+                    // Giả sử bảng User có cột Balance (nếu chưa có bạn cần thêm vào)
+                    // Nếu chưa có cột Balance, tạm thời bỏ qua bước trừ tiền để test logic gán VIP trước
+                    /*
+                    if (user.Balance < price)
+                    {
+                        return Json(new { success = false, message = "Số dư không đủ. Vui lòng nạp thêm tiền!" });
+                    }
+                    user.Balance -= price; // Trừ tiền
+                    */
+
+                    // 5. Cập nhật Tin đăng
+                    product.Rank = vipLevel;
+                    product.VipExpirationDate = DateTime.Now.AddDays(days);
+
+                    db.SaveChanges();
+                    transaction.Commit();
+
+                    return Json(new { success = true, message = $"Đã nâng cấp lên {vipName} thành công!" });
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return Json(new { success = false, message = "Lỗi: " + ex.Message });
+                }
+            }
+        }
     }
 }

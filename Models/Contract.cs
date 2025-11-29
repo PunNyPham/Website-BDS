@@ -23,6 +23,8 @@ namespace Website_BDS.Models
         public string Status { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
         public Nullable<System.DateTime> UpdatedAt { get; set; }
+        public string PaymentMethod { get; set; }
+        public Nullable<decimal> Commission { get; set; }
     
         public virtual User User { get; set; }
         public virtual Product Product { get; set; }
