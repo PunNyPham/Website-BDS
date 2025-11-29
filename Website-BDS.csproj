@@ -333,6 +333,7 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Users\DepositPartial.cshtml" />
+    <Content Include="Views\Users\_ChangePasswordPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

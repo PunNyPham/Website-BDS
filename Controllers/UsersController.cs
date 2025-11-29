@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Policy;
 using System.Web.Mvc;
 using Website_BDS.Models;
 using Website_BDS.Models.ViewModel;
@@ -169,6 +170,58 @@ namespace Website_BDS.Controllers
             
             ViewBag.Message = "Cảm ơn bạn đã liên hệ. Chúng tôi sẽ phản hồi sớm nhất!";
             return View("PageContact");
+        }
+
+
+
+        // GET: Lấy giao diện form đổi mật khẩu
+        public ActionResult ChangePasswordPartial()
+        {
+            if (Session["UserID"] == null) return Content("Vui lòng đăng nhập");
+            return PartialView("_ChangePasswordPartial");
+        }
+        [HttpPost]
+        public ActionResult ChangePassword(string currentPass, string newPass, string confirmPass)
+        {
+            try
+            {
+                // 1. Kiểm tra đăng nhập
+                if (Session["UserID"] == null)
+                {
+                    return Json(new { success = false, message = "Vui lòng đăng nhập lại!" });
+                }
+
+                int userId = Convert.ToInt32(Session["UserID"]);
+                var user = db.Users.Find(userId);
+
+                // 2. Kiểm tra mật khẩu cũ
+                if (user.HashPassword != currentPass)
+                {
+                    return Json(new { success = false, message = "Mật khẩu hiện tại không đúng!" });
+                }
+
+                // 3. Kiểm tra xác nhận mật khẩu mới
+                if (newPass != confirmPass)
+                {
+                    return Json(new { success = false, message = "Mật khẩu xác nhận không khớp!" });
+                }
+
+                // 4. Validate độ dài (Tùy chọn)
+                if (newPass.Length < 6)
+                {
+                    return Json(new { success = false, message = "Mật khẩu mới phải có ít nhất 6 ký tự!" });
+                }
+
+                // 5. Lưu mật khẩu mới
+                user.HashPassword = newPass; // Nên mã hóa MD5/BCrypt ở đây nếu có
+                db.SaveChanges();
+
+                return Json(new { success = true, message = "Đổi mật khẩu thành công!" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Lỗi: " + ex.Message });
+            }
         }
     }
 }
