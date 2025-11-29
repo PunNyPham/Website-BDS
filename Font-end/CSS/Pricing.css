@@ -1,0 +1,205 @@
+﻿/* Khung tổng thể */
+.pricing-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Header */
+.pricing-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+    .pricing-header h2 {
+        font-size: 32px;
+        color: #2c3e50;
+        font-weight: 800;
+        margin-bottom: 10px;
+    }
+
+    .pricing-header p {
+        color: #7f8c8d;
+        font-size: 18px;
+    }
+
+/* Lưới các gói */
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    align-items: stretch; /* Kéo giãn các thẻ bằng nhau */
+}
+
+/* Thẻ giá */
+.pricing-card {
+    background: #fff;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    text-align: center;
+    border: 1px solid #eee;
+    position: relative;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+    .pricing-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+/* Tag nổi bật */
+.tag {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #e74c3c;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+}
+
+/* Header của thẻ */
+.card-header h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.card-header .price {
+    font-size: 28px;
+    font-weight: 800;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.card-header .unit {
+    font-size: 14px;
+    color: #95a5a6;
+    font-weight: normal;
+}
+
+/* Danh sách tính năng */
+.features {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    text-align: left;
+    flex: 1; /* Đẩy nút xuống đáy */
+}
+
+    .features li {
+        margin-bottom: 12px;
+        color: #555;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+    }
+
+        .features li i {
+            margin-right: 10px;
+            color: #27ae60; /* Màu xanh check */
+        }
+
+        .features li.disabled {
+            color: #bdc3c7;
+            text-decoration: line-through;
+        }
+
+            .features li.disabled i {
+                color: #bdc3c7;
+            }
+
+/* Màu sắc riêng cho từng gói */
+.pricing-card.silver {
+    border-top: 5px solid #bdc3c7;
+}
+
+    .pricing-card.silver h3 {
+        color: #7f8c8d;
+    }
+
+.pricing-card.gold {
+    border-top: 5px solid #f1c40f;
+    transform: scale(1.05);
+    z-index: 2;
+    border-color: #f1c40f;
+}
+
+    .pricing-card.gold h3 {
+        color: #f39c12;
+    }
+
+.pricing-card.diamond {
+    border-top: 5px solid #9b59b6;
+}
+
+    .pricing-card.diamond h3 {
+        color: #8e44ad;
+    }
+
+/* Nút bấm */
+.btn-choose {
+    display: block;
+    padding: 12px;
+    border-radius: 30px;
+    background: #ecf0f1;
+    color: #2c3e50;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.pricing-card.gold .btn-choose {
+    background: #f1c40f;
+    color: white;
+    box-shadow: 0 4px 15px rgba(241, 196, 15, 0.4);
+}
+
+.pricing-card.diamond .btn-choose {
+    background: #8e44ad;
+    color: white;
+}
+
+.btn-choose:hover {
+    filter: brightness(1.1);
+}
+
+/* Phần lưu ý */
+.pricing-note {
+    margin-top: 60px;
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 10px;
+    border-left: 5px solid #3498db;
+}
+
+    .pricing-note h4 {
+        margin-top: 0;
+        color: #3498db;
+    }
+
+    .pricing-note ul {
+        margin-bottom: 0;
+        padding-left: 20px;
+    }
+
+    .pricing-note li {
+        margin-bottom: 8px;
+        color: #555;
+    }
+
+/* Mobile */
+@media (max-width: 768px) {
+    .pricing-card.gold {
+        transform: scale(1);
+    }
+}

@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewBag.Title = "Pricing";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/Font-end/CSS/Pricing.css" />
+
+<div class="pricing-container">
+    <div class="pricing-header">
+        <h2>Bảng Giá Dịch Vụ Đăng Tin</h2>
+        <p>Chọn gói tin phù hợp để tiếp cận hàng triệu khách hàng tiềm năng</p>
+    </div>
+
+    <div class="pricing-grid">
+        <div class="pricing-card">
+            <div class="card-header">
+                <h3>Tin Thường</h3>
+                <p class="price">Miễn phí</p>
+            </div>
+            <ul class="features">
+                <li><i class="fa-solid fa-check"></i> Hiển thị sau tin VIP</li>
+                <li><i class="fa-solid fa-check"></i> Duyệt tin trong 24h</li>
+                <li><i class="fa-solid fa-check"></i> Tối đa 3 ảnh</li>
+                <li class="disabled"><i class="fa-solid fa-xmark"></i> Huy hiệu nổi bật</li>
+                <li class="disabled"><i class="fa-solid fa-xmark"></i> Đẩy tin tự động</li>
+            </ul>
+            <a href="@Url.Action("Create", "RealEstate")" class="btn-choose">Đăng ngay</a>
+        </div>
+
+        <div class="pricing-card silver">
+            <div class="tag">Phổ biến</div>
+            <div class="card-header">
+                <h3>VIP Bạc</h3>
+                <p class="price">3.000đ <span class="unit">/ ngày</span></p>
+            </div>
+            <ul class="features">
+                <li><i class="fa-solid fa-check"></i> <strong>Hiển thị trên tin Thường</strong></li>
+                <li><i class="fa-solid fa-check"></i> Tiêu đề màu <strong>Xanh</strong></li>
+                <li><i class="fa-solid fa-check"></i> Duyệt tin siêu tốc (30p)</li>
+                <li><i class="fa-solid fa-check"></i> Tối đa 10 ảnh</li>
+                <li class="disabled"><i class="fa-solid fa-xmark"></i> Banner trang chủ</li>
+            </ul>
+            <a href="@Url.Action("Create", "RealEstate")" class="btn-choose">Chọn gói này</a>
+        </div>
+
+        <div class="pricing-card gold">
+            <div class="card-header">
+                <h3>VIP Vàng</h3>
+                <p class="price">7.000đ <span class="unit">/ ngày</span></p>
+            </div>
+            <ul class="features">
+                <li><i class="fa-solid fa-check"></i> <strong>Hiển thị TOP 5</strong></li>
+                <li><i class="fa-solid fa-check"></i> Tiêu đề <strong>IN HOA MÀU CAM</strong></li>
+                <li><i class="fa-solid fa-check"></i> Có khung viền nổi bật</li>
+                <li><i class="fa-solid fa-check"></i> <strong>Đẩy tin tự động 1 lần/ngày</strong></li>
+                <li><i class="fa-solid fa-check"></i> Tiếp cận x5 khách hàng</li>
+            </ul>
+            <a href="@Url.Action("Create", "RealEstate")" class="btn-choose">Chọn gói này</a>
+        </div>
+
+        <div class="pricing-card diamond">
+            <div class="tag">Cao cấp nhất</div>
+            <div class="card-header">
+                <h3>VIP Kim Cương</h3>
+                <p class="price">15.000đ <span class="unit">/ ngày</span></p>
+            </div>
+            <ul class="features">
+                <li><i class="fa-solid fa-check"></i> <strong>Vị trí ĐỘC TÔN (Top 1)</strong></li>
+                <li><i class="fa-solid fa-check"></i> Tiêu đề <strong>MÀU ĐỎ ĐẬM + ICON</strong></li>
+                <li><i class="fa-solid fa-check"></i> Banner quảng cáo trang chủ</li>
+                <li><i class="fa-solid fa-check"></i> Đẩy tin tự động 3 lần/ngày</li>
+                <li><i class="fa-solid fa-check"></i> Tiếp cận x20 khách hàng</li>
+            </ul>
+            <a href="@Url.Action("Create", "RealEstate")" class="btn-choose">Chọn gói này</a>
+        </div>
+    </div>
+
+    <div class="pricing-note">
+        <h4>Lưu ý quan trọng:</h4>
+        <ul>
+            <li>Thời gian hiển thị tin được tính từ lúc tin được duyệt.</li>
+            <li>Bạn có thể nâng cấp gói VIP bất cứ lúc nào trong trang quản lý cá nhân.</li>
+            <li>Tiền sẽ được trừ trực tiếp vào tài khoản chính của bạn.</li>
+        </ul>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+

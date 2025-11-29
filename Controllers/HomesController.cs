@@ -4,9 +4,9 @@ namespace Website_BDS.Controllers
 {
     public class HomesController : Controller
     {
-        // GET: Homes
-        public ActionResult Index()
+        public ActionResult Pricing()
         {
+            ViewBag.Title = "Bảng giá dịch vụ";
             return View();
         }
 

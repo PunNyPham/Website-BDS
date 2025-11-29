@@ -189,6 +189,7 @@
     <Content Include="Font-end\CSS\login.css" />
     <Content Include="Font-end\CSS\Page-Contact.css" />
     <Content Include="Font-end\CSS\Page-User.css" />
+    <Content Include="Font-end\CSS\Pricing.css" />
     <Content Include="Font-end\CSS\RealEstate.css" />
     <Content Include="Font-end\CSS\RealEstateLaw.css" />
     <Content Include="Font-end\CSS\RealEstateLaw.html" />
@@ -334,6 +335,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Users\DepositPartial.cshtml" />
     <Content Include="Views\Users\_ChangePasswordPartial.cshtml" />
+    <Content Include="Views\Homes\Pricing.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
