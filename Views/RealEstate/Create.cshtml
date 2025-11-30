@@ -1,107 +1,113 @@
-﻿@model Website_BDS.Models.Product
-
-@{
-    ViewBag.Title = "Đăng tin mới";
+﻿@{
+    ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_LayoutPageHome.cshtml";
 }
-
 <link rel="stylesheet" href="~/Font-end/CSS/RealEstate.css" />
 <script defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script defer src="~/Scripts/Scripts-fontend/API-Address-Selector.js"></script>
-
 <div class="listing-form">
     <h2>Tạo tin đăng</h2>
 
-    @if (!ViewData.ModelState.IsValid)
-    {
-        <div style="background-color: #ffebee; border-left: 4px solid #c62828; padding: 12px; margin-bottom: 20px; border-radius: 4px;">
-            <h4 style="color: #c62828; margin-top: 0;">Vui lòng kiểm tra lại thông tin:</h4>
-            @Html.ValidationSummary(false, "", new { @style = "color: #c62828; margin: 0; padding-left: 20px;" })
-        </div>
-    }
+    <form method="post" action="@Url.Action("Create", "RealEstate")" enctype="multipart/form-data">
 
-    @using (Html.BeginForm("Create", "RealEstate", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        @Html.AntiForgeryToken()
-
+        <!-- Tiêu đề tin đăng -->
         <div class="form-group">
-            <label for="Title">Tiêu đề tin đăng:</label>
-            @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = "Ví dụ: Bán nhà mặt phố...", required = "required" })
+            <label for="title">Tiêu đề tin đăng:</label>
+            <input type="text" id="title" name="Title" placeholder="Nhập tiêu đề tin đăng" required>
         </div>
 
+        <!-- Loại giao dịch (ListingType: Bán/Cho thuê) -->
         <div class="form-group">
             <label>Loại giao dịch:</label>
-            <div style="display:flex; gap:20px; align-items:center;">
-                <label style="font-weight:normal; cursor:pointer;">
-                    @Html.RadioButtonFor(m => m.ListingType, "Sale", new { @checked = "checked" }) Bán
-                </label>
-                <label style="font-weight:normal; cursor:pointer;">
-                    @Html.RadioButtonFor(m => m.ListingType, "Rent") Cho thuê
-                </label>
+            <div class="radio-button">
+                <input type="radio" name="ListingType" value="Bán" required>
+                <label>Bán</label>
+
+                <input type="radio" name="ListingType" value="Cho thuê">
+                <label>Cho thuê</label>
             </div>
         </div>
 
+        <!-- Loại hình BĐS -->
         <div class="form-group">
             <label>Loại hình bất động sản:</label>
-            <select name="Type" class="form-control" required>
+            <select id="propertyType" name="Type" required>
                 <option value="">-- Chọn loại hình --</option>
-                <option value="Căn hộ">Căn hộ chung cư</option>
-                <option value="Nhà phố">Nhà phố</option>
-                <option value="Đất nền">Đất nền</option>
-                <option value="Biệt thự">Biệt thự</option>
+                <option>Căn hộ</option>
+                <option>Nhà phố</option>
+                <option>Đất nền</option>
             </select>
         </div>
 
-        <div style="display:flex; gap:20px;">
-            <div class="form-group" style="flex:1;">
-                <label>Diện tích (m²):</label>
-                @Html.TextBoxFor(m => m.Area, new { @type = "number", @step = "0.01", @class = "form-control", placeholder = "Nhập diện tích" })
-            </div>
-            <div class="form-group" style="flex:1;">
-                <label>Báo giá (VNĐ):</label>
-                @Html.TextBoxFor(m => m.Price, new { @type = "number", @class = "form-control", placeholder = "Nhập giá bán" })
-            </div>
-        </div>
-
-        <div style="display:flex; gap:20px;">
-            <div class="form-group" style="flex:1;">
-                <label>Số phòng ngủ:</label>
-                @Html.TextBoxFor(m => m.Bedrooms, new { @type = "number", @min = "0", @class = "form-control" })
-            </div>
-            <div class="form-group" style="flex:1;">
-                <label>Số phòng tắm:</label>
-                @Html.TextBoxFor(m => m.Bathrooms, new { @type = "number", @min = "0", @class = "form-control" })
-            </div>
-        </div>
-
+        <!-- Diện tích -->
         <div class="form-group">
-            <label>Khu vực:</label>
-            <div class="address-select" style="display:flex; gap:10px;">
-                <select id="city" name="City" class="form-control" style="flex:1;"><option value="">Tỉnh/Thành</option></select>
-                <select id="district" name="District" class="form-control" style="flex:1;"><option value="">Quận/Huyện</option></select>
-                <select id="ward" name="Ward" class="form-control" style="flex:1;"><option value="">Phường/Xã</option></select>
+            <label>Diện tích (m²):</label>
+            <input type="number" id="area" name="Area" placeholder="Nhập diện tích" step="0.01">
+        </div>
+
+        <!-- Phòng ngủ -->
+        <div class="form-group">
+            <label>Số phòng ngủ:</label>
+            <input type="number" id="bedrooms" name="Bedrooms" placeholder="Nhập số phòng ngủ" min="0">
+        </div>
+
+        <!-- Phòng tắm -->
+        <div class="form-group">
+            <label>Số phòng tắm:</label>
+            <input type="number" id="bathrooms" name="Bathrooms" placeholder="Nhập số phòng tắm" min="0">
+        </div>
+
+        <!-- Địa chỉ -->
+        <div class="form-group">
+            <label>Thành phố / Quận / Phường:</label>
+            <div class="address-select">
+
+                <select id="city" name="City">
+                    <option value="">-- Chọn Tỉnh/Thành phố --</option>
+                </select>
+
+                <select id="district" name="District">
+                    <option value="">-- Chọn Quận/Huyện --</option>
+                </select>
+
+                <select id="ward" name="Ward">
+                    <option value="">-- Chọn Phường/Xã --</option>
+                </select>
+
             </div>
         </div>
 
+        <!-- Địa chỉ cụ thể -->
         <div class="form-group">
-            <label>Địa chỉ chi tiết:</label>
-            @Html.TextBoxFor(m => m.Address, new { @class = "form-control", placeholder = "Số nhà, tên đường..." })
+            <label for="specificAddress">Địa chỉ cụ thể:</label>
+            <input type="text" id="specificAddress" name="Address" placeholder="Nhập địa chỉ cụ thể">
         </div>
 
+        <!-- Giá -->
         <div class="form-group">
-            <label>Mô tả chi tiết:</label>
-            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @rows = "5", placeholder = "Mô tả chi tiết về bất động sản..." })
+            <label for="price">Báo giá (VNĐ):</label>
+            <input type="number" id="price" name="Price" placeholder="Nhập giá">
         </div>
 
+        <!-- Mô tả -->
         <div class="form-group">
-            <label>Tải ảnh sản phẩm:</label>
-            <input type="file" name="uploadImage" class="form-control" accept="image/*" required />
+            <label>Mô tả:</label>
+            <textarea id="description" name="Description" rows="4" placeholder="Nhập mô tả chi tiết..."></textarea>
         </div>
 
-        <div class="form-group" style="margin-top:30px;">
-            <button type="submit" class="submit-btn" style="width:100%; padding:12px; background:#d32f2f; color:white; border:none; border-radius:5px; font-size:16px; font-weight:bold; cursor:pointer;">
-                Đăng tin ngay
-            </button>
+        <!-- Đính tệp (Ảnh sản phẩm) -->
+        <div class="form-group">
+            <label for="productImage">Tải ảnh sản phẩm:</label>
+            <input type="file" id="productImage" name="Image_product" accept="image/*">
         </div>
-    }
+
+        <!-- Trạng thái (ẩn, mặc định là Active) -->
+        <input type="hidden" name="Status" value="Active">
+
+        <!-- Nút gửi -->
+        <div class="form-group">
+            <button type="submit" class="submit-btn">Tiếp tục</button>
+        </div>
+
+    </form>
 </div>

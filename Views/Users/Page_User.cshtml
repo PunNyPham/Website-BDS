@@ -2,13 +2,10 @@
 @{
     string userName = Model?.User?.FullName ?? "Người dùng";
     ViewBag.Title = "Trang cá nhân - " + userName;
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutPageUser.cshtml";
 }
 
-<link rel="stylesheet" href="@Url.Content("~/Font-end/asset/reset.css")" />
-<link rel="stylesheet" href="@Url.Content("~/Font-end/asset/base.css")" />
-<link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/LayoutHome.css")" />
-@*<link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/Page-User.css")" />*@
+<link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/edit-page_user.css")" />
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -21,280 +18,168 @@
             <span class="listing-label">Tất cả</span>
             <span class="listing-count">@Model.Products.Count()</span>
         </div>
-        <div class="listing-status-item"><span class="listing-label">Tin chưa duyệt</span><span class="listing-count">0</span></div>
+        <div class="listing-status-item"><span class="listing-label">Tin chưa duyệt</span><span class="listing-count">@Model.Products.Count(x => x.Status == "Pending")</span></div>
         <div class="listing-status-item"><span class="listing-label">Tin hết hạn</span><span class="listing-count">0</span></div>
     </div>
 
-    @foreach (var item in Model.Products)
+    @if (Model.Products != null && Model.Products.Any())
     {
-        <div class="post-item-card">
-            <div class="post-info">
-                <div class="post-thumb">
-                    <img src="~/Font-end/asset/icon/Product_Null.jpg" />
-                    @if (item.Rank == 1)
-                    {<span class="badge-vip silver">VIP Bạc</span> }
-                    else if (item.Rank == 2)
-                    { <span class="badge-vip gold">VIP Vàng</span> }
-                    else if (item.Rank == 3)
-                    { <span class="badge-vip diamond">VIP Kim Cương</span>}
+        foreach (var item in Model.Products)
+        {
+            <div class="post-item-card">
+                <div class="post-info">
+                    <div class="post-thumb">
+                        @{
+                            var imgUrl = item.PropertyImages.FirstOrDefault()?.ImageUrl ?? "~/Font-end/asset/icon/Product_Null.jpg";
+                        }
+                        <img src="@Url.Content(imgUrl)" onerror="this.src='@Url.Content("~/Font-end/asset/icon/Product_Null.jpg")'" />
+
+                        @if (item.Rank == 1)
+                        {<span class="badge-vip silver">VIP Bạc</span> }
+                        else if (item.Rank == 2)
+                        { <span class="badge-vip gold">VIP Vàng</span> }
+                        else if (item.Rank == 3)
+                        { <span class="badge-vip diamond">VIP Kim Cương</span>}
+                    </div>
+                    <div class="post-text">
+                        <h4>@item.Title</h4>
+                        <p>@String.Format("{0:N0} VNĐ", item.Price) - @item.Address</p>
+                        <p style="font-size:12px; color:#888; margin-top:4px;">
+                            Trạng thái:
+                            @if (item.Status == "Active")
+                            {<span style="color:green">Đang hiển thị</span> }
+                            else
+                            { <span style="color:orange">Chờ duyệt</span>}
+                        </p>
+                    </div>
                 </div>
-                <div class="post-text">
-                    <h4>@item.Title</h4>
-                    <p>@String.Format("{0:N0} VNĐ", item.Price) - @item.Address</p>
+
+                <i class="fa-solid fa-gear action-gear" data-id="@item.ProductID"></i>
+
+                <div class="action-menu" id="menu-@item.ProductID">
+                    <a href="@Url.Action("Product_details", "Product", new { id = item.ProductID })">Xem chi tiết</a>
+                    <a href="@Url.Action("Edit", "RealEstate", new { id = item.ProductID })">Sửa tin</a>
+
+                    <a href="javascript:void(0)" onclick="openVipModal(@item.ProductID)" style="color:#d35400; font-weight:bold;">
+                        <i class="fa-solid fa-crown" style="margin-right:5px;"></i> Mua dịch vụ
+                    </a>
+
+                    <a href="javascript:void(0)" class="btn-delete" data-id="@item.ProductID">Xóa tin</a>
                 </div>
             </div>
-
-            <i class="fa-solid fa-gear action-gear" data-id="@item.ProductID"></i>
-
-            <div class="action-menu" id="menu-@item.ProductID">
-                <a href="@Url.Action("Product_details", "Product", new { id = item.ProductID })">Xem</a>
-                <a href="@Url.Action("Edit", "RealEstate", new { id = item.ProductID })">Sửa</a>
-
-                <a href="javascript:void(0)" onclick="openVipModal(@item.ProductID)" style="color:#d35400; font-weight:bold;">
-                    <i class="fa-solid fa-crown"></i> Mua dịch vụ
-                </a>
-                <a href="javascript:void(0)" class="btn-delete" data-id="@item.ProductID">Xóa</a>
-            </div>
-        </div>
+        }
     }
-    <div id="vipModal" class="modal-overlay" style="display:none;">
-        <div class="vip-modal-box">
-            <h3>Chọn gói đẩy tin</h3>
-            <input type="hidden" id="vipProductId" />
+    else
+    {
+        <p style="text-align:center; padding:30px; color:#999;">Bạn chưa đăng tin nào.</p>
+    }
+</div>
 
-            <div class="vip-options">
-                <label class="vip-option silver">
-                    <input type="radio" name="vipPackage" value="1">
-                    <div>
-                        <strong>VIP Bạc</strong>
-                        <p>50.000đ / 7 ngày</p>
-                    </div>
-                </label>
+<div id="vipModal" class="modal-overlay" style="display:none;">
+    <div class="vip-modal-box">
+        <h3>Nâng cấp tin VIP</h3>
+        <input type="hidden" id="vipProductId" />
 
-                <label class="vip-option gold">
-                    <input type="radio" name="vipPackage" value="2">
-                    <div>
-                        <strong>VIP Vàng</strong> (Đề xuất)
-                        <p>100.000đ / 7 ngày</p>
-                    </div>
-                </label>
+        <div class="vip-options">
+            <label class="vip-option silver">
+                <input type="radio" name="vipPackage" value="1">
+                <div><strong>VIP Bạc</strong><p>50.000đ / 7 ngày</p></div>
+            </label>
+            <label class="vip-option gold">
+                <input type="radio" name="vipPackage" value="2">
+                <div><strong>VIP Vàng</strong> (Hot)<p>100.000đ / 7 ngày</p></div>
+            </label>
+            <label class="vip-option diamond">
+                <input type="radio" name="vipPackage" value="3">
+                <div><strong>VIP Kim Cương</strong><p>200.000đ / 7 ngày</p></div>
+            </label>
+        </div>
 
-                <label class="vip-option diamond">
-                    <input type="radio" name="vipPackage" value="3">
-                    <div>
-                        <strong>VIP Kim Cương</strong>
-                        <p>200.000đ / 7 ngày</p>
-                    </div>
-                </label>
-            </div>
-
-            <div class="modal-actions">
-                <button onclick="closeVipModal()" class="btn-cancel">Hủy</button>
-                <button onclick="submitBuyVip()" class="btn-confirm">Thanh toán ngay</button>
-            </div>
+        <div class="modal-actions">
+            <button onclick="closeVipModal()" class="btn-cancel">Hủy</button>
+            <button onclick="submitBuyVip()" class="btn-confirm">Thanh toán ngay</button>
         </div>
     </div>
 </div>
 
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-<script>
-    $(document).ready(function () {
-
-        // 1. LOGIC HIỂN THỊ POPUP (Đã có từ trước)
-        $(document).on('click', '.sidebar-link[data-url], .Button_Blue[data-url]', function (e) {
-            e.preventDefault();
-            var url = $(this).data('url');
-            $.get(url, function (data) {
-                $('#modal-container').html(data).show();
-
-                // QUAN TRỌNG: Sau khi popup hiện ra, cần kích hoạt lại tính toán tiền
-                $('input[name="amount"]:checked').trigger('change');
-            });
-        });
-
-        // 2. LOGIC TÍNH TIỀN & THANH TOÁN (Chuyển từ Partial ra đây)
-        const bonusRates = {
-            200000: 0.2, 300000: 0.25, 500000: 0.25,
-            1000000: 0.5, 2000000: 0.5, 4000000: 0.5
-        };
-
-        function formatCurrency(vnd) {
-            return vnd.toLocaleString('vi-VN') + ' đ';
-        }
-
-        // Dùng 'delegated event' (on change) để bắt sự kiện cho phần tử sinh ra sau
-        $(document).on('change', 'input[name="amount"]', function () {
-            const amount = parseInt($(this).val());
-            const bonusRate = bonusRates[amount] || 0;
-            const bonus = Math.round(amount * bonusRate);
-            const total = amount + bonus;
-
-            $('#amount-display').text(formatCurrency(amount));
-            $('#bonus-display').text(formatCurrency(bonus) + ` (${bonusRate * 100}%)`);
-            $('#total-display').text(formatCurrency(total));
-        });
-
-        // BẮT SỰ KIỆN NÚT NẠP TIỀN
-        $(document).on('click', '.submit-btn', function (e) {
-            console.log("Đã bấm nút nạp tiền!"); // Kiểm tra xem có chạy vào đây không
-
-            e.preventDefault();
-            var amount = $('input[name="amount"]:checked').val();
-
-            if (!amount) { alert("Vui lòng chọn mệnh giá!"); return; }
-
-            var btn = $(this);
-            var originalText = btn.text();
-            btn.html('<i class="fa-solid fa-spinner fa-spin"></i> Đang xử lý...').prop('disabled', true);
-
-            $("#qrcode").empty();
-            $("#qr-instruction").hide();
-
-            $.ajax({
-                url: '/Payment/CreateZaloPayOrder',
-                type: 'POST',
-                data: { amount: amount },
-                success: function (res) {
-                    if (res.success) {
-                        new QRCode(document.getElementById("qrcode"), {
-                            text: res.payUrl,
-                            width: 200,
-                            height: 200
-                        });
-                        $("#qr-instruction").show();
-                        btn.text('Tạo mã mới').prop('disabled', false);
-                    } else {
-                        alert(res.message);
-                        btn.text(originalText).prop('disabled', false);
-                    }
-                },
-                error: function (xhr) {
-                    console.log(xhr.responseText);
-                    alert('Lỗi kết nối server!');
-                    btn.text(originalText).prop('disabled', false);
-                }
-            });
-        });
-
-        // Đóng popup khi click ra ngoài (Optional)
-        $(document).on('click', function (e) {
-            if ($(e.target).is('#modal-container')) {
-                $('#modal-container').hide();
-            }
-        });
-    });
-</script>
+<div id="modal-container"></div>
 
 
 <script>
-    // 1. Script Toggle Menu (Bánh răng cài đặt)
+    // 1. Toggle Menu Bánh răng
     document.addEventListener("click", function (e) {
         if (e.target.classList.contains("action-gear")) {
             let id = e.target.dataset.id;
             let menu = document.getElementById("menu-" + id);
 
-            // Ẩn tất cả các menu khác trước khi mở cái mới
+            // Đóng các menu khác
             document.querySelectorAll(".action-menu").forEach(m => {
                 if (m !== menu) m.style.display = "none";
             });
 
-            // Toggle hiển thị
+            // Toggle menu hiện tại
             menu.style.display = (menu.style.display === "block") ? "none" : "block";
-        }
-        else if (!e.target.closest(".post-item-card")) {
-            // Click ra ngoài thì đóng menu
+        } else if (!e.target.closest(".post-item-card")) {
+            // Click ra ngoài thì đóng hết
             document.querySelectorAll(".action-menu").forEach(m => m.style.display = "none");
         }
     });
 
-    // 2. Script Xóa bài đăng (AJAX)
-    $(document).ready(function () {
+    // 2. Xử lý xóa tin (AJAX)
+    $(document).on('click', '.btn-delete', function (e) {
+        e.preventDefault();
+        var btn = $(this);
+        var id = btn.data('id');
+        var card = btn.closest('.post-item-card');
 
-        // Sử dụng 'on' click để bắt sự kiện chuẩn xác nhất
-        $(document).on('click', '.btn-delete', function (e) {
-            e.preventDefault(); // Ngăn chặn hành động mặc định
-
-            var btn = $(this);
-            var id = btn.data('id');
-            var postItem = btn.closest('.post-item-card');
-
-            if (confirm('Bạn có chắc chắn muốn xóa bài đăng này không?')) {
-                $.ajax({
-                    // LƯU Ý QUAN TRỌNG: Controller tên là "Product" (không có s)
-                    url: '@Url.Action("Delete", "Product")',
-                    type: 'POST',
-                    data: { id: id },
-                    success: function (response) {
-                        if (response.success) {
-                            // Ẩn menu đi cho đẹp
-                            btn.closest('.action-menu').hide();
-
-                            // Hiệu ứng làm mờ và xóa dòng HTML
-                            postItem.fadeOut(500, function () {
-                                $(this).remove();
-                                updateCount(); // Cập nhật số lượng
-                            });
-
-                            // alert(response.message); // Bỏ comment nếu muốn hiện thông báo
-                        } else {
-                            alert("Lỗi: " + response.message);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.log(xhr.responseText);
-                        alert('Lỗi kết nối server. Vui lòng kiểm tra Console (F12).');
+        if (confirm('Bạn có chắc chắn muốn xóa tin này không?')) {
+            $.ajax({
+                url: '/Product/Delete', // Đảm bảo đúng đường dẫn Controller
+                type: 'POST',
+                data: { id: id },
+                success: function (res) {
+                    if (res.success) {
+                        card.fadeOut(300, function () { $(this).remove(); });
+                    } else {
+                        alert(res.message);
                     }
-                });
-            }
-        });
-
-        // Hàm cập nhật lại số lượng tin hiển thị trên đầu trang
-        function updateCount() {
-            var countElement = $('.listing-count').first();
-            var currentCountText = countElement.text();
-            var currentCount = parseInt(currentCountText);
-
-            if (!isNaN(currentCount) && currentCount > 0) {
-                countElement.text(currentCount - 1);
-            }
+                },
+                error: function () { alert('Lỗi kết nối server'); }
+            });
         }
     });
 
-
-
+    // 3. Xử lý Modal VIP
     function openVipModal(id) {
-        document.getElementById('vipProductId').value = id;
-        document.getElementById('vipModal').style.display = 'flex';
+        $('#vipProductId').val(id);
+        $('#vipModal').css('display', 'flex');
     }
 
     function closeVipModal() {
-        document.getElementById('vipModal').style.display = 'none';
+        $('#vipModal').hide();
     }
 
     function submitBuyVip() {
-        var id = document.getElementById('vipProductId').value;
-        var level = document.querySelector('input[name="vipPackage"]:checked');
+        var id = $('#vipProductId').val();
+        var level = $('input[name="vipPackage"]:checked').val();
 
         if (!level) { alert("Vui lòng chọn gói VIP!"); return; }
 
         $.ajax({
-            url: '/RealEstate/BuyVip', // Sửa lại đúng tên Controller của bạn
+            url: '/RealEstate/BuyVip',
             type: 'POST',
-            data: { productId: id, vipLevel: level.value },
+            data: { productId: id, vipLevel: level },
             success: function (res) {
                 if (res.success) {
                     alert(res.message);
-                    location.reload(); // Tải lại trang để thấy nhãn VIP
+                    location.reload();
                 } else {
-                    alert(res.message); // Báo lỗi (ví dụ: hết tiền)
+                    alert(res.message);
                 }
-            }
+            },
+            error: function () { alert('Lỗi kết nối server'); }
         });
     }
-
 </script>
 
 <style>

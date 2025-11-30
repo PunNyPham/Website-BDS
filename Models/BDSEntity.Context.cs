@@ -36,5 +36,6 @@ namespace Website_BDS.Models
         public virtual DbSet<Review> Reviews { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<TransactionHistory> TransactionHistories { get; set; }
     }
 }

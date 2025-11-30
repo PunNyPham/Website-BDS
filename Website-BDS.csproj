@@ -280,6 +280,9 @@
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>BDSEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TransactionHistory.cs">
+      <DependentUpon>BDSEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\User.cs">
       <DependentUpon>BDSEntity.tt</DependentUpon>
     </Compile>
@@ -336,6 +339,7 @@
     <Content Include="Views\Users\DepositPartial.cshtml" />
     <Content Include="Views\Users\_ChangePasswordPartial.cshtml" />
     <Content Include="Views\Homes\Pricing.cshtml" />
+    <Content Include="Views\Users\TransactionHistory.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,4 +1,7 @@
 ﻿@model Website_BDS.Models.ViewModel.UserProfileViewModel
+@{
+    var userId = Session["UserID"];
+}
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 <link rel="stylesheet" href="@Url.Content("~/Font-end/asset/reset.css")" />
@@ -9,94 +12,96 @@
         <h3>Quản lý tài chính</h3>
         <div class="balance">
             <p>Tài khoản chính:</p>
-            <span>0 đ</span>
+            <span style="color:#007bff; font-weight:bold;">0 đ</span>
         </div>
 
-        <a href="#" class="transaction_history"><i class="fa-solid fa-angle-right"></i> lịch sử giao dịch</a>  <br>
-        <div style="display: flex; justify-content: center;">
-            <a href="" class="sidebar-link button-outline primary"
-               data-url="@Url.Action("DepositPartial", "Users", new { id = Model.User.UserID })">
-                Nạp tiền
+        <a href="@Url.Action("TransactionHistory", "Users")" class="transaction_history">
+            <i class="fa-solid fa-angle-right"></i> Lịch sử giao dịch
+        </a>
+
+        <a href="javascript:void(0)"
+           class="Button_Blue"
+           style="text-decoration:none; color:white;"
+           data-url="@Url.Action("DepositPartial", "Users", new { id = Model.User.UserID })">
+            <i class="fa-solid fa-wallet"></i> Nạp tiền
+        </a>
+    </div>
+
+    <div class="menu-group">
+        <div class="menu-title">Quản lý giao dịch</div>
+        <ul class="submenu">
+            <li>
+                <a href="javascript:void(0)" class="sidebar-link"
+                   data-url="@Url.Action("DepositPartial", "Users", new { id = Model.User.UserID })">
+                    Nạp tiền vào tài khoản
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("TransactionHistory", "Users")" class="transaction_history">
+                    Lịch sử giao dịch
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="menu-group">
+        <div class="menu-title">Quản lý tin</div>
+        <ul class="submenu">
+            <li>
+                <a href="
+                   @Url.Action("Page_User", "Users", new { id = Model.User.UserID })">
+                    Tin đã đăng
+                </a>
+            </li>
+            <li>
+                <a href="
+                   @Url.Action("Create", "RealEstate", new { id = Model.User.UserID })">
+                    Đăng tin mới
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="menu-group">
+        <div class="menu-title">Hồ sơ cá nhân</div>
+        <ul class="submenu">
+            <li>
+                <a href="javascript:void(0)" class="sidebar-link ajax-load"
+                   data-url="@Url.Action("Update_Profile", "Users", new { id = Model.User.UserID })">
+                    Cập nhật hồ sơ
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" class="sidebar-link ajax-load"
+                   data-url="@Url.Action("SavedProductsPartial", "Users", new { id = Model.User.UserID })">
+                    Tin đã lưu
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" class="sidebar-link ajax-load"
+                   data-url="@Url.Action("ChangePasswordPartial", "Users")">
+                    <i class="fa-solid fa-key" style="margin-right:5px;"></i> Đổi mật khẩu
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="menu-group">
+        <div class="logout">
+            <a href="@Url.Action("Logout", "Account")" style="color: #d32f2f; font-weight:600;">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất
             </a>
         </div>
+    </div>
 
-        <div class="menu-group">
-            <div class="menu-title">Quản lý giao dịch</div>
-            <ul class="submenu">
-                <li>
-                    <a href="" class="sidebar-link">
-                        Lịch sử giao dịch
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Action("DepositPartial", "Users", new { id = Model.User.UserID })" class="sidebar-link"
-                       data-url="@Url.Action("DepositPartial", "Users", new { id = Model.User.UserID })">
-                        Nạp tiền vào tài khoản
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <div class="menu-group">
-            <div class="menu-title">Quản lý tin</div>
-            <ul class="submenu">
-                <li>
-                    <a href="@Url.Action("Page_User", "Users", new { id = Session["UserID"] })">
-                        Tin đã đăng
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Action("Create", "RealEstate")">
-                        Đăng tin mới
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <div class="menu-group">
-            <div class="menu-title">Hồ sơ cá nhân</div>
-            <ul class="submenu">
-                <li>
-                    <a href="#" class="sidebar-link"
-                       data-url="@Url.Action("Update_Profile", "Users", new { id = Model.User.UserID })">
-                        Cập nhật hồ sơ
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="sidebar-link"
-                       data-url="@Url.Action("SavedProductsPartial", "Users", new { id = Model.User.UserID })">
-                        Tin đã lưu
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="sidebar-link ajax-load"
-                       data-url="@Url.Action("ChangePasswordPartial", "Users")">
-                        <i class="fa-solid fa-key" style="margin-right:8px;"></i> Đổi mật khẩu
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <div class="menu-group">
-            <div class="logout">
-                <a href="@Url.Action("Logout", "Account")" style="color: #d32f2f; font-weight:600;">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất
-                </a>
-            </div>
-        </div>
-
-        <div class="contact">
-            <p>Hỗ trợ đăng tin, mua tin</p>
-            <p>
-                Tell/Zalo: 0974453596
-            </p>
-            <p>Email: PunNy_Pham@gmail.com</p>
-        </div>
-
+    <div class="contact" style="margin-top:20px; font-size:13px; color:#666; text-align:center;">
+        <p>Hỗ trợ đăng tin, mua tin</p>
+        <p><strong>Zalo: 0974.453.596</strong></p>
+        <p>Email: support@bds.vn</p>
     </div>
 
 
-    </div>
+</div>
 <script>
     document.querySelectorAll(".menu-title").forEach(title => {
         title.addEventListener("click", function () {
@@ -118,13 +123,22 @@
 
 <style>
     /* Reset cơ bản để đảm bảo hiển thị giống nhau */
+    /* Make the outer sidebar container determine the width for layout consistency
+       and use the wrapper to control inner visuals. Keep the width consistent
+       between admin and user sidebars (240px). */
+    .sidebar {
+        width: 240px;
+        flex: 0 0 240px;
+    }
+
     .sidebar-wrapper {
-        width: 280px; /* Độ rộng sidebar, bạn có thể chỉnh lại */
+        width: 100%;
         background-color: #fff;
         border-right: 1px solid #e0e0e0;
         padding: 20px;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         color: #333;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.03);
     }
 
     /* --- Phần 1: Thẻ Quản lý tài chính --- */
@@ -249,7 +263,7 @@
             text-decoration: none;
             color: #444;
             padding: 10px 12px;
-            border-radius: 6p   x;
+            border-radius: 6px;
             font-size: 15px;
             transition: all 0.2s ease-in-out;
             display: flex;
@@ -261,6 +275,15 @@
                 background-color: #f0f7ff; /* Nền xanh nhạt */
                 color: #007bff; /* Chữ chuyển xanh */
                 padding-left: 18px; /* Hiệu ứng trượt nhẹ sang phải */
+            }
+
+            /* Add a base padding for link and show submenu when the title is active */
+            .submenu a, .sidebar-link {
+                padding-left: 14px;
+            }
+
+            .menu-title.active + .submenu {
+                display: block;
             }
 
             /* Thêm icon giả lập nếu muốn (Optional) */

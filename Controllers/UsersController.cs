@@ -20,9 +20,14 @@ namespace Website_BDS.Controllers
             }
             base.OnActionExecuting(filterContext);
         }
-        public ActionResult Page_User(int id)
+        public ActionResult Page_User(int? id)
         {
-            RealEstateDBEntities db = new RealEstateDBEntities();
+            //RealEstateDBEntities db = new RealEstateDBEntities();
+            if (id == null)
+            {
+                if (Session["UserID"] != null) id = Convert.ToInt32(Session["UserID"]);
+                else return RedirectToAction("Login", "Account");
+            }
 
             var user = db.Users.Find(id);
             if (user == null) return HttpNotFound();
@@ -222,6 +227,32 @@ namespace Website_BDS.Controllers
             {
                 return Json(new { success = false, message = "Lỗi: " + ex.Message });
             }
+        }
+
+        public ActionResult TransactionHistory()
+        {
+            if (Session["UserID"] == null) return RedirectToAction("Login", "Account");
+
+            int userId = Convert.ToInt32(Session["UserID"]);
+
+            // 1. Lấy thông tin User (để nuôi Layout/Sidebar)
+            var user = db.Users.Find(userId);
+
+            // 2. Lấy danh sách giao dịch
+            var history = db.TransactionHistories
+                            .Where(t => t.UserID == userId)
+                            .OrderByDescending(t => t.CreatedAt)
+                            .ToList();
+
+            // 3. Đóng gói cả 2 vào ViewModel
+            var vm = new UserProfileViewModel
+            {
+                User = user,             // Cái này để nuôi Layout
+                Transactions = history   // Cái này để nuôi bảng lịch sử
+            };
+
+            // 4. Trả về View
+            return View(vm);
         }
     }
 }

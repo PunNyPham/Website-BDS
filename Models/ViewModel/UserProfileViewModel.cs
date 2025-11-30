@@ -6,5 +6,6 @@ namespace Website_BDS.Models.ViewModel
     {
         public User User { get; set; }
         public List<Product> Products { get; set; }
+        public List<TransactionHistory> Transactions { get; set; }
     }
 }
