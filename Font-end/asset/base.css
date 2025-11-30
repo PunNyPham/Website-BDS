@@ -1,10 +1,22 @@
-:root{
+:root {
     --darkgray: rgb(169,169,169);
     --GreenLight: rgb(0 238 0);
     --dodgerblue: rgb(30,144,255);
     --OrangeRed: #E03E00;
     --floralwhite: rgb(255,250,240);
     --while: rgb(255,255,255);
+    --blue-main: #0092ff; /* Xanh biển tươi */
+    --blue-dark: #006dba; /* Xanh đậm hơn */
+    --blue-light: #e5f4ff; /* Xanh nhạt background */
+    --text-dark: #333;
+    --border-color: #cbd6e2;
+    --blue-main: #0077ff;
+    --blue-dark: #0057c7;
+    --blue-soft: #eaf3ff;
+    --bg-soft: #f7fbff;
+    --text-dark: #1a1a1a;
+    --text-light: #4f5b6e;
+    --border-light: #d6e4f5;
 }
 .button_small{
     height: 40px;

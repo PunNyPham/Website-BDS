@@ -131,12 +131,27 @@
                 foreach (var item in Model)
                 {
                     <div class="product-card">
-                        <div class="product-image">
-                            <img src="~/Font-end/asset/icon/Product_Null.jpg"
-                                 alt="Avatar"
-                                 style="width:100px; height:100px; border-radius:50%; object-fit:cover;" />
+                        <div class="product-image" style="height:180px; overflow:hidden; border-radius:8px 8px 0 0;">
+                            @{
+                                // 1. Lấy link ảnh từ DB
+                                // (Ưu tiên ảnh chính IsPrimary -> Ảnh đầu tiên -> Ảnh mặc định)
+                                string rawImg = item.PropertyImages.FirstOrDefault(x => x.IsPrimary == true)?.ImageUrl
+                                                ?? item.PropertyImages.FirstOrDefault()?.ImageUrl
+                                                ?? "~/Font-end/asset/icon/Product_Null.jpg";
 
+                                string displayImg = rawImg;
 
+                                // 2. Xử lý link ảnh (Online vs Local)
+                                if (!rawImg.StartsWith("http") && !rawImg.StartsWith("/"))
+                                {
+                                    displayImg = Url.Content(rawImg);
+                                }
+                            }
+
+                            <img src="@displayImg"
+                                 alt="@item.Title"
+                                 style="width:100%; height:100%; object-fit:cover; transition: transform 0.3s;"
+                                 onerror="this.src='@Url.Content("~/Font-end/asset/icon/Product_Null.jpg")'" />
                         </div>
                         <span class="badge">@item.ListingType</span>
                         <h1>@item.Title</h1>
@@ -163,11 +178,28 @@
                 foreach (var item in Model)
                 {
                     <div class="product-card">
-                        <div class="product-image">
-                            <img src="~/Font-end/asset/icon/Product_Null.jpg"
-                                 alt="Avatar"
-                                 style="width:100px; height:100px; border-radius:50%; object-fit:cover;" />
-                        </div>
+                       <div class="product-image" style="height:180px; overflow:hidden; border-radius:8px 8px 0 0;">
+                           @{
+                               // 1. Lấy link ảnh từ DB
+                               // (Ưu tiên ảnh chính IsPrimary -> Ảnh đầu tiên -> Ảnh mặc định)
+                               string rawImg = item.PropertyImages.FirstOrDefault(x => x.IsPrimary == true)?.ImageUrl
+                                               ?? item.PropertyImages.FirstOrDefault()?.ImageUrl
+                                               ?? "~/Font-end/asset/icon/Product_Null.jpg";
+
+                               string displayImg = rawImg;
+
+                               // 2. Xử lý link ảnh (Online vs Local)
+                               if (!rawImg.StartsWith("http") && !rawImg.StartsWith("/"))
+                               {
+                                   displayImg = Url.Content(rawImg);
+                               }
+                           }
+
+                           <img src="@displayImg"
+                                alt="@item.Title"
+                                style="width:100%; height:100%; object-fit:cover; transition: transform 0.3s;"
+                                onerror="this.src='@Url.Content("~/Font-end/asset/icon/Product_Null.jpg")'" />
+                       </div>
                         <span class="badge">@item.ListingType</span>
                         <h1>@item.Title</h1>
                         <h4>@item.Description</h4>
