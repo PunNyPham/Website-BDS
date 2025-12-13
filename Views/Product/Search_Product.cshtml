@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="~/Font-end/asset/base.css" />
-    <link rel="stylesheet" href="~/Font-end/asset/style.css" />
+    @*<link rel="stylesheet" href="~/Font-end/asset/style.css" />*@
     <link rel="stylesheet" href="~/Font-end/CSS/style-Search_Products.css" />
 
     <script defer src="~/Scripts/Scripts-fontend/Script-Search_Products.js"></script>
@@ -18,209 +18,95 @@
     <script defer src="~/Scripts/Scripts-fontend/API-Address-Selector.js"></script>
 </head>
 <body>
-        
-    <!-- Main content -->
-    <div class="container">
-        <!-- Icon bars -->
-        <img src="~/Font-end/asset/icon/bars-solid-full.svg" alt="bars" height="40" id="toggleFilter" style="cursor: pointer;" />
 
-        <!-- Bộ lọc -->
-        <div class="filter-panel" id="filterPanel">
-            <h3>Bộ lọc tìm kiếm</h3>
-            <form method="get" action="@Url.Action("Search_Product", "Product")">
+    
 
-                <div class="form-group">
-                    <select id="city" name="City" class="form-control">
-                        <option value="">-- Chọn Tỉnh/Thành phố --</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <select id="district" name="district" class="form-control">
-                        <option value="">-- Chọn Quận/Huyện --</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <select id="ward" name="ward" class="form-control">
-                        <option value="">-- Chọn Phường/Xã --</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <select name="price" class="form-control">
-                        <option value="">-- Mức giá --</option>
-                        <option value="under_1">Dưới 1 tỷ</option>
-                        <option value="1_3">1 - 3 tỷ</option>
-                        <option value="3_5">3 - 5 tỷ</option>
-                        <option value="5_10">5 - 10 tỷ</option>
-                        <option value="over_10">Trên 10 tỷ</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <select name="area" class="form-control">
-                        <option value="">-- Diện tích --</option>
-                        <option value="under_30">Dưới 30m²</option>
-                        <option value="30_50">30 - 50m²</option>
-                        <option value="50_80">50 - 80m²</option>
-                        <option value="80_100">80 - 100m²</option>
-                        <option value="over_100">Trên 100m²</option>
-                    </select>
-                </div>
-
-                <button type="submit" class="filter-btn">Tìm kiếm</button>
-            </form>
+    <div class="main-container">
+        <div class="section-header">
+            <h2>Bất động sản nổi bật</h2>
+            <a href="#" class="view-all">Xem tất cả <i class="fa-solid fa-arrow-right"></i></a>
         </div>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-        <script>
-            var citis = document.getElementById("city");
-            var districts = document.getElementById("district");
-            var wards = document.getElementById("ward");
-
-            // Gọi API lấy dữ liệu địa chính Việt Nam
-            var Parameter = {
-                url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
-                method: "GET",
-                responseType: "application/json",
-            };
-
-            var promise = axios(Parameter);
-            promise.then(function (result) {
-                renderCity(result.data);
-            });
-
-            function renderCity(data) {
-                // Đổ dữ liệu Tỉnh
-                for (const x of data) {
-                    citis.options[citis.options.length] = new Option(x.Name, x.Name); // Lưu ý: value là Tên để dễ tìm kiếm
-                }
-
-                // Khi chọn Tỉnh -> Đổ Huyện
-                citis.onchange = function () {
-                    districts.length = 1; // Reset Huyện
-                    wards.length = 1;     // Reset Xã
-                    if (this.value != "") {
-                        const result = data.filter(n => n.Name === this.value);
-                        for (const k of result[0].Districts) {
-                            districts.options[districts.options.length] = new Option(k.Name, k.Name);
-                        }
-                    }
-                };
-
-                // Khi chọn Huyện -> Đổ Xã
-                districts.onchange = function () {
-                    wards.length = 1; // Reset Xã
-                    const dataCity = data.filter((n) => n.Name === citis.value);
-                    if (this.value != "") {
-                        const dataWards = dataCity[0].Districts.filter(n => n.Name === this.value)[0].Wards;
-                        for (const w of dataWards) {
-                            wards.options[wards.options.length] = new Option(w.Name, w.Name);
-                        }
-                    }
-                };
-            }
-        </script>
-
-        <!-- Danh sách sản phẩm -->
-        <div class="product-list">
-            <div style="font-weight: 700">🕓Bất động sản mới nhất</div>
+        <div class="product-grid">
             @if (Model != null && Model.Any())
             {
                 foreach (var item in Model)
                 {
                     <div class="product-card">
-                        <div class="product-image" style="height:180px; overflow:hidden; border-radius:8px 8px 0 0;">
+                        <div class="card-thumb">
                             @{
-                                // 1. Lấy link ảnh từ DB
-                                // (Ưu tiên ảnh chính IsPrimary -> Ảnh đầu tiên -> Ảnh mặc định)
                                 string rawImg = item.PropertyImages.FirstOrDefault(x => x.IsPrimary == true)?.ImageUrl
                                                 ?? item.PropertyImages.FirstOrDefault()?.ImageUrl
                                                 ?? "~/Font-end/asset/icon/Product_Null.jpg";
-
-                                string displayImg = rawImg;
-
-                                // 2. Xử lý link ảnh (Online vs Local)
-                                if (!rawImg.StartsWith("http") && !rawImg.StartsWith("/"))
-                                {
-                                    displayImg = Url.Content(rawImg);
-                                }
+                                string displayImg = (!rawImg.StartsWith("http") && !rawImg.StartsWith("/")) ? Url.Content(rawImg) : rawImg;
                             }
+                            <img src="@displayImg" alt="@item.Title" onerror="this.src='@Url.Content("~/Font-end/asset/icon/Product_Null.jpg")'" />
 
-                            <img src="@displayImg"
-                                 alt="@item.Title"
-                                 style="width:100%; height:100%; object-fit:cover; transition: transform 0.3s;"
-                                 onerror="this.src='@Url.Content("~/Font-end/asset/icon/Product_Null.jpg")'" />
+                            <div class="card-badges">
+                                <span class="badge badge-type">@item.ListingType</span> <span class="badge badge-hot">Nổi bật</span>
+                            </div>
+                            <button class="btn-heart"><i class="fa-regular fa-heart"></i></button>
                         </div>
-                        <span class="badge">@item.ListingType</span>
-                        <h1>@item.Title</h1>
-                        <h4>@item.Description</h4>
-                        <p>Địa chỉ: @item.Address</p>
-                        <p>Giá: @item.Price VNĐ</p>
-                        <div class="card-buttons">
-                            <a href="@Url.Action("Product_details", "Product", new { id = item.ProductID })" class="view-btn">Xem tin</a>
-                            <button class="save-btn">Lưu tin</button>
+
+                        <div class="card-body">
+                            <div class="card-price">@string.Format("{0:N0}", item.Price) VNĐ</div>
+                            <h3 class="card-title">
+                                <a href="@Url.Action("Product_details", "Product", new { id = item.ProductID })">@item.Title</a>
+                            </h3>
+                            <p class="card-address"><i class="fa-solid fa-location-dot"></i> @item.Address</p>
+
+                            <div class="card-specs">
+                                <span><i class="fa-solid fa-bed"></i> 3 PN</span>
+                                <span><i class="fa-solid fa-bath"></i> 2 WC</span>
+                                <span><i class="fa-solid fa-ruler-combined"></i> 100m²</span>
+                            </div>
                         </div>
-                    </div>
-                }
 
-            }
-            else
-            {
-                <p>Hiện chưa có dự án nào được đăng tải.</p>
-
-            }
-
-            <div style="font-weight: 700">Bất động sản theo tỉnh thành</div>
-            @if (Model != null && Model.Any())
-            {
-                foreach (var item in Model)
-                {
-                    <div class="product-card">
-                       <div class="product-image" style="height:180px; overflow:hidden; border-radius:8px 8px 0 0;">
-                           @{
-                               // 1. Lấy link ảnh từ DB
-                               // (Ưu tiên ảnh chính IsPrimary -> Ảnh đầu tiên -> Ảnh mặc định)
-                               string rawImg = item.PropertyImages.FirstOrDefault(x => x.IsPrimary == true)?.ImageUrl
-                                               ?? item.PropertyImages.FirstOrDefault()?.ImageUrl
-                                               ?? "~/Font-end/asset/icon/Product_Null.jpg";
-
-                               string displayImg = rawImg;
-
-                               // 2. Xử lý link ảnh (Online vs Local)
-                               if (!rawImg.StartsWith("http") && !rawImg.StartsWith("/"))
-                               {
-                                   displayImg = Url.Content(rawImg);
-                               }
-                           }
-
-                           <img src="@displayImg"
-                                alt="@item.Title"
-                                style="width:100%; height:100%; object-fit:cover; transition: transform 0.3s;"
-                                onerror="this.src='@Url.Content("~/Font-end/asset/icon/Product_Null.jpg")'" />
-                       </div>
-                        <span class="badge">@item.ListingType</span>
-                        <h1>@item.Title</h1>
-                        <h4>@item.Description</h4>
-                        <p>Địa chỉ: @item.Address</p>
-                        <p>Giá: @item.Price VNĐ</p>
-                        <div class="card-buttons">
-                            <a href="@Url.Action("Product_details", "Product", new { id = item.ProductID })" class="view-btn">Xem tin</a>
-                            <button class="save-btn">Lưu tin</button>
+                        <div class="card-footer">
+                            <span class="agent-type">Nhà riêng</span>
+                            <a href="@Url.Action("Product_details", "Product", new { id = item.ProductID })" class="btn-detail">Chi tiết</a>
                         </div>
                     </div>
                 }
-
             }
             else
             {
-                <p>Hiện chưa có dự án nào được đăng tải.</p>
-
+                <div class="no-data">
+                    <img src="~/Font-end/asset/icon/no-data.png" alt="No Data" width="100" />
+                    <p>Chưa tìm thấy bất động sản nào phù hợp.</p>
+                </div>
             }
-            <div style="font-weight: 700">⭐Phần Quy Hoạch</div>
         </div>
     </div>
-    
+
+    <script>
+        var citis = document.getElementById("city");
+        var districts = document.getElementById("district");
+        var wards = document.getElementById("ward");
+        var Parameter = {
+            url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+            method: "GET",
+            responseType: "application/json",
+        };
+        var promise = axios(Parameter);
+        promise.then(function (result) {
+            renderCity(result.data);
+        });
+        function renderCity(data) {
+            for (const x of data) {
+                citis.options[citis.options.length] = new Option(x.Name, x.Name);
+            }
+            citis.onchange = function () {
+                districts.length = 1;
+                wards.length = 1;
+                if (this.value != "") {
+                    const result = data.filter(n => n.Name === this.value);
+                    for (const k of result[0].Districts) {
+                        districts.options[districts.options.length] = new Option(k.Name, k.Name);
+                    }
+                }
+            };
+        }
+    </script>
 </body>
 </html>

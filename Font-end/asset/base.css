@@ -17,6 +17,29 @@
     --text-dark: #1a1a1a;
     --text-light: #4f5b6e;
     --border-light: #d6e4f5;
+    --primary-blue: #006aff; /* Màu xanh chủ đạo */
+    --primary-dark: #0056b3; /* Xanh đậm khi hover */
+    --accent-orange: #ff9900; /* Màu cam nổi bật */
+    --bg-light: #f5f7fb; /* Màu nền trang */
+    --text-main: #1a1a1a;
+    --text-gray: #666666;
+    --white: #ffffff;
+    --radius: 12px; /* Bo góc chuẩn */
+    --shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+body {
+    font-family: var(--font-base);
+    background-color: var(--bg-light);
+    color: var(--text-main);
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+}
+
+/* Reset thẻ a mặc định để không bị gạch chân xấu */
+a {
+    text-decoration: none;
+    color: inherit;
 }
 .button_small{
     height: 40px;
