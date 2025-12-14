@@ -10,198 +10,241 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="@Url.Content("~/Font-end/asset/base.css")" />
-    <link rel="stylesheet" href="@Url.Content("~/Font-end/CSS/style-Product-Details.css")" />
+    <link rel="stylesheet" href="~/Font-end/asset/base.css" />
+    <link rel="stylesheet" href="~/Font-end/CSS/style-Product-Details.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
-    <script>
-        function openMap() {
-            var address = '@HttpUtility.JavaScriptStringEncode(System.Web.HttpUtility.HtmlDecode(Model.Product.Address ?? ""))';
-            window.open("https://www.google.com/maps/search/?api=1&query=?q=" + encodeURIComponent(address), "_blank");
-        }
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
-    <div class="product-page">
-        <div class="product-info">
 
-            <div class="Image-details">
-                @{
-                    // Lấy link ảnh từ DB (Ưu tiên ảnh chính -> ảnh đầu tiên -> ảnh mặc định)
-                    string rawImg = Model.Product.PropertyImages.FirstOrDefault(x => x.IsPrimary == true)?.ImageUrl
-                                 ?? Model.Product.PropertyImages.FirstOrDefault()?.ImageUrl;
+    <div class="container-details">
+        <div class="top-nav">
+            <a href="@Url.Action("Index", "Home")" class="back-link">
+                <i class="fa-solid fa-chevron-left"></i> Quay lại
+            </a>
+        </div>
 
-                    string displayImg = "/Font-end/asset/icon/Product_Null.jpg"; // Ảnh fallback
+        <div class="gallery-container">
+            @{
+                var images = Model.Product.PropertyImages?.Take(5).ToList() ?? new List<Website_BDS.Models.PropertyImage>();
+                while (images.Count < 5)
+                {
+                    images.Add(new Website_BDS.Models.PropertyImage { ImageUrl = "~/Font-end/asset/icon/Product_Null.jpg" });
+                }
+            }
 
-                    if (!string.IsNullOrEmpty(rawImg))
+            <div class="gallery-item main-photo">
+                <img src="@Url.Content(images[0].ImageUrl)" onerror="this.src='/Font-end/asset/icon/Product_Null.jpg'" />
+            </div>
+
+            @for (int i = 1; i < 5; i++)
+            {
+                <div class="gallery-item sub-photo">
+                    <img src="@Url.Content(images[i].ImageUrl)" onerror="this.src='/Font-end/asset/icon/Product_Null.jpg'" />
+                    @if (i == 4 && Model.Product.PropertyImages.Count > 5)
                     {
-                        // Nếu là ảnh Cloudinary (bắt đầu bằng http) -> Dùng luôn
-                        if (rawImg.StartsWith("http"))
-                        {
-                            displayImg = rawImg;
-                        }
-                        // Nếu là ảnh local (bắt đầu bằng ~) -> Convert
-                        else
-                        {
-                            displayImg = Url.Content(rawImg);
-                        }
+                        <div class="overlay-count">+@(Model.Product.PropertyImages.Count - 5) ảnh</div>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="content-wrapped">
+
+            <div class="main-info">
+                <div class="header-info">
+                    <h1>@Model.Product.Title</h1>
+                    <p class="address"><i class="fa-solid fa-location-dot"></i> @(Model.Product.Address ?? "Đang cập nhật")</p>
+
+                    <div class="action-row">
+                        <span class="price-tag">
+                            @if (Model.Product.Price >= 1000000000)
+                            {
+                                @((Model.Product.Price / 1000000000)?.ToString("0.##")) <span>Tỷ</span>
+                            }
+                            else
+                            {
+                                @((Model.Product.Price / 1000000)?.ToString("0.##")) <span>Triệu</span>
+                            }
+                        </span>
+                        <div class="action-buttons">
+                            <button class="btn-icon @(ViewBag.IsSaved == true ? "active-saved" : "")" onclick="ToggleSave(@Model.Product.ProductID, this)">
+                                <i class="@(ViewBag.IsSaved == true ? "fa-solid" : "fa-regular") fa-heart"></i>
+                            </button>
+                            <button class="btn-icon"><i class="fa-solid fa-share-nodes"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <i class="fa-solid fa-bed"></i>
+                        <span>Phòng ngủ</span>
+                        <strong>@Model.Product.Bedrooms phòng</strong>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fa-solid fa-bath"></i>
+                        <span>Phòng tắm</span>
+                        <strong>@Model.Product.Bathrooms phòng</strong>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fa-solid fa-expand"></i>
+                        <span>Diện tích</span>
+                        <strong>@Model.Product.Area m²</strong>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fa-regular fa-calendar"></i>
+                        <span>Năm xây dựng</span>
+                        <strong>2023</strong>
+                    </div>
+                </div>
+
+                <div class="section-box">
+                    <h3>Mô tả chi tiết</h3>
+                    <div class="desc-content">
+                        @Html.Raw(Model.Product.Description?.Replace("\n", "<br>"))
+                    </div>
+                </div>
+
+                <div class="section-box">
+                    <h3>Tiện nghi</h3>
+                    <div class="amenities-grid">
+                        <span><i class="fa-solid fa-car"></i> Bãi đổ xe</span>
+                        <span><i class="fa-solid fa-wifi"></i> Internet</span>
+                        <span><i class="fa-solid fa-dumbbell"></i> Phòng gym</span>
+                        <span><i class="fa-solid fa-shield-halved"></i> An ninh 24/7</span>
+                        <span><i class="fa-solid fa-couch"></i> Nội thất cao cấp</span>
+                        <span><i class="fa-solid fa-person-swimming"></i> Hồ bơi</span>
+                    </div>
+                </div>
+
+                <div class="section-box">
+                    <h3>Vị trí</h3>
+                    <div class="map-container-figma" onclick="openMap()">
+                        <div class="map-placeholder">
+                            <i class="fa-solid fa-location-dot map-pin-icon"></i>
+                            <span>Bản đồ vị trí</span>
+                            <p>@Model.Product.Address</p>
+                        </div>
+                    </div>
+
+                    <ul class="nearby-locations">
+                        <li><span class="dot"></span> 5 phút đến trường Quốc tế Anh</li>
+                        <li><span class="dot"></span> 10 phút đến Metro Thảo Điền</li>
+                        <li><span class="dot"></span> 15 phút đến trung tâm Quận 1</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="contact-card">
+                    <div class="card-title-consult">Liên hệ tư vấn</div>
+
+                    <div class="agent-profile">
+                        <img src="@Url.Content(string.IsNullOrEmpty(Model.Seller?.Avatar_User) ? "~/Font-end/asset/icon/User-default.jpg" : "~/Content/" + Model.Seller.Avatar_User)"
+                             alt="Avatar" onerror="this.src='/Font-end/asset/icon/User-default.jpg'" />
+                        <div class="agent-info">
+                            <h4>@(Model.Seller?.FullName ?? "Chuyên viên tư vấn")</h4>
+                            <span>Chuyên viên tư vấn</span>
+                        </div>
+                    </div>
+
+                    <form class="contact-form">
+                        <input type="text" placeholder="Họ và tên *" class="form-input" />
+                        <input type="text" placeholder="Số điện thoại *" class="form-input" />
+                        <input type="email" placeholder="Email" class="form-input" />
+                        <input type="text" placeholder="dd/mm/yyyy" onfocus="(this.type='date')" class="form-input" />
+                        <textarea placeholder="Tôi quan tâm đến bất động sản này..." class="form-input" rows="4"></textarea>
+
+                        <button type="button" class="btn-send-request">Gửi yêu cầu tư vấn</button>
+                    </form>
+
+                    <div class="contact-methods">
+                        <div class="method-row">
+                            <i class="fa-solid fa-phone"></i>
+                            <span>@(Model.Seller.PhoneNumber ?? "0901 234 567")</span>
+                        </div>
+                        <div class="method-row">
+                            <i class="fa-regular fa-envelope"></i>
+                            <span>contact@batdongsan.vn</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-info-box">
+                    <h3>Thông tin nhanh</h3>
+                    <div class="info-row"><span>Mã BĐS:</span> <strong>VN-@Model.Product.ProductID</strong></div>
+                    <div class="info-row"><span>Loại hình:</span> <strong>@Model.Product.Type</strong></div>
+                    <div class="info-row"><span>Pháp lý:</span> <strong>Sổ hồng</strong></div>
+                    <div class="info-row"><span>Hướng:</span> <strong>Đông Nam</strong></div>
+                    <div class="info-row"><span>Số tầng:</span> <strong>3 tầng</strong></div>
+                    <div class="info-row"><span>Ngày đăng:</span> <strong>@Model.Product.CreatedAt</strong></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="related-section">
+            <h3>Bất động sản tương tự</h3>
+            <div class="related-grid">
+                @if (Model.listproduct != null)
+                {
+                    foreach (var item in Model.listproduct.Take(4))
+                    {
+                        <div class="mini-card">
+                            <div class="card-img-top">
+                                <img src="@Url.Content(item.PropertyImages.FirstOrDefault()?.ImageUrl ?? "~/Font-end/asset/icon/Product_Null.jpg")" onerror="this.src='/Font-end/asset/icon/Product_Null.jpg'" />
+                            </div>
+                            <div class="mini-card-body">
+                                <span class="price">@string.Format("{0:N0}", item.Price) VNĐ</span>
+                                <h4>@item.Title</h4>
+                                <p><i class="fa-solid fa-location-dot"></i> @item.District</p>
+                            </div>
+                        </div>
                     }
                 }
-
-                <img src="@displayImg"
-                     alt="@Model.Product.Title"
-                     style="width: 100%; height: 400px; object-fit: cover; border-radius: 8px;"
-                     onerror="this.src='/Font-end/asset/icon/Product_Null.jpg'" />
-            </div>
-
-            <div class="Infomation-detailt-product">
-                <div class="save">
-                    <button class="button_small @(ViewBag.IsSaved == true ? "active-yellow" : "")"
-                            onclick="ToggleSave(@Model.Product.ProductID, this)"
-                            style="cursor:pointer;">
-                        <i class="fa-solid fa-heart"></i> @(ViewBag.IsSaved == true ? "Đã lưu" : "Lưu tin")
-                    </button>
-                </div>
-
-                <div class="listing-overview">
-                    <h1 style="margin-top:10px;">@Model.Product.Title</h1>
-                    <h3 style="color:#d32f2f; font-size: 24px;">
-                        @if (Model.Product.Price >= 1000000000)
-                        {
-                            <strong>@((Model.Product.Price / 1000000000)?.ToString("0.##")) Tỷ</strong>
-                        }
-                        else
-                        {
-                            <strong>@((Model.Product.Price / 1000000)?.ToString("0.##")) Triệu</strong>
-                        }
-                    </h3>
-                    <p><i class="fa-solid fa-location-dot"></i> @(Model.Product.Address ?? "Đang cập nhật")</p>
-                </div>
-
-                <div class="Contact" style="margin-top:20px; font-weight:bold; font-size:18px;">Thông tin mô tả</div>
-                <div class="information-base" style="margin-top:10px; line-height:1.6;">
-                    @Html.Raw(Model.Product.Description?.Replace("\n", "<br>"))
-                </div>
-
-                <div class="utility" style="margin-top:30px; background:#f9f9f9; padding:20px; border-radius:8px;">
-                    <h2>Thông tin cơ bản</h2>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px;">
-                        <p><i class="fa-solid fa-building"></i> Loại hình: <b>@Model.Product.Type</b></p>
-                        <p><i class="fa-solid fa-ruler-combined"></i> Diện tích: <b>@Model.Product.Area m²</b></p>
-                        <p><i class="fa-solid fa-bed"></i> Phòng ngủ: <b>@Model.Product.Bedrooms</b></p>
-                        <p><i class="fa-solid fa-bath"></i> Phòng tắm: <b>@Model.Product.Bathrooms</b></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="user-info">
-            <div class="product-user-infomation_details">
-                <div class="User" style="display:flex; align-items:center; gap:10px; margin-bottom:15px;">
-                    <div id="Avatar-User">
-                        <img src="@Url.Content(string.IsNullOrEmpty(Model.Seller?.Avatar_User) ? "~/Font-end/asset/icon/User-default.jpg" : "~/Content/" + Model.Seller.Avatar_User)"
-                             alt="Avatar"
-                             style="width:60px; height:60px; border-radius:50%; object-fit:cover;"
-                             onerror="this.src='@Url.Content("~/Font-end/asset/icon/User-default.jpg")'" />
-                    </div>
-                    <div>
-                        <div style="font-weight:bold; font-size:16px;">@(Model.Seller?.FullName ?? "Người dùng ẩn danh")</div>
-                        <div style="font-size:12px; color:#666;">Đã tham gia: @(Model.Seller?.CreatedAt?.ToString("dd/MM/yyyy") ?? "--")</div>
-                    </div>
-                </div>
-
-                <div class="contact" style="display:flex; flex-direction:column; gap:10px;">
-                    <a href="tel:@Model.Seller.PhoneNumber" class="button_small" style="background:#22c55e; color:white; text-align:center; text-decoration:none; padding:10px;">
-                        <i class="fa-solid fa-phone"></i> @(Model.Seller?.PhoneNumber ?? "Liên hệ")
-                    </a>
-                    <button class="button_small" style="background:#0084ff; color:white;">
-                        <i class="fa-brands fa-facebook-messenger"></i> Chat Zalo
-                    </button>
-                    <a href="@Url.Action("Page_User", "Users", new { id = Model.Seller.UserID })" class="button_small" style="text-align:center; text-decoration:none; border:1px solid #ddd;">
-                        Xem trang cá nhân
-                    </a>
-                </div>
-            </div>
-
-            <div class="mini-map" onclick="openMap()" style="cursor: pointer; margin-top: 20px; border:1px solid #ddd; padding:5px;">
-                <h4 style="margin-bottom: 10px;">Vị trí bất động sản:</h4>
-                <iframe width="100%" height="200" style="border:0; pointer-events:none;"
-                        src="https://maps.google.com/maps?q=@HttpUtility.UrlEncode(Model.Product.Address)&output=embed">
-                </iframe>
-                <p style="text-align:center; font-size: 12px; color: #666; margin-top: 5px;">(Nhấn để xem bản đồ lớn)</p>
             </div>
         </div>
     </div>
 
-    <div class="product-list" style="margin-top:50px; border-top:1px solid #eee; padding-top:30px;">
-        <div style="font-weight: 700; font-size: 20px; margin-bottom: 20px;">🕓 Bất động sản tương tự</div>
+    <script>
+        /* --- Thay thế hàm cũ bằng hàm này --- */
+        function openMap() {
+            // Lấy địa chỉ từ Model
+            var address = '@HttpUtility.JavaScriptStringEncode(System.Web.HttpUtility.HtmlDecode(Model.Product.Address ?? ""))';
 
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
-            @if (Model.listproduct != null && Model.listproduct.Any())
-            {
-                foreach (var item in Model.listproduct)
-                {
-                    <div class="product-image" style="height:180px; overflow:hidden;">
-                        @{
-                            string relatedRaw = item.PropertyImages.FirstOrDefault(x => x.IsPrimary == true)?.ImageUrl
-                                             ?? item.PropertyImages.FirstOrDefault()?.ImageUrl;
+            // Link chuẩn của Google Maps
+            var mapUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(address);
 
-                            string relatedDisplay = "/Font-end/asset/icon/Product_Null.jpg";
+            // Mở tab mới
+            window.open(mapUrl, "_blank");
+        }
 
-                            if (!string.IsNullOrEmpty(relatedRaw))
-                            {
-                                if (relatedRaw.StartsWith("http"))
-                                {
-                                    relatedDisplay = relatedRaw;
-                                }
-                                else
-                                {
-                                    relatedDisplay = Url.Content(relatedRaw);
-                                }
-                            }
+        function ToggleSave(productId, btnElement) {
+            $.ajax({
+                url: '@Url.Action("ToggleSaveProduct", "Users")',
+                type: 'POST',
+                data: { productId: productId },
+                success: function (response) {
+                    if (response.success) {
+                        if (response.isSaved) {
+                            $(btnElement).addClass('active-saved');
+                            $(btnElement).find('i').removeClass('fa-regular').addClass('fa-solid');
+                        } else {
+                            $(btnElement).removeClass('active-saved');
+                            $(btnElement).find('i').removeClass('fa-solid').addClass('fa-regular');
                         }
-                        <img src="@relatedDisplay"
-                             style="width:100%; height:100%; object-fit:cover;"
-                             onerror="this.src='/Font-end/asset/icon/Product_Null.jpg'" />
-                    </div>
+                    } else {
+                        alert(response.message);
+                        if(response.message.includes("đăng nhập")) {
+                            window.location.href = '@Url.Action("Login", "Account")';
+                        }
+                    }
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra khi kết nối server.");
                 }
-            }
-            else
-            {
-                <p style="grid-column: 1/-1; text-align:center; color:#999;">Không có bất động sản tương tự nào.</p>
-            }
-        </div>
-    </div>
-
+            });
+        }
+    </script>
 </body>
 </html>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-    function ToggleSave(productId, btnElement) {
-        $.ajax({
-            url: '@Url.Action("ToggleSaveProduct", "Users")',
-            type: 'POST',
-            data: { productId: productId },
-            success: function (response) {
-                if (response.success) {
-                    if (response.isSaved) {
-                        $(btnElement).addClass('active-yellow');
-                        $(btnElement).html('<i class="fa-solid fa-heart"></i> Đã lưu');
-                    } else {
-                        $(btnElement).removeClass('active-yellow');
-                        $(btnElement).html('<i class="fa-regular fa-heart"></i> Lưu tin');
-                    }
-                } else {
-                    alert(response.message); // Bắt buộc đăng nhập
-                    if(response.message.includes("đăng nhập")) {
-                        window.location.href = '@Url.Action("Login", "Account")';
-                    }
-                }
-            },
-            error: function () {
-                alert("Có lỗi xảy ra khi kết nối server.");
-            }
-        });
-    }
-</script>

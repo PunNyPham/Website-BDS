@@ -10,30 +10,52 @@
     --blue-light: #e5f4ff; /* Xanh nhạt background */
     --text-dark: #333;
     --border-color: #cbd6e2;
-    --blue-main: #0077ff;
-    --blue-dark: #0057c7;
     --blue-soft: #eaf3ff;
     --bg-soft: #f7fbff;
-    --text-dark: #1a1a1a;
     --text-light: #4f5b6e;
     --border-light: #d6e4f5;
-    --primary-blue: #006aff; /* Màu xanh chủ đạo */
-    --primary-dark: #0056b3; /* Xanh đậm khi hover */
-    --accent-orange: #ff9900; /* Màu cam nổi bật */
     --bg-light: #f5f7fb; /* Màu nền trang */
     --text-main: #1a1a1a;
     --text-gray: #666666;
     --white: #ffffff;
     --radius: 12px; /* Bo góc chuẩn */
     --shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    /* Màu chủ đạo (Xanh HomeFinder) */
+    --primary-blue: #006aff;
+    --primary-dark: #0056b3;
+    /* Màu điểm nhấn (Cam/Vàng cho nút nổi bật, giá tiền) */
+    --accent-orange: #ff9900;
+    --accent-yellow: #ffca28; /* Màu nút Đã lưu */
+    /* Màu chức năng */
+    --color-success: #22c55e; /* Màu xanh lá (Gọi điện) */
+    --color-zalo: #0084ff; /* Màu xanh Zalo */
+    /* --- 2. NỀN & VĂN BẢN (Background & Text) --- */
+    --bg-body: #f5f7fa; /* Màu nền xám xanh nhạt hiện đại */
+    --bg-white: #ffffff;
+    --text-dark: #2c3e50; /* Màu chữ chính */
+    --text-gray: #6c757d; /* Màu chữ phụ */
+    --border-color: #e0e0e0;
+    /* --- 3. CẤU TRÚC GIAO DIỆN (Layout & Effects) --- */
+    --container-width: 1200px; /* Chiều rộng chuẩn của trang */
+    --radius: 12px; /* Độ bo góc */
+    --transition: all 0.3s ease; /* Hiệu ứng chuyển động mượt */
+    /* Đổ bóng (Shadow) - Tạo độ nổi khối */
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+    --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+
+    /* Font chữ */
+    --font-base: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-body {
-    font-family: var(--font-base);
-    background-color: var(--bg-light);
-    color: var(--text-main);
+/** {
     margin: 0;
     padding: 0;
-    line-height: 1.5;
+    box-sizing: border-box;
+}*/
+body {
+    font-family: var(--font-base);
+    background-color: var(--bg-body);
+    color: var(--text-dark);
+    line-height: 1.6;
 }
 
 /* Reset thẻ a mặc định để không bị gạch chân xấu */
@@ -41,17 +63,25 @@ a {
     text-decoration: none;
     color: inherit;
 }
-.button_small{
-    height: 40px;
-    width: 120px;
-    background: var(--floralwhite);
-    border-radius: 16px;
-    text-align: center;
-    border: 1px solid ;
+.button_small {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid var(--border-color);
+    background-color: #f8f9fa;
+    color: var(--text-dark);
     cursor: pointer;
-    color: #000000;
-    font-size: 16px;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
 }
+    .button_small:hover {
+        background-color: #e9ecef;
+        transform: translateY(-1px);
+    }
 /* Button Outline */
 .button-outline {
     background-color: transparent;
