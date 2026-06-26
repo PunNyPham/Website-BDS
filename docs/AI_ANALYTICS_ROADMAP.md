@@ -63,6 +63,189 @@ Hangfire Jobs
 
 Khong nen dua tat ca AI vao ASP.NET MVC. MVC nen giu vai tro web app. Python service xu ly ML rieng.
 
+## Nguyen tac cai cong nghe
+
+Khong cai tat ca thu vien ngay tu dau. Moi phase chi cai thu vien can dung trong phase do.
+
+Ly do:
+
+- repo gon hon
+- it loi config hon
+- de review commit
+- de rollback neu phase loi
+- tranh them package chua dung
+
+Phan biet ro:
+
+- Codex skill: cong cu ho tro lam viec trong Codex, da cai rieng ngoai repo
+- Project dependency: thu vien cai vao source code, NuGet, npm/CDN, Python env
+
+Codex skills hien da cai:
+
+```text
+jupyter-notebook
+playwright
+security-best-practices
+sentry
+```
+
+Project dependency se cai theo phase ben duoi.
+
+## Bang cai cong nghe theo phase
+
+| Phase | Cong nghe cai them | Cach cai de xuat | Ghi chu |
+|---|---|---|---|
+| Phase 1: Dashboard | ECharts hoac Chart.js | CDN trong Razor view truoc, local/vendor sau neu can | Uu tien ECharts vi hop heatmap/radar/histogram |
+| Phase 2: Map | Leaflet | CDN trong Razor view, them CSS/JS | Dung OpenStreetMap, khong can API key |
+| Phase 3: Import/crawl | CsvHelper/EPPlus; co the them HtmlAgilityPack/Playwright sau | NuGet cho CSV/Excel; crawler de phase sau | Nen import CSV truoc khi crawl that |
+| Phase 4: Background jobs | Hangfire, Hangfire.SqlServer | NuGet | Chay job refresh `MarketSnapshots` |
+| Phase 5: AI service | FastAPI, pandas, scikit-learn, xgboost, joblib, pyodbc/SQLAlchemy | `ai-service/requirements.txt` + pip | Tach rieng khoi MVC |
+| Phase 6: Prediction UI | Khong bat buoc cai moi; dung ECharts da co | Goi FastAPI qua C# `HttpClient` | Luu ket qua vao `PricePredictions` |
+| Phase 7: Clustering | scikit-learn da co tu Phase 5 | Them endpoint/service trong AI API | KMeans luu vao `AreaClusters` |
+| Phase 8: Chatbot | Ollama hoac LangChain/LlamaIndex | Cai rieng theo huong chatbot chon sau | Chi lam sau khi co data that |
+| Phase 9: PDF | Rotativa hoac DinkToPdf | NuGet | Chon 1 thu vien, khong cai ca hai |
+
+## Lenh cai mau theo phase
+
+### Phase 1: ECharts hoac Chart.js
+
+Ban dau nen dung CDN trong view, chua can cai package:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+```
+
+Neu chon Chart.js:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+```
+
+Khuyen nghi: chon ECharts.
+
+### Phase 2: Leaflet
+
+Ban dau nen dung CDN:
+
+```html
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+```
+
+Neu production can on dinh hon, tai file ve `Scripts/vendor/leaflet` va `Content/vendor/leaflet`.
+
+### Phase 3: CSV/Excel import
+
+Neu chi import CSV:
+
+```powershell
+Install-Package CsvHelper
+```
+
+Neu import Excel:
+
+```powershell
+Install-Package EPPlus
+```
+
+Neu crawl HTML bang .NET:
+
+```powershell
+Install-Package HtmlAgilityPack
+```
+
+Ghi chu: crawler that nen de sau khi pipeline import/normalize chay tot.
+
+### Phase 4: Hangfire
+
+```powershell
+Install-Package Hangfire
+Install-Package Hangfire.SqlServer
+Install-Package Microsoft.Owin.Host.SystemWeb
+```
+
+Can them startup OWIN neu project chua co.
+
+### Phase 5: FastAPI + ML
+
+Tao folder:
+
+```text
+ai-service/
+```
+
+Tao virtual environment:
+
+```powershell
+cd ai-service
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+Tao `requirements.txt`:
+
+```text
+fastapi
+uvicorn[standard]
+pandas
+scikit-learn
+xgboost
+joblib
+pyodbc
+sqlalchemy
+pydantic
+```
+
+Cai package:
+
+```powershell
+pip install -r requirements.txt
+```
+
+Chay service:
+
+```powershell
+uvicorn app.main:app --reload --port 8000
+```
+
+### Phase 8: Chatbot
+
+Chi chon 1 trong 2 huong.
+
+Huong local:
+
+```text
+Ollama
+```
+
+Dung khi muon chay offline, khong ton API.
+
+Huong framework/RAG:
+
+```text
+LangChain hoac LlamaIndex
+```
+
+Dung khi can tool calling, doc DB, search du lieu, tao cau tra loi co ngu canh.
+
+Khong cai chatbot truoc Phase 5-7.
+
+### Phase 9: PDF
+
+Chon 1:
+
+```powershell
+Install-Package Rotativa
+```
+
+Hoac:
+
+```powershell
+Install-Package DinkToPdf
+```
+
+Khuyen nghi bat dau voi Rotativa neu can nhanh trong MVC 5.
+
 ## Phase 1: Dashboard thong ke co ban
 
 Muc tieu: co trang analytics dau tien, dung data trong `Product` va `MarketSnapshots`.
@@ -520,4 +703,3 @@ Bat dau Phase 1:
 3. Tao `Views/Analytics/Index.cshtml`.
 4. Dung ECharts hien 4 chart co ban.
 5. Them link menu den trang analytics.
-
