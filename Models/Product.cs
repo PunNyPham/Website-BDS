@@ -44,6 +44,17 @@ namespace Website_BDS.Models
         public Nullable<System.DateTime> UpdatedAt { get; set; }
         public Nullable<int> Rank { get; set; }
         public Nullable<System.DateTime> VipExpirationDate { get; set; }
+        public Nullable<decimal> Latitude { get; set; }
+        public Nullable<decimal> Longitude { get; set; }
+        public Nullable<decimal> PricePerM2 { get; set; }
+        public string Source { get; set; }
+        public string SourceUrl { get; set; }
+        public Nullable<System.DateTime> CrawledAt { get; set; }
+        public string NormalizedDistrict { get; set; }
+        public string NormalizedWard { get; set; }
+        public Nullable<bool> IsVerified { get; set; }
+        public string RawPriceText { get; set; }
+        public string RawAreaText { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Contract> Contracts { get; set; }

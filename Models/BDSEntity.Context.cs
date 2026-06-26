@@ -37,5 +37,10 @@ namespace Website_BDS.Models
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<TransactionHistory> TransactionHistories { get; set; }
+        public virtual DbSet<RawListing> RawListings { get; set; }
+        public virtual DbSet<MarketSnapshot> MarketSnapshots { get; set; }
+        public virtual DbSet<PricePrediction> PricePredictions { get; set; }
+        public virtual DbSet<AIAnalysisRun> AIAnalysisRuns { get; set; }
+        public virtual DbSet<AreaCluster> AreaClusters { get; set; }
     }
 }

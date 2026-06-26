@@ -94,6 +94,17 @@
           <Property Name="UpdatedAt" Type="datetime2" Precision="7" />
           <Property Name="Rank" Type="int" />
           <Property Name="VipExpirationDate" Type="datetime" />
+          <Property Name="Latitude" Type="decimal" Precision="10" Scale="7" />
+          <Property Name="Longitude" Type="decimal" Precision="10" Scale="7" />
+          <Property Name="PricePerM2" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Source" Type="nvarchar" MaxLength="50" />
+          <Property Name="SourceUrl" Type="nvarchar" MaxLength="1000" />
+          <Property Name="CrawledAt" Type="datetime2" Precision="7" />
+          <Property Name="NormalizedDistrict" Type="nvarchar" MaxLength="100" />
+          <Property Name="NormalizedWard" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsVerified" Type="bit" />
+          <Property Name="RawPriceText" Type="nvarchar" MaxLength="100" />
+          <Property Name="RawAreaText" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="PropertyAmenities">
           <Key>
@@ -123,6 +134,91 @@
           <Property Name="Rating" Type="tinyint" />
           <Property Name="Comment" Type="nvarchar(max)" />
           <Property Name="CreatedAt" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="RawListings">
+          <Key>
+            <PropertyRef Name="RawListingID" />
+          </Key>
+          <Property Name="RawListingID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Source" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SourceUrl" Type="nvarchar" MaxLength="800" Nullable="false" />
+          <Property Name="RawTitle" Type="nvarchar" MaxLength="300" />
+          <Property Name="RawPrice" Type="nvarchar" MaxLength="100" />
+          <Property Name="RawArea" Type="nvarchar" MaxLength="100" />
+          <Property Name="RawAddress" Type="nvarchar" MaxLength="500" />
+          <Property Name="RawJson" Type="nvarchar(max)" />
+          <Property Name="CrawledAt" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IsProcessed" Type="bit" Nullable="false" />
+          <Property Name="ProductID" Type="int" />
+        </EntityType>
+        <EntityType Name="MarketSnapshots">
+          <Key>
+            <PropertyRef Name="SnapshotID" />
+          </Key>
+          <Property Name="SnapshotID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="City" Type="nvarchar" MaxLength="100" />
+          <Property Name="District" Type="nvarchar" MaxLength="100" />
+          <Property Name="Ward" Type="nvarchar" MaxLength="100" />
+          <Property Name="ListingType" Type="nvarchar" MaxLength="20" />
+          <Property Name="PropertyType" Type="nvarchar" MaxLength="50" />
+          <Property Name="MedianPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="MedianPricePerM2" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="AverageArea" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="ListingCount" Type="int" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PricePredictions">
+          <Key>
+            <PropertyRef Name="PredictionID" />
+          </Key>
+          <Property Name="PredictionID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductID" Type="int" />
+          <Property Name="City" Type="nvarchar" MaxLength="100" />
+          <Property Name="District" Type="nvarchar" MaxLength="100" />
+          <Property Name="Ward" Type="nvarchar" MaxLength="100" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="ListingType" Type="nvarchar" MaxLength="20" />
+          <Property Name="Area" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Bedrooms" Type="tinyint" />
+          <Property Name="Bathrooms" Type="tinyint" />
+          <Property Name="PredictedPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="LowPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="HighPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ModelName" Type="nvarchar" MaxLength="100" />
+          <Property Name="ConfidenceScore" Type="decimal" Precision="5" Scale="4" />
+          <Property Name="FeatureImportanceJson" Type="nvarchar(max)" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AIAnalysisRuns">
+          <Key>
+            <PropertyRef Name="RunID" />
+          </Key>
+          <Property Name="RunID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RunType" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModelName" Type="nvarchar" MaxLength="100" />
+          <Property Name="InputJson" Type="nvarchar(max)" />
+          <Property Name="OutputJson" Type="nvarchar(max)" />
+          <Property Name="Status" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="ErrorMessage" Type="nvarchar(max)" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AreaClusters">
+          <Key>
+            <PropertyRef Name="AreaClusterID" />
+          </Key>
+          <Property Name="AreaClusterID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="City" Type="nvarchar" MaxLength="100" />
+          <Property Name="District" Type="nvarchar" MaxLength="100" />
+          <Property Name="Ward" Type="nvarchar" MaxLength="100" />
+          <Property Name="ListingType" Type="nvarchar" MaxLength="20" />
+          <Property Name="PropertyType" Type="nvarchar" MaxLength="50" />
+          <Property Name="ClusterNo" Type="int" Nullable="false" />
+          <Property Name="ClusterLabel" Type="nvarchar" MaxLength="100" />
+          <Property Name="MedianPricePerM2" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="AverageArea" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="ListingCount" Type="int" Nullable="false" />
+          <Property Name="ModelName" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="7" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -343,6 +439,11 @@
           <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransactionHistory" EntityType="Self.TransactionHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RawListings" EntityType="Self.RawListings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MarketSnapshots" EntityType="Self.MarketSnapshots" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PricePredictions" EntityType="Self.PricePredictions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AIAnalysisRuns" EntityType="Self.AIAnalysisRuns" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AreaClusters" EntityType="Self.AreaClusters" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_AdminActivity_Admin" Association="Self.FK_AdminActivity_Admin">
             <End Role="AdminUser" EntitySet="AdminUser" />
@@ -511,6 +612,17 @@
           <NavigationProperty Name="Amenities" Relationship="Self.PropertyAmenities" FromRole="Product" ToRole="Amenities" />
           <Property Name="Rank" Type="Int32" />
           <Property Name="VipExpirationDate" Type="DateTime" Precision="3" />
+          <Property Name="Latitude" Type="Decimal" Precision="10" Scale="7" />
+          <Property Name="Longitude" Type="Decimal" Precision="10" Scale="7" />
+          <Property Name="PricePerM2" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Source" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SourceUrl" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="CrawledAt" Type="DateTime" Precision="7" />
+          <Property Name="NormalizedDistrict" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="NormalizedWard" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsVerified" Type="Boolean" />
+          <Property Name="RawPriceText" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RawAreaText" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PropertyImage">
           <Key>
@@ -535,6 +647,91 @@
           <Property Name="CreatedAt" Type="DateTime" Precision="7" />
           <NavigationProperty Name="Product" Relationship="Self.FK_Review_Product" FromRole="Review" ToRole="Product" />
           <NavigationProperty Name="User" Relationship="Self.FK_Review_User" FromRole="Review" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="RawListing">
+          <Key>
+            <PropertyRef Name="RawListingID" />
+          </Key>
+          <Property Name="RawListingID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Source" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SourceUrl" Type="String" MaxLength="800" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RawTitle" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="RawPrice" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RawArea" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RawAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="RawJson" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CrawledAt" Type="DateTime" Precision="7" Nullable="false" />
+          <Property Name="IsProcessed" Type="Boolean" Nullable="false" />
+          <Property Name="ProductID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="MarketSnapshot">
+          <Key>
+            <PropertyRef Name="SnapshotID" />
+          </Key>
+          <Property Name="SnapshotID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="District" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Ward" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ListingType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="PropertyType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MedianPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MedianPricePerM2" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="AverageArea" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="ListingCount" Type="Int32" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PricePrediction">
+          <Key>
+            <PropertyRef Name="PredictionID" />
+          </Key>
+          <Property Name="PredictionID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="District" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Ward" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ListingType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Area" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Bedrooms" Type="Byte" />
+          <Property Name="Bathrooms" Type="Byte" />
+          <Property Name="PredictedPrice" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="LowPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="HighPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ModelName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ConfidenceScore" Type="Decimal" Precision="5" Scale="4" />
+          <Property Name="FeatureImportanceJson" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AIAnalysisRun">
+          <Key>
+            <PropertyRef Name="RunID" />
+          </Key>
+          <Property Name="RunID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RunType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ModelName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="InputJson" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OutputJson" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ErrorMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AreaCluster">
+          <Key>
+            <PropertyRef Name="AreaClusterID" />
+          </Key>
+          <Property Name="AreaClusterID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="District" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Ward" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ListingType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="PropertyType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ClusterNo" Type="Int32" Nullable="false" />
+          <Property Name="ClusterLabel" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MedianPricePerM2" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="AverageArea" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="ListingCount" Type="Int32" Nullable="false" />
+          <Property Name="ModelName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="7" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -780,6 +977,11 @@
             <End Role="Product" EntitySet="Products" />
           </AssociationSet>
           <EntitySet Name="TransactionHistories" EntityType="RealEstateDBModel.TransactionHistory" />
+          <EntitySet Name="RawListings" EntityType="Self.RawListing" />
+          <EntitySet Name="MarketSnapshots" EntityType="Self.MarketSnapshot" />
+          <EntitySet Name="PricePredictions" EntityType="Self.PricePrediction" />
+          <EntitySet Name="AIAnalysisRuns" EntityType="Self.AIAnalysisRun" />
+          <EntitySet Name="AreaClusters" EntityType="Self.AreaCluster" />
         </EntityContainer>
         <EntityType Name="TransactionHistory">
           <Key>
@@ -894,6 +1096,17 @@
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="PricePerM2" ColumnName="PricePerM2" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="SourceUrl" ColumnName="SourceUrl" />
+                <ScalarProperty Name="CrawledAt" ColumnName="CrawledAt" />
+                <ScalarProperty Name="NormalizedDistrict" ColumnName="NormalizedDistrict" />
+                <ScalarProperty Name="NormalizedWard" ColumnName="NormalizedWard" />
+                <ScalarProperty Name="IsVerified" ColumnName="IsVerified" />
+                <ScalarProperty Name="RawPriceText" ColumnName="RawPriceText" />
+                <ScalarProperty Name="RawAreaText" ColumnName="RawAreaText" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -955,6 +1168,96 @@
               <ScalarProperty Name="ProductID" ColumnName="ProductID" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="RawListings">
+            <EntityTypeMapping TypeName="RealEstateDBModel.RawListing">
+              <MappingFragment StoreEntitySet="RawListings">
+                <ScalarProperty Name="RawListingID" ColumnName="RawListingID" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="SourceUrl" ColumnName="SourceUrl" />
+                <ScalarProperty Name="RawTitle" ColumnName="RawTitle" />
+                <ScalarProperty Name="RawPrice" ColumnName="RawPrice" />
+                <ScalarProperty Name="RawArea" ColumnName="RawArea" />
+                <ScalarProperty Name="RawAddress" ColumnName="RawAddress" />
+                <ScalarProperty Name="RawJson" ColumnName="RawJson" />
+                <ScalarProperty Name="CrawledAt" ColumnName="CrawledAt" />
+                <ScalarProperty Name="IsProcessed" ColumnName="IsProcessed" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MarketSnapshots">
+            <EntityTypeMapping TypeName="RealEstateDBModel.MarketSnapshot">
+              <MappingFragment StoreEntitySet="MarketSnapshots">
+                <ScalarProperty Name="SnapshotID" ColumnName="SnapshotID" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="District" ColumnName="District" />
+                <ScalarProperty Name="Ward" ColumnName="Ward" />
+                <ScalarProperty Name="ListingType" ColumnName="ListingType" />
+                <ScalarProperty Name="PropertyType" ColumnName="PropertyType" />
+                <ScalarProperty Name="MedianPrice" ColumnName="MedianPrice" />
+                <ScalarProperty Name="MedianPricePerM2" ColumnName="MedianPricePerM2" />
+                <ScalarProperty Name="AverageArea" ColumnName="AverageArea" />
+                <ScalarProperty Name="ListingCount" ColumnName="ListingCount" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PricePredictions">
+            <EntityTypeMapping TypeName="RealEstateDBModel.PricePrediction">
+              <MappingFragment StoreEntitySet="PricePredictions">
+                <ScalarProperty Name="PredictionID" ColumnName="PredictionID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="District" ColumnName="District" />
+                <ScalarProperty Name="Ward" ColumnName="Ward" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="ListingType" ColumnName="ListingType" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Bedrooms" ColumnName="Bedrooms" />
+                <ScalarProperty Name="Bathrooms" ColumnName="Bathrooms" />
+                <ScalarProperty Name="PredictedPrice" ColumnName="PredictedPrice" />
+                <ScalarProperty Name="LowPrice" ColumnName="LowPrice" />
+                <ScalarProperty Name="HighPrice" ColumnName="HighPrice" />
+                <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+                <ScalarProperty Name="ConfidenceScore" ColumnName="ConfidenceScore" />
+                <ScalarProperty Name="FeatureImportanceJson" ColumnName="FeatureImportanceJson" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AIAnalysisRuns">
+            <EntityTypeMapping TypeName="RealEstateDBModel.AIAnalysisRun">
+              <MappingFragment StoreEntitySet="AIAnalysisRuns">
+                <ScalarProperty Name="RunID" ColumnName="RunID" />
+                <ScalarProperty Name="RunType" ColumnName="RunType" />
+                <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+                <ScalarProperty Name="InputJson" ColumnName="InputJson" />
+                <ScalarProperty Name="OutputJson" ColumnName="OutputJson" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AreaClusters">
+            <EntityTypeMapping TypeName="RealEstateDBModel.AreaCluster">
+              <MappingFragment StoreEntitySet="AreaClusters">
+                <ScalarProperty Name="AreaClusterID" ColumnName="AreaClusterID" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="District" ColumnName="District" />
+                <ScalarProperty Name="Ward" ColumnName="Ward" />
+                <ScalarProperty Name="ListingType" ColumnName="ListingType" />
+                <ScalarProperty Name="PropertyType" ColumnName="PropertyType" />
+                <ScalarProperty Name="ClusterNo" ColumnName="ClusterNo" />
+                <ScalarProperty Name="ClusterLabel" ColumnName="ClusterLabel" />
+                <ScalarProperty Name="MedianPricePerM2" ColumnName="MedianPricePerM2" />
+                <ScalarProperty Name="AverageArea" ColumnName="AverageArea" />
+                <ScalarProperty Name="ListingCount" ColumnName="ListingCount" />
+                <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TransactionHistories">
             <EntityTypeMapping TypeName="RealEstateDBModel.TransactionHistory">
               <MappingFragment StoreEntitySet="TransactionHistory">
