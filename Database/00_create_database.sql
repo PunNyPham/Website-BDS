@@ -1,0 +1,9 @@
+IF DB_ID(N'RealEstateDB') IS NULL
+BEGIN
+    CREATE DATABASE RealEstateDB;
+END
+GO
+
+USE RealEstateDB;
+GO
+
